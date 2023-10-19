@@ -14,7 +14,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         public static string? CurrentUserId { get; protected set; }
         public static readonly MsSqlContainer _msSqlContainer
         = new MsSqlBuilder().Build();
-        protected static async Task<FairPlayShopDatabaseContext> GetFairPlayBudgetDatabaseContextAsync()
+        protected static async Task<FairPlayShopDatabaseContext> GetFairPlayShopDatabaseContextAsync()
         {
             DbContextOptionsBuilder<FairPlayShopDatabaseContext> dbContextOptionsBuilder =
                 new();
