@@ -6,6 +6,10 @@
     [QuantityInStock] INT NOT NULL, 
     [ProductStatusId] TINYINT NOT NULL, 
     [OwnerId] NVARCHAR(450) NOT NULL, 
+    [SellingPrice] MONEY NOT NULL, 
+    [AcquisitionCost] MONEY NOT NULL, 
+    [SKU] NVARCHAR(50) NOT NULL, 
+    [Barcode] NVARCHAR(50) NOT NULL, 
     CONSTRAINT [FK_Product_AspNetUsers] FOREIGN KEY ([OwnerId]) REFERENCES [AspNetUsers]([Id]), 
     CONSTRAINT [FK_Product_ProductStatus] FOREIGN KEY ([ProductStatusId]) REFERENCES [ProductStatus]([ProductStatusId])
 )

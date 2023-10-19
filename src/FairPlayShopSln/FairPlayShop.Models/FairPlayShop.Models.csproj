@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FairPlayShop.Common\FairPlayShop.Common.csproj" />
-    <ProjectReference Include="..\FairPlayShop.Models\FairPlayShop.Models.csproj" />
   </ItemGroup>
 
 </Project>

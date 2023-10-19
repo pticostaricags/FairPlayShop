@@ -1,4 +1,6 @@
 ﻿using FairPlayShop.DataAccess.Data;
+using FairPlayShop.Interfaces.Services;
+using FairPlayShop.ServerSideServices;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -36,6 +38,13 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         private static TestUserProviderService GetUserProviderService()
         {
             return new TestUserProviderService();
+        }
+
+        internal static async Task<IProductService> GetProductServiceAsync()
+        {
+            IUserProviderService userProviderService = GetUserProviderService();
+            FairPlayShopDatabaseContext fairPlayShopDatabaseContext = await GetFairPlayShopDatabaseContextAsync();
+            return new ProductService(userProviderService, fairPlayShopDatabaseContext);
         }
     }
 }

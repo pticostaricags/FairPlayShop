@@ -29,6 +29,21 @@ public partial class Product
     [Required]
     public string OwnerId { get; set; }
 
+    [Column(TypeName = "money")]
+    public decimal SellingPrice { get; set; }
+
+    [Column(TypeName = "money")]
+    public decimal AcquisitionCost { get; set; }
+
+    [Required]
+    [Column("SKU")]
+    [StringLength(50)]
+    public string Sku { get; set; }
+
+    [Required]
+    [StringLength(50)]
+    public string Barcode { get; set; }
+
     [ForeignKey("OwnerId")]
     [InverseProperty("Product")]
     public virtual AspNetUsers Owner { get; set; }
