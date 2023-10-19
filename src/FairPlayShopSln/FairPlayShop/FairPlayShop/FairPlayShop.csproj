@@ -7,7 +7,16 @@
     <UserSecretsId>aspnet-FairPlayShop-50ac542e-445c-40b3-970e-85fa22263026</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
+
   <ItemGroup>
+    <ProjectReference Include="..\..\FairPlayShop.ServerSideServices\FairPlayShop.ServerSideServices.csproj" />
     <ProjectReference Include="..\FairPlayShop.Client\FairPlayShop.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.0-rc.2.23480.2" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.0-rc.2.23480.2" />
