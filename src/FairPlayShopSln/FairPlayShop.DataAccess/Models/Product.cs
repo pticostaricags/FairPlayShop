@@ -40,7 +40,6 @@ public partial class Product
     [StringLength(50)]
     public string Sku { get; set; }
 
-    [Required]
     [StringLength(50)]
     public string Barcode { get; set; }
 

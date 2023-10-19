@@ -1,7 +1,11 @@
 using FairPlayShop.Client.Pages;
 using FairPlayShop.Components;
 using FairPlayShop.Data;
+using FairPlayShop.DataAccess.Data;
 using FairPlayShop.Identity;
+using FairPlayShop.Interfaces.Services;
+using FairPlayShop.ServerSideServices;
+using FairPlayShop.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -32,8 +36,19 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
     .AddSignInManager()
     .AddDefaultTokenProviders();
 
-builder.Services.AddSingleton<IEmailSender, NoOpEmailSender>();
+builder.Services.AddDbContext<FairPlayShopDatabaseContext>(optionsAction =>
+{
+    optionsAction.UseSqlServer(connectionString, sqlServerOptionsAction =>
+    {
+        sqlServerOptionsAction.EnableRetryOnFailure(maxRetryCount: 3,
+            maxRetryDelay: TimeSpan.FromSeconds(3),
+            errorNumbersToAdd: null);
+    });
+});
 
+builder.Services.AddSingleton<IEmailSender, NoOpEmailSender>();
+builder.Services.AddSingleton<IUserProviderService, UserProviderService>();
+builder.Services.AddTransient<IProductService, ProductService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

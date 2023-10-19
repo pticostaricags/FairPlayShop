@@ -3,23 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34205.153
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FairPlayShop", "FairPlayShop\FairPlayShop\FairPlayShop.csproj", "{BACF0B21-B9C4-4ADD-8714-37143B138834}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FairPlayShop", "FairPlayShop\FairPlayShop\FairPlayShop.csproj", "{BACF0B21-B9C4-4ADD-8714-37143B138834}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FairPlayShop.Client", "FairPlayShop\FairPlayShop.Client\FairPlayShop.Client.csproj", "{8C8FA895-6F2F-433D-85A7-3B3C959CB311}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FairPlayShop.Client", "FairPlayShop\FairPlayShop.Client\FairPlayShop.Client.csproj", "{8C8FA895-6F2F-433D-85A7-3B3C959CB311}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "FairPlayShop.Database", "FairPlayShop.Database\FairPlayShop.Database.sqlproj", "{1EB49C7F-30DD-4847-9DB3-C87BDE00C002}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FairPlayShop.Common", "FairPlayShop.Common\FairPlayShop.Common.csproj", "{69E32A4E-C483-4476-8698-051B8C55064E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FairPlayShop.Common", "FairPlayShop.Common\FairPlayShop.Common.csproj", "{69E32A4E-C483-4476-8698-051B8C55064E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FairPlayShop.DataAccess", "FairPlayShop.DataAccess\FairPlayShop.DataAccess.csproj", "{BB1AFB6A-4EA3-4EC0-9A8E-8B2C310878E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FairPlayShop.DataAccess", "FairPlayShop.DataAccess\FairPlayShop.DataAccess.csproj", "{BB1AFB6A-4EA3-4EC0-9A8E-8B2C310878E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FairPlayShop.Interfaces", "FairPlayShop.Interfaces\FairPlayShop.Interfaces.csproj", "{19D6D3CC-3E7D-4AA9-A2B0-4FE5E9AF720E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FairPlayShop.Interfaces", "FairPlayShop.Interfaces\FairPlayShop.Interfaces.csproj", "{19D6D3CC-3E7D-4AA9-A2B0-4FE5E9AF720E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FairPlayShop.ServerSideServices", "FairPlayShop.ServerSideServices\FairPlayShop.ServerSideServices.csproj", "{E6FA84D2-0EE9-491C-8968-F6192B4E9B0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FairPlayShop.ServerSideServices", "FairPlayShop.ServerSideServices\FairPlayShop.ServerSideServices.csproj", "{E6FA84D2-0EE9-491C-8968-F6192B4E9B0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FairPlayShop.AutomatedTests", "FairPlayShop.AutomatedTests\FairPlayShop.AutomatedTests.csproj", "{FF7062E2-3148-4EA1-9494-6172663C7FF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FairPlayShop.AutomatedTests", "FairPlayShop.AutomatedTests\FairPlayShop.AutomatedTests.csproj", "{FF7062E2-3148-4EA1-9494-6172663C7FF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FairPlayShop.Models", "FairPlayShop.Models\FairPlayShop.Models.csproj", "{C9F9501A-29E7-4246-BEC1-8E51733B70B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FairPlayShop.Models", "FairPlayShop.Models\FairPlayShop.Models.csproj", "{C9F9501A-29E7-4246-BEC1-8E51733B70B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

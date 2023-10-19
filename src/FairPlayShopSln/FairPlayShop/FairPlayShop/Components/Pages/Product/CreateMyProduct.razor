@@ -1,0 +1,86 @@
+﻿@using FairPlayShop.Common.Enums
+@using FairPlayShop.Interfaces.Services
+@using FairPlayShop.Models.Product
+@using Microsoft.AspNetCore.Authorization
+@attribute [Route(Common.Constants.ApiRoutes.CreateMyProduct)]
+@attribute [Authorize]
+@rendermode RenderMode.InteractiveServer
+
+<PageTitle>
+    @nameof(Common.Constants.ApiRoutes.CreateMyProduct)
+</PageTitle>
+<h3>
+    @nameof(Common.Constants.ApiRoutes.CreateMyProduct)
+</h3>
+
+<EditForm FormName="frmCreateProduct" Model="@this.CreateProductModel" OnValidSubmit="OnValidSubmitAsync">
+    <AntiforgeryToken></AntiforgeryToken>
+    <div class="mb-3">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <ValidationSummary></ValidationSummary>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">@nameof(CreateProductModel.Name)</label>
+        <InputText class="form-control" @bind-Value="CreateProductModel!.Name"></InputText>
+        <ValidationMessage For="@( () => CreateProductModel!.Name)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">@nameof(CreateProductModel.Description)</label>
+        <InputTextArea class="form-control" @bind-Value="CreateProductModel!.Description"></InputTextArea>
+        <ValidationMessage For="@( () => CreateProductModel!.Description)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">@nameof(CreateProductModel.Sku)</label>
+        <InputText class="form-control" @bind-Value="CreateProductModel!.Sku"></InputText>
+        <ValidationMessage For="@( () => CreateProductModel!.Sku)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">@nameof(CreateProductModel.Barcode)</label>
+        <InputText class="form-control" @bind-Value="CreateProductModel!.Barcode"></InputText>
+        <ValidationMessage For="@( () => CreateProductModel!.Barcode)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">@nameof(CreateProductModel.SellingPrice)</label>
+        <InputNumber class="form-control" @bind-Value="CreateProductModel!.SellingPrice"></InputNumber>
+        <ValidationMessage For="@( () => CreateProductModel!.SellingPrice)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">@nameof(CreateProductModel.AcquisitionCost)</label>
+        <InputNumber class="form-control" @bind-Value="CreateProductModel!.AcquisitionCost"></InputNumber>
+        <ValidationMessage For="@( () => CreateProductModel!.AcquisitionCost)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">@nameof(CreateProductModel.QuantityInStock)</label>
+        <InputNumber class="form-control" @bind-Value="CreateProductModel!.QuantityInStock"></InputNumber>
+        <ValidationMessage For="@( () => CreateProductModel!.QuantityInStock)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">@nameof(CreateProductModel.ProductStatus)</label>
+        <InputSelect class="form-select" @bind-Value="@this.CreateProductModel!.ProductStatus">
+            <option value="">Select a Product Status</option>
+            @foreach (var singleProductStatus in Enum.GetValues<ProductStatus>())
+            {
+                <option value="@singleProductStatus">@singleProductStatus.ToString()</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="@( () => CreateProductModel!.ProductStatus)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <button class="btn btn-primary" type="submit">Save</button>
+    </div>
+</EditForm>
+
+@code {
+    [Inject]
+    private IProductService? ProductService { get; set; }
+    [Inject]
+    private NavigationManager? NavigationManager { get; set; }
+    [SupplyParameterFromForm]
+    private CreateProductModel? CreateProductModel { get; set; } = new CreateProductModel();
+
+    private async Task OnValidSubmitAsync()
+    {
+        await this.ProductService!.CreateMyProductAsync(this.CreateProductModel!, CancellationToken.None);
+        NavigationManager!.NavigateTo("/");
+    }
+}
