@@ -26,6 +26,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FairPlayShop.Common\FairPlayShop.Common.csproj" />
+    <ProjectReference Include="..\FairPlayShop.ServerSideServices\FairPlayShop.ServerSideServices.csproj" />
     <ProjectReference Include="..\FairPlayShop\FairPlayShop\FairPlayShop.csproj" />
   </ItemGroup>
 
