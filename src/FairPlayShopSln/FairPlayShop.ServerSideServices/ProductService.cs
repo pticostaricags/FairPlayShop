@@ -43,7 +43,8 @@ namespace FairPlayShop.ServerSideServices
                     Barcode = p.Barcode,
                     Description = p.Description,
                     Name = p.Name,
-                    SellingPrice = p.SellingPrice
+                    SellingPrice = p.SellingPrice,
+                    Profit = p.SellingPrice - p.AcquisitionCost
                 }).ToArrayAsync(cancellationToken: cancellationToken);
             return result;
         }

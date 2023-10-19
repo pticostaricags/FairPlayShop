@@ -81,6 +81,6 @@
     private async Task OnValidSubmitAsync()
     {
         await this.ProductService!.CreateMyProductAsync(this.CreateProductModel!, CancellationToken.None);
-        NavigationManager!.NavigateTo("/");
+        NavigationManager!.NavigateTo(Common.Constants.ApiRoutes.MyProductList);
     }
 }

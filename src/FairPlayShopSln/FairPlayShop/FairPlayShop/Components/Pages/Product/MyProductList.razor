@@ -1,0 +1,39 @@
+﻿@using FairPlayShop.Interfaces.Services
+@using FairPlayShop.Models.Product
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.QuickGrid
+@attribute [Route(Common.Constants.ApiRoutes.MyProductList)]
+@attribute [Authorize]
+@rendermode RenderMode.InteractiveServer
+
+<FairPlayShop.Components.Spinners.LoadingIndicator ShowSpinners="@this.IsBusy"></FairPlayShop.Components.Spinners.LoadingIndicator>
+
+<PageTitle>
+    @nameof(Common.Constants.ApiRoutes.MyProductList)
+</PageTitle>
+<h3>
+    @nameof(Common.Constants.ApiRoutes.MyProductList)
+</h3>
+
+@if (this.MyProducts != null)
+{
+    <QuickGrid Items="this.MyProducts">
+        <PropertyColumn Property="@( p => p.ProductId)" Sortable="true" IsDefaultSortColumn="true"></PropertyColumn>
+        <PropertyColumn Property="@( p => p.Name)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Property="@( p => p.QuantityInStock)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Property="@( p => p.SellingPrice)" Format="c" Sortable="true"></PropertyColumn>
+        <PropertyColumn Property="@( p => p.AcquisitionCost)" Format="c" Sortable="true"></PropertyColumn>
+        <PropertyColumn Property="@( p => p.Profit)" Format="c" Sortable="true"></PropertyColumn>
+    </QuickGrid>
+}
+
+@code {
+    [Inject]
+    private IProductService? ProductService { get; set; }
+    private bool IsBusy { get; set; }
+    private IQueryable<ProductModel>? MyProducts { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        this.MyProducts = (await this.ProductService!.GetMyProductListAsync(CancellationToken.None))?.AsQueryable();
+    }
+}

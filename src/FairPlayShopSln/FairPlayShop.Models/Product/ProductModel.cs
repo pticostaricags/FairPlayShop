@@ -18,5 +18,6 @@ namespace FairPlayShop.Models.Product
         public string? Description { get; set; }
         public string? Name { get; set; }
         public decimal SellingPrice { get; set; }
+        public decimal Profit { get; set; }
     }
 }
