@@ -5,6 +5,7 @@ using FairPlayShop.Models.Product;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +30,21 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             {
                 await ServerSideServicesTestBase._msSqlContainer.StopAsync();
             }
+        }
+
+        [TestCleanup]
+        public async Task TestCleanupAsync() 
+        { 
+            var ctx = await GetFairPlayShopDatabaseContextAsync();
+            foreach (var singleProduct in ctx.Product)
+            {
+                ctx.Product.Remove(singleProduct);
+            }
+            foreach (var singleUser in ctx.AspNetUsers)
+            {
+                ctx.AspNetUsers.Remove(singleUser);
+            }
+            await ctx.SaveChangesAsync();
         }
 
         private static async Task<AspNetUsers> CreateTestUserAsync(FairPlayShopDatabaseContext ctx)
@@ -78,7 +94,30 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             Assert.IsNotNull(result);
             Assert.AreEqual(userEntity.Id, result.OwnerId);
             Assert.AreEqual(result.Name, $"Automated Test {nameof(Test_CreateMyProductAsync)}");
+        }
 
+        [TestMethod]
+        public async Task Test_GetMyProductListAsync()
+        {
+            var ctx = await GetFairPlayShopDatabaseContextAsync();
+            var userEntity = await CreateTestUserAsync(ctx);
+            ServerSideServicesTestBase.CurrentUserId = userEntity.Id;
+            IProductService productService = await ServerSideServicesTestBase.GetProductServiceAsync();
+            CreateProductModel createProductModel = new CreateProductModel()
+            {
+                AcquisitionCost = 55.23M,
+                Barcode = Guid.NewGuid().ToString(),
+                Description = $"Automated Test {nameof(Test_CreateMyProductAsync)}",
+                Name = $"Automated Test {nameof(Test_CreateMyProductAsync)}",
+                QuantityInStock = 34,
+                SellingPrice = 40,
+                Sku = Guid.NewGuid().ToString(),
+                ProductStatus = Common.Enums.ProductStatus.Draft
+            };
+            await productService.CreateMyProductAsync(createProductModel, CancellationToken.None);
+            var result = await productService.GetMyProductListAsync(CancellationToken.None);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Length);
         }
     }
 }

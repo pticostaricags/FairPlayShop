@@ -2,6 +2,7 @@
 using FairPlayShop.DataAccess.Models;
 using FairPlayShop.Interfaces.Services;
 using FairPlayShop.Models.Product;
+using Microsoft.EntityFrameworkCore;
 
 namespace FairPlayShop.ServerSideServices
 {
@@ -25,6 +26,26 @@ namespace FairPlayShop.ServerSideServices
             };
             await fairPlayShopDatabaseContext.Product.AddAsync(entity, cancellationToken:cancellationToken);
             await fairPlayShopDatabaseContext.SaveChangesAsync(cancellationToken: cancellationToken);
+        }
+
+        public async Task<ProductModel[]> GetMyProductListAsync(CancellationToken cancellationToken)
+        {
+            var userId = userProviderService.GetCurrentUserId();
+            var result = await fairPlayShopDatabaseContext.Product
+                .Where(p => p.OwnerId == userId)
+                .Select(p => new ProductModel()
+                {
+                    ProductId = p.ProductId,
+                    ProductStatus = (Common.Enums.ProductStatus)p.ProductStatusId,
+                    Sku = p.Sku,
+                    QuantityInStock = p.QuantityInStock,
+                    AcquisitionCost = p.AcquisitionCost,
+                    Barcode = p.Barcode,
+                    Description = p.Description,
+                    Name = p.Name,
+                    SellingPrice = p.SellingPrice
+                }).ToArrayAsync(cancellationToken: cancellationToken);
+            return result;
         }
     }
 }
