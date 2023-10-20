@@ -58,6 +58,9 @@ public partial class AspNetUsers
     [InverseProperty("Owner")]
     public virtual ICollection<Product> Product { get; set; } = new List<Product>();
 
+    [InverseProperty("Owner")]
+    public virtual ICollection<Store> Store { get; set; } = new List<Store>();
+
     [ForeignKey("UserId")]
     [InverseProperty("User")]
     public virtual ICollection<AspNetRoles> Role { get; set; } = new List<AspNetRoles>();

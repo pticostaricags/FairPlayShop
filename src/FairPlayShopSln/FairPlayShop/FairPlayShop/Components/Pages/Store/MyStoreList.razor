@@ -1,0 +1,34 @@
+﻿@using FairPlayShop.Interfaces.Services
+@using FairPlayShop.Models.Store
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.QuickGrid
+@attribute [Route(Common.Constants.ApiRoutes.MyStoreList)]
+@attribute [Authorize]
+@rendermode RenderMode.InteractiveServer
+
+<PageTitle>
+    @nameof(Common.Constants.ApiRoutes.MyStoreList)
+</PageTitle>
+
+<h3>
+    @nameof(Common.Constants.ApiRoutes.MyStoreList)
+</h3>
+
+@if (MyStores != null)
+{
+    <QuickGrid Items="MyStores">
+        <PropertyColumn Property="@( p=> p.StoreId)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Property="@( p=> p.Name)" Sortable="true"></PropertyColumn>
+    </QuickGrid>
+}
+
+@code {
+    [Inject]
+    private IStoreService? StoreService { get; set; }
+    private IQueryable<StoreModel>? MyStores { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.MyStores = (await this.StoreService!.GetMyStoreListAsync(CancellationToken.None))?.AsQueryable();
+    }
+}

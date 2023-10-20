@@ -26,9 +26,15 @@ public partial class FairPlayShopDatabaseContext : DbContext
 
     public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
 
+    public virtual DbSet<Photo> Photo { get; set; }
+
     public virtual DbSet<Product> Product { get; set; }
 
     public virtual DbSet<ProductStatus> ProductStatus { get; set; }
+
+    public virtual DbSet<Store> Store { get; set; }
+
+    public virtual DbSet<StoreCustomer> StoreCustomer { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -66,11 +72,35 @@ public partial class FairPlayShopDatabaseContext : DbContext
             entity.HasOne(d => d.ProductStatus).WithMany(p => p.Product)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Product_ProductStatus");
+
+            entity.HasOne(d => d.Store).WithMany(p => p.Product)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Product_Store");
+
+            entity.HasOne(d => d.ThumbnailPhoto).WithMany(p => p.Product)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Product_Photo");
         });
 
         modelBuilder.Entity<ProductStatus>(entity =>
         {
             entity.Property(e => e.ProductStatusId).ValueGeneratedOnAdd();
+        });
+
+        modelBuilder.Entity<Store>(entity =>
+        {
+            entity.HasOne(d => d.Owner).WithMany(p => p.Store)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Store_AspNetUsers");
+        });
+
+        modelBuilder.Entity<StoreCustomer>(entity =>
+        {
+            entity.Property(e => e.StoreCustomerId).ValueGeneratedNever();
+
+            entity.HasOne(d => d.Store).WithMany(p => p.StoreCustomer)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_StoreCustomer_Store");
         });
 
         OnModelCreatingPartial(modelBuilder);

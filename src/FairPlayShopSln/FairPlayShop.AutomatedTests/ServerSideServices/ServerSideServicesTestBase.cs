@@ -46,5 +46,19 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             FairPlayShopDatabaseContext fairPlayShopDatabaseContext = await GetFairPlayShopDatabaseContextAsync();
             return new ProductService(userProviderService, fairPlayShopDatabaseContext);
         }
+
+        internal static async Task<IStoreService> GetStoreServiceAsync()
+        {
+            IUserProviderService userProviderService = GetUserProviderService();
+            FairPlayShopDatabaseContext fairPlayShopDatabaseContext = await GetFairPlayShopDatabaseContextAsync();
+            return new StoreService(userProviderService, fairPlayShopDatabaseContext);
+        }
+
+        internal static async Task<IStoreCustomerService> GetStoreCustomerServiceAsync()
+        {
+            IUserProviderService userProviderService = GetUserProviderService();
+            FairPlayShopDatabaseContext fairPlayShopDatabaseContext = await GetFairPlayShopDatabaseContextAsync();
+            return new StoreCustomerService(userProviderService, fairPlayShopDatabaseContext);
+        }
     }
 }

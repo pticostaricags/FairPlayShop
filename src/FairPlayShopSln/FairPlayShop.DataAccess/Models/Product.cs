@@ -43,6 +43,10 @@ public partial class Product
     [StringLength(50)]
     public string Barcode { get; set; }
 
+    public long ThumbnailPhotoId { get; set; }
+
+    public long StoreId { get; set; }
+
     [ForeignKey("OwnerId")]
     [InverseProperty("Product")]
     public virtual AspNetUsers Owner { get; set; }
@@ -50,4 +54,12 @@ public partial class Product
     [ForeignKey("ProductStatusId")]
     [InverseProperty("Product")]
     public virtual ProductStatus ProductStatus { get; set; }
+
+    [ForeignKey("StoreId")]
+    [InverseProperty("Product")]
+    public virtual Store Store { get; set; }
+
+    [ForeignKey("ThumbnailPhotoId")]
+    [InverseProperty("Product")]
+    public virtual Photo ThumbnailPhoto { get; set; }
 }

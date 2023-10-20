@@ -1,3 +1,4 @@
+using Blazored.Toast;
 using FairPlayShop.Client.Pages;
 using FairPlayShop.Components;
 using FairPlayShop.Data;
@@ -49,6 +50,9 @@ builder.Services.AddDbContext<FairPlayShopDatabaseContext>(optionsAction =>
 builder.Services.AddSingleton<IEmailSender, NoOpEmailSender>();
 builder.Services.AddSingleton<IUserProviderService, UserProviderService>();
 builder.Services.AddTransient<IProductService, ProductService>();
+builder.Services.AddTransient<IStoreService, StoreService>();
+builder.Services.AddTransient<IStoreCustomerService, StoreCustomerService>();
+builder.Services.AddBlazoredToast();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

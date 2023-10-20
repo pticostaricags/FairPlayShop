@@ -22,7 +22,14 @@ namespace FairPlayShop.ServerSideServices
                 ProductStatusId = (byte)createProductModel.ProductStatus!.Value,
                 QuantityInStock = createProductModel.QuantityInStock!.Value,
                 SellingPrice = createProductModel.SellingPrice!.Value,
-                Sku = createProductModel.Sku
+                Sku = createProductModel.Sku,
+                ThumbnailPhoto = new Photo()
+                {
+                    Name = createProductModel.PhotoName,
+                    Filename = createProductModel.PhotoFilename,
+                    PhotoBytes = createProductModel.PhotoBytes
+                },
+                StoreId = createProductModel.StoreId!.Value
             };
             await fairPlayShopDatabaseContext.Product.AddAsync(entity, cancellationToken:cancellationToken);
             await fairPlayShopDatabaseContext.SaveChangesAsync(cancellationToken: cancellationToken);
@@ -31,7 +38,7 @@ namespace FairPlayShop.ServerSideServices
         public async Task<ProductModel[]> GetMyProductListAsync(CancellationToken cancellationToken)
         {
             var userId = userProviderService.GetCurrentUserId();
-            var result = await fairPlayShopDatabaseContext.Product
+            var result = await fairPlayShopDatabaseContext.Product.AsNoTracking()
                 .Where(p => p.OwnerId == userId)
                 .Select(p => new ProductModel()
                 {

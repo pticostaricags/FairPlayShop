@@ -77,5 +77,15 @@ namespace FairPlayShop.AutomatedTests.Properties {
                 return ResourceManager.GetString("SeedData", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] TestProduct {
+            get {
+                object obj = ResourceManager.GetObject("TestProduct", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

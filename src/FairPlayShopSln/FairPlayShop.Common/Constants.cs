@@ -6,6 +6,8 @@
         {
             public const string CreateMyProduct = $"/Product/{nameof(CreateMyProduct)}";
             public const string MyProductList = $"/Product/{nameof(MyProductList)}";
+            public const string CreateMyStore = $"/Store/{nameof(CreateMyStore)}";
+            public const string MyStoreList = $"/Store/{nameof(MyStoreList)}";
         }
     }
 }

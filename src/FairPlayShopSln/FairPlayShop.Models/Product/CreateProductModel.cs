@@ -36,5 +36,15 @@ namespace FairPlayShop.Models.Product
         public string? Barcode { get; set; }
         [Required]
         public ProductStatus? ProductStatus { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string? PhotoName { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string? PhotoFilename { get; set; }
+        [Required]
+        public byte[]? PhotoBytes { get; set; }
+        [Required]
+        public long? StoreId { get; set; }
     }
 }

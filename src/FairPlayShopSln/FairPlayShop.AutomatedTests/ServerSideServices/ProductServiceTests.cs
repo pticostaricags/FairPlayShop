@@ -40,6 +40,10 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             {
                 ctx.Product.Remove(singleProduct);
             }
+            foreach (var singleStore in ctx.Store)
+            {
+                ctx.Store.Remove(singleStore);
+            }
             foreach (var singleUser in ctx.AspNetUsers)
             {
                 ctx.AspNetUsers.Remove(singleUser);
@@ -77,6 +81,13 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             var ctx = await GetFairPlayShopDatabaseContextAsync();
             var userEntity = await CreateTestUserAsync(ctx);
             ServerSideServicesTestBase.CurrentUserId = userEntity.Id;
+            Store store = new Store()
+            {
+                Name = $"AT Store: {nameof(Test_CreateMyProductAsync)}",
+                OwnerId = userEntity.Id,
+            };
+            await ctx.Store.AddAsync(store);
+            await ctx.SaveChangesAsync();
             IProductService productService = await ServerSideServicesTestBase.GetProductServiceAsync();
             CreateProductModel createProductModel = new CreateProductModel()
             {
@@ -87,13 +98,19 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                 QuantityInStock = 34,
                 SellingPrice = 40,
                 Sku = Guid.NewGuid().ToString(),
-                ProductStatus = Common.Enums.ProductStatus.Draft
+                ProductStatus = Common.Enums.ProductStatus.Draft,
+                PhotoName = nameof(Properties.Resources.TestProduct),
+                PhotoFilename = $"{Properties.Resources.TestProduct}.bmp",
+                PhotoBytes = Properties.Resources.TestProduct,
+                StoreId = store.StoreId
             };
             await productService.CreateMyProductAsync(createProductModel, CancellationToken.None);
-            var result = await ctx.Product.SingleOrDefaultAsync();
+            var result = await ctx.Product.Include(p=>p.ThumbnailPhoto).SingleOrDefaultAsync();
             Assert.IsNotNull(result);
             Assert.AreEqual(userEntity.Id, result.OwnerId);
             Assert.AreEqual(result.Name, $"Automated Test {nameof(Test_CreateMyProductAsync)}");
+            Assert.IsNotNull(result.ThumbnailPhoto);
+            Assert.AreEqual(Properties.Resources.TestProduct.Length, result.ThumbnailPhoto.PhotoBytes.Length);
         }
 
         [TestMethod]
@@ -102,6 +119,13 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             var ctx = await GetFairPlayShopDatabaseContextAsync();
             var userEntity = await CreateTestUserAsync(ctx);
             ServerSideServicesTestBase.CurrentUserId = userEntity.Id;
+            Store store = new Store()
+            {
+                Name = $"AT Store: {nameof(Test_CreateMyProductAsync)}",
+                OwnerId = userEntity.Id,
+            };
+            await ctx.Store.AddAsync(store);
+            await ctx.SaveChangesAsync();
             IProductService productService = await ServerSideServicesTestBase.GetProductServiceAsync();
             CreateProductModel createProductModel = new CreateProductModel()
             {
@@ -112,7 +136,11 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                 QuantityInStock = 34,
                 SellingPrice = 40,
                 Sku = Guid.NewGuid().ToString(),
-                ProductStatus = Common.Enums.ProductStatus.Draft
+                ProductStatus = Common.Enums.ProductStatus.Draft,
+                PhotoName = nameof(Properties.Resources.TestProduct),
+                PhotoFilename = $"{Properties.Resources.TestProduct}.bmp",
+                PhotoBytes = Properties.Resources.TestProduct,
+                StoreId = store.StoreId
             };
             await productService.CreateMyProductAsync(createProductModel, CancellationToken.None);
             var result = await productService.GetMyProductListAsync(CancellationToken.None);

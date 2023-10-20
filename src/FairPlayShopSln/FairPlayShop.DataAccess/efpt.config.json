@@ -44,11 +44,23 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Photo]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Product]",
          "ObjectType": 0
       },
       {
          "Name": "[dbo].[ProductStatus]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Store]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[StoreCustomer]",
          "ObjectType": 0
       }
    ],
