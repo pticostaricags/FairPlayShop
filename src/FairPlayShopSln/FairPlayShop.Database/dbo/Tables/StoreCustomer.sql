@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[StoreCustomer]
 (
-	[StoreCustomerId] BIGINT NOT NULL CONSTRAINT PK_StoreCustomer PRIMARY KEY, 
+	[StoreCustomerId] BIGINT NOT NULL CONSTRAINT PK_StoreCustomer PRIMARY KEY IDENTITY, 
     [StoreId] BIGINT NOT NULL, 
     [Firstname] NVARCHAR(50) NOT NULL, 
     [Lastname] NVARCHAR(50) NOT NULL, 

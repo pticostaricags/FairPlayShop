@@ -46,5 +46,22 @@ namespace FairPlayShop.ServerSideServices
                 }).SingleAsync(cancellationToken:cancellationToken);
             return result;
         }
+
+        public async Task<StoreCustomerModel[]?> GetMyStoreCustomerListAsync(long storeId, CancellationToken cancellationToken)
+        {
+            var result = await fairPlayShopDatabaseContext.StoreCustomer.AsNoTracking()
+                .Where(p => p.StoreId == storeId)
+                .Select(p => new StoreCustomerModel()
+                {
+                    EmailAddress = p.EmailAddress,
+                    Firstname = p.Firstname,
+                    Lastname = p.Lastname,
+                    PhoneNumber = p.PhoneNumber,
+                    StoreId = p.StoreId,
+                    StoreCustomerId = p.StoreCustomerId,
+                    Surname = p.Surname
+                }).ToArrayAsync(cancellationToken: cancellationToken);
+            return result;
+        }
     }
 }

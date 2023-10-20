@@ -1,0 +1,47 @@
+﻿@using FairPlayShop.Interfaces.Services
+@using FairPlayShop.Models.StoreCustomer
+@using Microsoft.AspNetCore.Authorization
+@attribute [Route($"{Common.Constants.ApiRoutes.MyStoreCustomerList}/Store/{{StoreId:long}}")]
+@attribute [Authorize]
+@rendermode RenderMode.InteractiveServer
+@attribute [StreamRendering(enabled: true)]
+
+<LoadingIndicator ShowSpinners="this.IsBusy"></LoadingIndicator>
+
+<PageTitle>
+    @nameof(Common.Constants.ApiRoutes.MyStoreCustomerList)
+</PageTitle>
+
+<h3>
+    @nameof(Common.Constants.ApiRoutes.MyStoreCustomerList)
+</h3>
+
+@if (this.MyStoreCustomers != null)
+{
+    <QuickGrid Items="this.MyStoreCustomers">
+        <PropertyColumn Property="@( p=> p.StoreCustomerId)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Property="@( p=> p.Firstname)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Property="@( p=> p.Lastname)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Property="@( p=> p.Surname)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Property="@( p=> p.EmailAddress)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Property="@( p=> p.PhoneNumber)" Sortable="true"></PropertyColumn>
+    </QuickGrid>
+}
+
+@code {
+    [Parameter]
+    public long StoreId { get; set; }
+    [Inject]
+    private IStoreCustomerService? StoreCustomerService { get; set; }
+    private IQueryable<StoreCustomerModel>? MyStoreCustomers { get; set; }
+    private bool IsBusy { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.IsBusy = true;
+        this.MyStoreCustomers =
+        (await this.StoreCustomerService!.GetMyStoreCustomerListAsync(this.StoreId!, CancellationToken.None))?
+        .AsQueryable();
+        this.IsBusy = false;
+    }
+}

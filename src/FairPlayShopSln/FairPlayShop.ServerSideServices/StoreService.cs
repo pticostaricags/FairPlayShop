@@ -35,7 +35,8 @@ namespace FairPlayShop.ServerSideServices
                 .Select(p => new StoreModel() 
                 {
                     StoreId = p.StoreId,
-                    Name = p.Name
+                    Name = p.Name,
+                    CustomerCount = p.StoreCustomer.Count
                 })
                 .ToArrayAsync(cancellationToken: cancellationToken);
             return result;

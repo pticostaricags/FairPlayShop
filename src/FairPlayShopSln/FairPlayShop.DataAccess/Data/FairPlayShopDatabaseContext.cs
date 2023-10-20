@@ -107,8 +107,6 @@ public partial class FairPlayShopDatabaseContext : DbContext
 
         modelBuilder.Entity<StoreCustomer>(entity =>
         {
-            entity.Property(e => e.StoreCustomerId).ValueGeneratedNever();
-
             entity.HasOne(d => d.Store).WithMany(p => p.StoreCustomer)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_StoreCustomer_Store");

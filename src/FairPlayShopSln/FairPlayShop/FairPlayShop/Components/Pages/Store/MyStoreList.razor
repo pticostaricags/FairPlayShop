@@ -19,6 +19,7 @@
     <QuickGrid Items="MyStores">
         <PropertyColumn Property="@( p=> p.StoreId)" Sortable="true"></PropertyColumn>
         <PropertyColumn Property="@( p=> p.Name)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Property="@( p=> p.CustomerCount)" Sortable="true"></PropertyColumn>
         <TemplateColumn>
             <button class="btn btn-secondary" type="button" @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.CreateMyProduct}/Store/{context.StoreId}"))">Add Products</button>
         </TemplateColumn>
@@ -27,6 +28,9 @@
         </TemplateColumn>
         <TemplateColumn>
             <button class="btn btn-secondary" type="button" @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.CreateMyStoreCustomer}/Store/{context.StoreId}"))">Add Customers</button>
+        </TemplateColumn>
+        <TemplateColumn>
+            <button class="btn btn-secondary" type="button" @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.MyStoreCustomerList}/Store/{context.StoreId}"))">List Customers</button>
         </TemplateColumn>
     </QuickGrid>
 }

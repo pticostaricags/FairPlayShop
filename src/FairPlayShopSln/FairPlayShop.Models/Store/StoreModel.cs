@@ -10,5 +10,6 @@ namespace FairPlayShop.Models.Store
     {
         public long StoreId { get; set; }
         public string? Name { get; set; }
+        public int CustomerCount { get; set; }
     }
 }
