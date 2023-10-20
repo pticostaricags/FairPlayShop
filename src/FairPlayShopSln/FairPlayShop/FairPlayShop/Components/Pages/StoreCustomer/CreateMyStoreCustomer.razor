@@ -1,0 +1,97 @@
+﻿@using Blazored.Toast.Services
+@using FairPlayShop.Common.Enums
+@using FairPlayShop.Interfaces.Services
+@using FairPlayShop.Models.Product
+@using FairPlayShop.Models.StoreCustomer
+@using Microsoft.AspNetCore.Authorization
+@attribute [Route($"{Common.Constants.ApiRoutes.CreateMyStoreCustomer}/Store/{{StoreId:long}}")]
+@attribute [Route($"{Common.Constants.ApiRoutes.CreateMyStoreCustomer}/Store/{{StoreId:long}}/Customer/{{CustomerId:long}}")]
+@attribute [Authorize]
+@rendermode RenderMode.InteractiveServer
+
+<LoadingIndicator ShowSpinners="this.IsBusy"></LoadingIndicator>
+
+<PageTitle>
+    @nameof(Common.Constants.ApiRoutes.CreateMyStoreCustomer)
+</PageTitle>
+<h3>
+    @nameof(Common.Constants.ApiRoutes.CreateMyStoreCustomer)
+</h3>
+
+<EditForm FormName="frmCreateStoreCustomer" Model="@this.CreateStoreCustomerModel"
+          OnValidSubmit="OnValidSubmitAsync" Enhance>
+    <div class="mb-3">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <ValidationSummary></ValidationSummary>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">@nameof(CreateStoreCustomerModel.Firstname)</label>
+        <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.Firstname"></InputText>
+        <ValidationMessage For="@( () => CreateStoreCustomerModel.Firstname)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">@nameof(CreateStoreCustomerModel.Lastname)</label>
+        <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.Lastname"></InputText>
+        <ValidationMessage For="@( () => CreateStoreCustomerModel.Lastname)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">@nameof(CreateStoreCustomerModel.Surname)</label>
+        <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.Surname"></InputText>
+        <ValidationMessage For="@( () => CreateStoreCustomerModel.Surname)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">@nameof(CreateStoreCustomerModel.EmailAddress)</label>
+        <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.EmailAddress"></InputText>
+        <ValidationMessage For="@( () => CreateStoreCustomerModel.EmailAddress)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">@nameof(CreateStoreCustomerModel.PhoneNumber)</label>
+        <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.PhoneNumber"></InputText>
+        <ValidationMessage For="@( () => CreateStoreCustomerModel.PhoneNumber)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <button class="btn btn-primary" type="submit">Save</button>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public long StoreId { get; set; }
+    [Parameter]
+    public long? CustomerId { get; set; }
+    [Inject]
+    private IToastService? ToastService { get; set; }
+    [Inject]
+    private IStoreCustomerService? StoreCustomerService { get; set; }
+    [Inject]
+    private NavigationManager? NavigationManager { get; set; }
+    [SupplyParameterFromForm]
+    private CreateStoreCustomerModel? CreateStoreCustomerModel { get; set; } = new CreateStoreCustomerModel();
+    private bool IsBusy { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (this.CreateStoreCustomerModel != null)
+        {
+            this.CreateStoreCustomerModel.StoreId = this.StoreId;
+            if (this.CustomerId != null)
+            {
+                StoreCustomerModel storeCustomerModel = await this.StoreCustomerService!.GetMyStoreCustomerAsync(this.CustomerId.Value, CancellationToken.None);
+                this.CreateStoreCustomerModel!.PhoneNumber = storeCustomerModel.PhoneNumber;
+                this.CreateStoreCustomerModel.Firstname = storeCustomerModel.Firstname;
+                this.CreateStoreCustomerModel.Lastname = storeCustomerModel.Lastname;
+                this.CreateStoreCustomerModel.Surname = storeCustomerModel.Surname;
+                this.CreateStoreCustomerModel.EmailAddress = storeCustomerModel.EmailAddress;
+            }
+        }
+    }
+
+    private async Task OnValidSubmitAsync()
+    {
+        this.IsBusy = true;
+        await this.StoreCustomerService!.CreateMyStoreCustomerAsync(this.CreateStoreCustomerModel!, CancellationToken.None);
+        this.IsBusy = false;
+        this.ToastService!.ShowSuccess(message: "Your customer has been saved");
+        NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.MyStoreCustomerList}/Store/{StoreId}");
+    }
+}

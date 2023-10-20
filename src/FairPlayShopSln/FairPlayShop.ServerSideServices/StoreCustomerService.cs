@@ -2,6 +2,7 @@
 using FairPlayShop.DataAccess.Models;
 using FairPlayShop.Interfaces.Services;
 using FairPlayShop.Models.StoreCustomer;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,23 @@ namespace FairPlayShop.ServerSideServices
             };
             await fairPlayShopDatabaseContext.StoreCustomer.AddAsync(storeCustomer, cancellationToken: cancellationToken);
             await fairPlayShopDatabaseContext.SaveChangesAsync(cancellationToken:cancellationToken);
+        }
+
+        public async Task<StoreCustomerModel> GetMyStoreCustomerAsync(long storeCustomerId, CancellationToken cancellationToken)
+        {
+            var result = await fairPlayShopDatabaseContext.StoreCustomer.AsNoTracking()
+                .Where(p=>p.StoreCustomerId == storeCustomerId)
+                .Select(p=> new StoreCustomerModel()
+                {
+                    EmailAddress = p.EmailAddress,
+                    Firstname= p.Firstname,
+                    Lastname= p.Lastname,
+                    PhoneNumber = p.PhoneNumber,
+                    StoreId = p.StoreId,
+                    StoreCustomerId = p.StoreCustomerId,
+                    Surname = p.Surname
+                }).SingleAsync(cancellationToken:cancellationToken);
+            return result;
         }
     }
 }

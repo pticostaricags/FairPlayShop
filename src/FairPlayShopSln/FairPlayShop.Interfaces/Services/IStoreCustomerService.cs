@@ -10,5 +10,6 @@ namespace FairPlayShop.Interfaces.Services
     public interface IStoreCustomerService
     {
         Task CreateMyStoreCustomerAsync(CreateStoreCustomerModel createStoreCustomerModel, CancellationToken cancellationToken);
+        Task<StoreCustomerModel> GetMyStoreCustomerAsync(long storeCustomerId, CancellationToken cancellationToken);
     }
 }
