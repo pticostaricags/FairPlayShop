@@ -5,6 +5,9 @@
 @attribute [Route(Common.Constants.ApiRoutes.MyStoreList)]
 @attribute [Authorize]
 @rendermode RenderMode.InteractiveServer
+@attribute [StreamRendering(enabled:true)]
+
+<LoadingIndicator ShowSpinners="this.IsBusy"></LoadingIndicator>
 
 <PageTitle>
     @nameof(Common.Constants.ApiRoutes.MyStoreList)
@@ -41,9 +44,12 @@
     [Inject]
     private NavigationManager? NavigationManager { get; set; }
     private IQueryable<StoreModel>? MyStores { get; set; }
+    private bool IsBusy { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        this.IsBusy = true;
         this.MyStores = (await this.StoreService!.GetMyStoreListAsync(CancellationToken.None))?.AsQueryable();
+        this.IsBusy = false;
     }
 }
