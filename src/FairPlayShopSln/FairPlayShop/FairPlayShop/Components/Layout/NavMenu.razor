@@ -1,4 +1,5 @@
 ﻿@using FairPlayShop.Components.Identity
+@using Microsoft.Extensions.Localization
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
@@ -36,7 +37,8 @@
                 </div>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="@Common.Constants.ApiRoutes.MyStoreList">
-                        <span class="bi bi-arrow-bar-left" aria-hidden="true"></span> @nameof(Common.Constants.ApiRoutes.MyStoreList)
+                        <span class="bi bi-arrow-bar-left" aria-hidden="true"></span> 
+                        @Localizer![nameof(Common.Constants.ApiRoutes.MyStoreList)]
                     </NavLink>
                 </div>
             </Authorized>
@@ -55,3 +57,8 @@
         </AuthorizeView>
     </nav>
 </div>
+@code
+{
+    [Inject]
+    private IStringLocalizer<NavMenu>? Localizer { get; set; }
+}

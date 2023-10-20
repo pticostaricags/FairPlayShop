@@ -9,6 +9,7 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
+BEGIN TRANSACTION
 IF NOT EXISTS
 (
    SELECT * FROM ProductStatus WHERE ProductStatusId = 1
@@ -27,3 +28,28 @@ BEGIN
     INSERT INTO ProductStatus(ProductStatusId, [Name]) VALUES(2,'Active')
     SET IDENTITY_INSERT [ProductStatus] OFF
 END
+--START OF DEFAULT CULTURES
+SET IDENTITY_INSERT [dbo].[Culture] ON
+DECLARE @CULTURE NVARCHAR(50) = 'en-US'
+IF NOT EXISTS (SELECT * FROM [dbo].[Culture] WHERE [Name] = @CULTURE)
+BEGIN
+    INSERT INTO Culture([CultureId],[Name]) VALUES(1, @CULTURE)
+END
+SET @CULTURE='es-CR'
+IF NOT EXISTS (SELECT * FROM [dbo].[Culture] WHERE [Name] = @CULTURE)
+BEGIN
+    INSERT INTO Culture([CultureId],[Name]) VALUES(2, @CULTURE)
+END
+SET @CULTURE='fr-CA'
+IF NOT EXISTS (SELECT * FROM [dbo].[Culture] WHERE [Name] = @CULTURE)
+BEGIN
+    INSERT INTO Culture([CultureId],[Name]) VALUES(3, @CULTURE)
+END
+SET @CULTURE='it'
+IF NOT EXISTS (SELECT * FROM [dbo].[Culture] WHERE [Name] = @CULTURE)
+BEGIN
+    INSERT INTO Culture([CultureId],[Name]) VALUES(4, @CULTURE)
+END
+SET IDENTITY_INSERT [dbo].[Culture] OFF
+--END OF DEFAULT CULTURES
+COMMIT

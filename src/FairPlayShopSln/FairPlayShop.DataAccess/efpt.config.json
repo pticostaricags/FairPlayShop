@@ -44,6 +44,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Culture]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Photo]",
          "ObjectType": 0
       },
@@ -53,6 +57,10 @@
       },
       {
          "Name": "[dbo].[ProductStatus]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Resource]",
          "ObjectType": 0
       },
       {

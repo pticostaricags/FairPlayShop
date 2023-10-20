@@ -1,6 +1,7 @@
 using Blazored.Toast;
 using FairPlayShop.Client.Pages;
 using FairPlayShop.Components;
+using FairPlayShop.CustomLocalization.EF;
 using FairPlayShop.Data;
 using FairPlayShop.DataAccess.Data;
 using FairPlayShop.Identity;
@@ -11,8 +12,13 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddTransient<IStringLocalizerFactory, EFStringLocalizerFactory>();
+builder.Services.AddTransient<IStringLocalizer, EFStringLocalizer>();
+builder.Services.AddLocalization();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
