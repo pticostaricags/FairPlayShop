@@ -25,6 +25,9 @@
         <PropertyColumn Property="@( p=> p.Surname)" Sortable="true"></PropertyColumn>
         <PropertyColumn Property="@( p=> p.EmailAddress)" Sortable="true"></PropertyColumn>
         <PropertyColumn Property="@( p=> p.PhoneNumber)" Sortable="true"></PropertyColumn>
+        <TemplateColumn>
+            <button class="btn btn-danger" type="button" @onclick="@( async () => await OnDeleteCustomerAsync(context.StoreCustomerId))">Delete</button>
+        </TemplateColumn>
     </QuickGrid>
 }
 
@@ -38,10 +41,21 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await LoadDataAsync();
+    }
+
+    private async Task LoadDataAsync()
+    {
         this.IsBusy = true;
         this.MyStoreCustomers =
         (await this.StoreCustomerService!.GetMyStoreCustomerListAsync(this.StoreId!, CancellationToken.None))?
         .AsQueryable();
         this.IsBusy = false;
+    }
+
+    private async Task OnDeleteCustomerAsync(long storeCustomerId)
+    {
+        await this.StoreCustomerService!.DeleteMyStoreCustomerAsync(storeCustomerId, CancellationToken.None);
+        await LoadDataAsync();
     }
 }

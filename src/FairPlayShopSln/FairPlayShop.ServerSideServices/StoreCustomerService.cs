@@ -27,23 +27,37 @@ namespace FairPlayShop.ServerSideServices
                 Surname = createStoreCustomerModel.Surname,
             };
             await fairPlayShopDatabaseContext.StoreCustomer.AddAsync(storeCustomer, cancellationToken: cancellationToken);
-            await fairPlayShopDatabaseContext.SaveChangesAsync(cancellationToken:cancellationToken);
+            await fairPlayShopDatabaseContext.SaveChangesAsync(cancellationToken: cancellationToken);
+        }
+
+        public async Task DeleteMyStoreCustomerAsync(long storeCustomerId, CancellationToken cancellationToken)
+        {
+            var userId = userProviderService.GetCurrentUserId();
+            var entity = await fairPlayShopDatabaseContext
+                .StoreCustomer
+                .Where(p => p.StoreCustomerId == storeCustomerId && p.Store.OwnerId == userId)
+                .FirstOrDefaultAsync(cancellationToken: cancellationToken);
+            if (entity is not null)
+            {
+                fairPlayShopDatabaseContext.StoreCustomer.Remove(entity);
+                await fairPlayShopDatabaseContext.SaveChangesAsync(cancellationToken: cancellationToken);
+            }
         }
 
         public async Task<StoreCustomerModel> GetMyStoreCustomerAsync(long storeCustomerId, CancellationToken cancellationToken)
         {
             var result = await fairPlayShopDatabaseContext.StoreCustomer.AsNoTracking()
-                .Where(p=>p.StoreCustomerId == storeCustomerId)
-                .Select(p=> new StoreCustomerModel()
+                .Where(p => p.StoreCustomerId == storeCustomerId)
+                .Select(p => new StoreCustomerModel()
                 {
                     EmailAddress = p.EmailAddress,
-                    Firstname= p.Firstname,
-                    Lastname= p.Lastname,
+                    Firstname = p.Firstname,
+                    Lastname = p.Lastname,
                     PhoneNumber = p.PhoneNumber,
                     StoreId = p.StoreId,
                     StoreCustomerId = p.StoreCustomerId,
                     Surname = p.Surname
-                }).SingleAsync(cancellationToken:cancellationToken);
+                }).SingleAsync(cancellationToken: cancellationToken);
             return result;
         }
 

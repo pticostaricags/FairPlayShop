@@ -167,5 +167,38 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             Assert.AreEqual(1, result.Length);
             Assert.AreEqual(storeCustomer.EmailAddress, result[0].EmailAddress);
         }
+
+        [TestMethod]
+        public async Task Test_DeleteMyStoreCustomerAsync()
+        {
+            var ctx = await GetFairPlayShopDatabaseContextAsync();
+            var user = await CreateTestUserAsync(ctx);
+            ServerSideServicesTestBase.CurrentUserId = user.Id;
+            Store store = new Store()
+            {
+                Name = $"AT Store: {nameof(Test_CreateMyStoreCustomerAsync)}",
+                OwnerId = user.Id,
+            };
+            await ctx.Store.AddAsync(store);
+            await ctx.SaveChangesAsync();
+            IStoreCustomerService storeCustomerService = await GetStoreCustomerServiceAsync();
+            StoreCustomer storeCustomer = new StoreCustomer()
+            {
+                EmailAddress = "t@t.t",
+                Firstname = "AT Firstname",
+                Lastname = "AT Lastname",
+                StoreId = store.StoreId,
+                PhoneNumber = "1234567890",
+                Surname = "AT Surname"
+            };
+            await ctx.StoreCustomer.AddAsync(storeCustomer);
+            await ctx.SaveChangesAsync();
+            var result = await ctx.StoreCustomer.SingleOrDefaultAsync();
+            Assert.IsNotNull(result);
+            Assert.AreEqual(storeCustomer.EmailAddress, result.EmailAddress);
+            await storeCustomerService.DeleteMyStoreCustomerAsync(storeCustomer.StoreCustomerId, CancellationToken.None);
+            result = await ctx.StoreCustomer.SingleOrDefaultAsync();
+            Assert.IsNull(result);
+        }
     }
 }
