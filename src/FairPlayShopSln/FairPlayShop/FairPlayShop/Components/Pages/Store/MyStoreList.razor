@@ -19,12 +19,20 @@
     <QuickGrid Items="MyStores">
         <PropertyColumn Property="@( p=> p.StoreId)" Sortable="true"></PropertyColumn>
         <PropertyColumn Property="@( p=> p.Name)" Sortable="true"></PropertyColumn>
+        <TemplateColumn>
+            <button class="btn btn-secondary" type="button" @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.CreateMyProduct}/Store/{context.StoreId}"))">Add Products</button>
+        </TemplateColumn>
+        <TemplateColumn>
+            <button class="btn btn-secondary" type="button" @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.MyProductList}/Store/{context.StoreId}"))">List Products</button>
+        </TemplateColumn>
     </QuickGrid>
 }
 
 @code {
     [Inject]
     private IStoreService? StoreService { get; set; }
+    [Inject]
+    private NavigationManager? NavigationManager { get; set; }
     private IQueryable<StoreModel>? MyStores { get; set; }
 
     protected override async Task OnInitializedAsync()

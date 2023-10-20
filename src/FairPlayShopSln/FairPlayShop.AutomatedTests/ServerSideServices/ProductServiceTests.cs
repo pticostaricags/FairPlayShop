@@ -33,8 +33,8 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         }
 
         [TestCleanup]
-        public async Task TestCleanupAsync() 
-        { 
+        public async Task TestCleanupAsync()
+        {
             var ctx = await GetFairPlayShopDatabaseContextAsync();
             foreach (var singleProduct in ctx.Product)
             {
@@ -81,7 +81,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             var ctx = await GetFairPlayShopDatabaseContextAsync();
             var userEntity = await CreateTestUserAsync(ctx);
             ServerSideServicesTestBase.CurrentUserId = userEntity.Id;
-            Store store = new Store()
+            Store store = new()
             {
                 Name = $"AT Store: {nameof(Test_CreateMyProductAsync)}",
                 OwnerId = userEntity.Id,
@@ -89,7 +89,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             await ctx.Store.AddAsync(store);
             await ctx.SaveChangesAsync();
             IProductService productService = await ServerSideServicesTestBase.GetProductServiceAsync();
-            CreateProductModel createProductModel = new CreateProductModel()
+            CreateProductModel createProductModel = new()
             {
                 AcquisitionCost = 55.23M,
                 Barcode = Guid.NewGuid().ToString(),
@@ -105,7 +105,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                 StoreId = store.StoreId
             };
             await productService.CreateMyProductAsync(createProductModel, CancellationToken.None);
-            var result = await ctx.Product.Include(p=>p.ThumbnailPhoto).SingleOrDefaultAsync();
+            var result = await ctx.Product.Include(p => p.ThumbnailPhoto).SingleOrDefaultAsync();
             Assert.IsNotNull(result);
             Assert.AreEqual(userEntity.Id, result.OwnerId);
             Assert.AreEqual(result.Name, $"Automated Test {nameof(Test_CreateMyProductAsync)}");
@@ -119,7 +119,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             var ctx = await GetFairPlayShopDatabaseContextAsync();
             var userEntity = await CreateTestUserAsync(ctx);
             ServerSideServicesTestBase.CurrentUserId = userEntity.Id;
-            Store store = new Store()
+            Store store = new()
             {
                 Name = $"AT Store: {nameof(Test_CreateMyProductAsync)}",
                 OwnerId = userEntity.Id,
@@ -127,7 +127,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             await ctx.Store.AddAsync(store);
             await ctx.SaveChangesAsync();
             IProductService productService = await ServerSideServicesTestBase.GetProductServiceAsync();
-            CreateProductModel createProductModel = new CreateProductModel()
+            CreateProductModel createProductModel = new()
             {
                 AcquisitionCost = 55.23M,
                 Barcode = Guid.NewGuid().ToString(),
@@ -143,9 +143,45 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                 StoreId = store.StoreId
             };
             await productService.CreateMyProductAsync(createProductModel, CancellationToken.None);
-            var result = await productService.GetMyProductListAsync(CancellationToken.None);
+            var result = await productService.GetMyStoreProductListAsync(store.StoreId, CancellationToken.None);
             Assert.IsNotNull(result);
             Assert.AreEqual(1, result.Length);
+        }
+
+        [TestMethod]
+        public async Task Test_GetMyProductByIdAsync()
+        {
+            var ctx = await GetFairPlayShopDatabaseContextAsync();
+            var userEntity = await CreateTestUserAsync(ctx);
+            ServerSideServicesTestBase.CurrentUserId = userEntity.Id;
+            Store store = new()
+            {
+                Name = $"AT Store: {nameof(Test_CreateMyProductAsync)}",
+                OwnerId = userEntity.Id,
+            };
+            await ctx.Store.AddAsync(store);
+            await ctx.SaveChangesAsync();
+            IProductService productService = await ServerSideServicesTestBase.GetProductServiceAsync();
+            CreateProductModel createProductModel = new()
+            {
+                AcquisitionCost = 55.23M,
+                Barcode = Guid.NewGuid().ToString(),
+                Description = $"Automated Test {nameof(Test_CreateMyProductAsync)}",
+                Name = $"Automated Test {nameof(Test_CreateMyProductAsync)}",
+                QuantityInStock = 34,
+                SellingPrice = 40,
+                Sku = Guid.NewGuid().ToString(),
+                ProductStatus = Common.Enums.ProductStatus.Draft,
+                PhotoName = nameof(Properties.Resources.TestProduct),
+                PhotoFilename = $"{Properties.Resources.TestProduct}.bmp",
+                PhotoBytes = Properties.Resources.TestProduct,
+                StoreId = store.StoreId
+            };
+            await productService.CreateMyProductAsync(createProductModel, CancellationToken.None);
+            var entity = await ctx.Product.SingleAsync();
+            var result = await productService.GetMyProductByIdAsync(entity.ProductId, CancellationToken.None);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(entity.Name, result.Name);
         }
     }
 }

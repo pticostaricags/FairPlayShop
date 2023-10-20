@@ -2,7 +2,7 @@
 @using FairPlayShop.Models.Product
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.QuickGrid
-@attribute [Route(Common.Constants.ApiRoutes.MyProductList)]
+@attribute [Route($"{Common.Constants.ApiRoutes.MyProductList}/Store/{{StoreId:long}}")]
 @attribute [Authorize]
 @rendermode RenderMode.InteractiveServer
 
@@ -24,16 +24,23 @@
         <PropertyColumn Property="@( p => p.SellingPrice)" Format="c" Sortable="true"></PropertyColumn>
         <PropertyColumn Property="@( p => p.AcquisitionCost)" Format="c" Sortable="true"></PropertyColumn>
         <PropertyColumn Property="@( p => p.Profit)" Format="c" Sortable="true"></PropertyColumn>
+        <TemplateColumn>
+            <button class="btn btn-secondary" @onclick="@(()=>NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.CreateMyProduct}/Store/{StoreId}/Product/{context.ProductId}"))">Edit Product</button>
+        </TemplateColumn>
     </QuickGrid>
 }
 
 @code {
+    [Parameter]
+    public long StoreId { get; set; }
     [Inject]
     private IProductService? ProductService { get; set; }
+    [Inject]
+    private NavigationManager? NavigationManager { get; set; }
     private bool IsBusy { get; set; }
     private IQueryable<ProductModel>? MyProducts { get; set; }
     protected override async Task OnInitializedAsync()
     {
-        this.MyProducts = (await this.ProductService!.GetMyProductListAsync(CancellationToken.None))?.AsQueryable();
+        this.MyProducts = (await this.ProductService!.GetMyStoreProductListAsync(this.StoreId, CancellationToken.None))?.AsQueryable();
     }
 }

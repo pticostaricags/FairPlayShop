@@ -12,7 +12,7 @@ namespace FairPlayShop.ServerSideServices
         public async Task CreateMyProductAsync(CreateProductModel createProductModel, CancellationToken cancellationToken)
         {
             var userId = userProviderService.GetCurrentUserId();
-            Product entity = new Product()
+            Product entity = new()
             {
                 AcquisitionCost = createProductModel.AcquisitionCost!.Value,
                 Barcode = createProductModel.Barcode,
@@ -31,15 +31,36 @@ namespace FairPlayShop.ServerSideServices
                 },
                 StoreId = createProductModel.StoreId!.Value
             };
-            await fairPlayShopDatabaseContext.Product.AddAsync(entity, cancellationToken:cancellationToken);
+            await fairPlayShopDatabaseContext.Product.AddAsync(entity, cancellationToken: cancellationToken);
             await fairPlayShopDatabaseContext.SaveChangesAsync(cancellationToken: cancellationToken);
         }
 
-        public async Task<ProductModel[]> GetMyProductListAsync(CancellationToken cancellationToken)
+        public async Task<ProductModel> GetMyProductByIdAsync(long productId, CancellationToken cancellationToken)
         {
             var userId = userProviderService.GetCurrentUserId();
             var result = await fairPlayShopDatabaseContext.Product.AsNoTracking()
-                .Where(p => p.OwnerId == userId)
+                .Where(p => p.OwnerId == userId && p.ProductId == productId)
+                .Select(p => new ProductModel()
+                {
+                    ProductId = p.ProductId,
+                    ProductStatus = (Common.Enums.ProductStatus)p.ProductStatusId,
+                    Sku = p.Sku,
+                    QuantityInStock = p.QuantityInStock,
+                    AcquisitionCost = p.AcquisitionCost,
+                    Barcode = p.Barcode,
+                    Description = p.Description,
+                    Name = p.Name,
+                    SellingPrice = p.SellingPrice,
+                    Profit = p.SellingPrice - p.AcquisitionCost
+                }).SingleAsync(cancellationToken: cancellationToken);
+            return result;
+        }
+
+        public async Task<ProductModel[]> GetMyStoreProductListAsync(long storeId, CancellationToken cancellationToken)
+        {
+            var userId = userProviderService.GetCurrentUserId();
+            var result = await fairPlayShopDatabaseContext.Product.AsNoTracking()
+                .Where(p => p.OwnerId == userId && p.StoreId == storeId)
                 .Select(p => new ProductModel()
                 {
                     ProductId = p.ProductId,

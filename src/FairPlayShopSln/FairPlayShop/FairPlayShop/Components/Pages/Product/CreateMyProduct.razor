@@ -3,9 +3,12 @@
 @using FairPlayShop.Interfaces.Services
 @using FairPlayShop.Models.Product
 @using Microsoft.AspNetCore.Authorization
-@attribute [Route(Common.Constants.ApiRoutes.CreateMyProduct)]
+@attribute [Route($"{Common.Constants.ApiRoutes.CreateMyProduct}/Store/{{StoreId:long}}")]
+@attribute [Route($"{Common.Constants.ApiRoutes.CreateMyProduct}/Store/{{StoreId:long}}/Product/{{ProductId:long}}")]
 @attribute [Authorize]
 @rendermode RenderMode.InteractiveServer
+
+<LoadingIndicator ShowSpinners="this.IsBusy"></LoadingIndicator>
 
 <PageTitle>
     @nameof(Common.Constants.ApiRoutes.CreateMyProduct)
@@ -14,8 +17,8 @@
     @nameof(Common.Constants.ApiRoutes.CreateMyProduct)
 </h3>
 
-<EditForm FormName="frmCreateProduct" Model="@this.CreateProductModel" OnValidSubmit="OnValidSubmitAsync">
-    <AntiforgeryToken></AntiforgeryToken>
+<EditForm FormName="frmCreateProduct" Model="@this.CreateProductModel"
+          OnValidSubmit="OnValidSubmitAsync" Enhance>
     <div class="mb-3">
         <DataAnnotationsValidator></DataAnnotationsValidator>
         <ValidationSummary></ValidationSummary>
@@ -76,6 +79,10 @@
 </EditForm>
 
 @code {
+    [Parameter]
+    public long StoreId { get; set; }
+    [Parameter]
+    public long? ProductId { get; set; }
     [Inject]
     private IToastService? ToastService { get; set; }
     [Inject]
@@ -84,12 +91,35 @@
     private NavigationManager? NavigationManager { get; set; }
     [SupplyParameterFromForm]
     private CreateProductModel? CreateProductModel { get; set; } = new CreateProductModel();
+    private bool IsBusy { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (this.CreateProductModel != null)
+        {
+            this.CreateProductModel.StoreId = this.StoreId;
+            if (this.ProductId != null)
+            {
+                ProductModel productModel = await this.ProductService!.GetMyProductByIdAsync(this.ProductId.Value, CancellationToken.None);
+                this.CreateProductModel!.ProductStatus = productModel.ProductStatus;
+                this.CreateProductModel.Sku = productModel.Sku;
+                this.CreateProductModel.AcquisitionCost = productModel.AcquisitionCost;
+                this.CreateProductModel.Barcode = productModel.Barcode;
+                this.CreateProductModel.Description = productModel.Description;
+                this.CreateProductModel.Name = productModel.Name;
+                this.CreateProductModel.QuantityInStock = productModel.QuantityInStock;
+                this.CreateProductModel.SellingPrice = productModel.SellingPrice;
+            }
+        }
+    }
 
     private async Task OnValidSubmitAsync()
     {
+        this.IsBusy = true;
         await this.ProductService!.CreateMyProductAsync(this.CreateProductModel!, CancellationToken.None);
+        this.IsBusy = false;
         this.ToastService!.ShowSuccess(message: "Your product has been saved");
-        NavigationManager!.NavigateTo(Common.Constants.ApiRoutes.MyProductList);
+        NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.MyProductList}/Store/{StoreId}");
     }
 
     private async void OnThumbnailInputFileChanged(InputFileChangeEventArgs inputFileChangeEventArgs)
