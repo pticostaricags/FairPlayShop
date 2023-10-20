@@ -26,6 +26,10 @@ public partial class FairPlayShopDatabaseContext : DbContext
 
     public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
 
+    public virtual DbSet<City> City { get; set; }
+
+    public virtual DbSet<Country> Country { get; set; }
+
     public virtual DbSet<Culture> Culture { get; set; }
 
     public virtual DbSet<Photo> Photo { get; set; }
@@ -36,9 +40,13 @@ public partial class FairPlayShopDatabaseContext : DbContext
 
     public virtual DbSet<Resource> Resource { get; set; }
 
+    public virtual DbSet<StateOrProvince> StateOrProvince { get; set; }
+
     public virtual DbSet<Store> Store { get; set; }
 
     public virtual DbSet<StoreCustomer> StoreCustomer { get; set; }
+
+    public virtual DbSet<StoreCustomerAddress> StoreCustomerAddress { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -65,6 +73,13 @@ public partial class FairPlayShopDatabaseContext : DbContext
                         j.HasKey("UserId", "RoleId");
                         j.HasIndex(new[] { "RoleId" }, "IX_AspNetUserRoles_RoleId");
                     });
+        });
+
+        modelBuilder.Entity<City>(entity =>
+        {
+            entity.HasOne(d => d.StateOrProvince).WithMany(p => p.City)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_City_StateOrProvince");
         });
 
         modelBuilder.Entity<Product>(entity =>
@@ -98,6 +113,13 @@ public partial class FairPlayShopDatabaseContext : DbContext
                 .HasConstraintName("FK_Resource_Culture");
         });
 
+        modelBuilder.Entity<StateOrProvince>(entity =>
+        {
+            entity.HasOne(d => d.Country).WithMany(p => p.StateOrProvince)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_StateOrProvince_Country");
+        });
+
         modelBuilder.Entity<Store>(entity =>
         {
             entity.HasOne(d => d.Owner).WithMany(p => p.Store)
@@ -110,6 +132,13 @@ public partial class FairPlayShopDatabaseContext : DbContext
             entity.HasOne(d => d.Store).WithMany(p => p.StoreCustomer)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_StoreCustomer_Store");
+        });
+
+        modelBuilder.Entity<StoreCustomerAddress>(entity =>
+        {
+            entity.HasOne(d => d.City).WithMany(p => p.StoreCustomerAddress)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_StoreCustomerAddress_City");
         });
 
         OnModelCreatingPartial(modelBuilder);

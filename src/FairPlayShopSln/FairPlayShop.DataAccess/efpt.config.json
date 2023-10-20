@@ -44,6 +44,14 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[City]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Country]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Culture]",
          "ObjectType": 0
       },
@@ -64,11 +72,19 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[StateOrProvince]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Store]",
          "ObjectType": 0
       },
       {
          "Name": "[dbo].[StoreCustomer]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[StoreCustomerAddress]",
          "ObjectType": 0
       }
    ],

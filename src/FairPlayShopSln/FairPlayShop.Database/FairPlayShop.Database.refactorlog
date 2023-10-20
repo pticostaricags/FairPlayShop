@@ -42,4 +42,46 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="StoreCustomerId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="c8ca45c7-3c25-4e52-85e8-33aaa8f14626" ChangeDateTime="10/20/2023 13:06:41">
+    <Property Name="ElementName" Value="[dbo].[StoreCustomerAddress].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[StoreCustomerAddress]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="StoreCustomerAddressId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="30e21819-97ca-4b09-b548-27f5228c6256" ChangeDateTime="10/20/2023 13:07:22">
+    <Property Name="ElementName" Value="[dbo].[Country].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Country]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CounttryIf" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="cdd396e1-5a0b-48be-8c3c-3ee4ba45fd13" ChangeDateTime="10/20/2023 13:07:26">
+    <Property Name="ElementName" Value="[dbo].[Country].[CounttryIf]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Country]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CounttryId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a23d962b-06c5-429d-903b-6ed4c0e69689" ChangeDateTime="10/20/2023 13:11:12">
+    <Property Name="ElementName" Value="[dbo].[StoreCustomerAddress].[Address]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[StoreCustomerAddress]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AddressLine1" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="97164b81-bce3-4ddc-9146-3ff1b104d554" ChangeDateTime="10/20/2023 13:12:10">
+    <Property Name="ElementName" Value="[dbo].[StateOrProvince].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[StateOrProvince]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="StateOrProvinceId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="d154febd-93df-4d9d-81d2-53305cfd4aa5" ChangeDateTime="10/20/2023 13:15:51">
+    <Property Name="ElementName" Value="[dbo].[StoreCustomerAddress].[StateOrProvinceId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[StoreCustomerAddress]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CityId" />
+  </Operation>
 </Operations>
