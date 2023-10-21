@@ -11,15 +11,15 @@ namespace FairPlayShop.CustomLocalization.EF
     /// <typeparam name="T"></typeparam>
     public class EFStringLocalizer<T> : IStringLocalizer<T>
     {
-        private readonly FairPlayShopDatabaseContext _db;
+        private IDbContextFactory<FairPlayShopDatabaseContext> _dbContextFactory;
 
         /// <summary>
         /// Initializes <see cref="EFStringLocalizer{T}"/>
         /// </summary>
-        /// <param name="db"></param>
-        public EFStringLocalizer(FairPlayShopDatabaseContext db)
+        /// <param name="dbContextFactory"></param>
+        public EFStringLocalizer(IDbContextFactory<FairPlayShopDatabaseContext> dbContextFactory)
         {
-            _db = db;
+            _dbContextFactory = dbContextFactory;
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace FairPlayShop.CustomLocalization.EF
         public IStringLocalizer WithCulture(CultureInfo culture)
         {
             CultureInfo.DefaultThreadCurrentCulture = culture;
-            return new EFStringLocalizer(_db);
+            return new EFStringLocalizer(_dbContextFactory);
         }
 
         /// <summary>
@@ -70,8 +70,9 @@ namespace FairPlayShop.CustomLocalization.EF
         /// <returns></returns>
         public IEnumerable<LocalizedString> GetAllStrings(bool includeAncestorCultures)
         {
+            var db = this._dbContextFactory.CreateDbContext();
             var typeFullName = typeof(T).FullName;
-            return _db.Resource
+            return db.Resource
                 .Include(r => r.Culture)
                 .Where(r => r.Culture.Name == CultureInfo.CurrentCulture.Name
                 && r.Type == typeFullName
@@ -81,8 +82,9 @@ namespace FairPlayShop.CustomLocalization.EF
 
         private string? GetString(string name)
         {
+            var db = this._dbContextFactory.CreateDbContext();
             var typeFullName = typeof(T).FullName;
-            return _db.Resource
+            return db.Resource
                 .Include(r => r.Culture)
                 .Where(r => r.Culture.Name == CultureInfo.CurrentCulture.Name &&
                 r.Type == typeFullName

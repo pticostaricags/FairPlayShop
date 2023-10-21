@@ -2,19 +2,20 @@
 @using FairPlayShop.Models.Store
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.QuickGrid
+@using Microsoft.Extensions.Localization
 @attribute [Route(Common.Constants.ApiRoutes.MyStoreList)]
 @attribute [Authorize]
 @rendermode RenderMode.InteractiveServer
-@attribute [StreamRendering(enabled:true)]
+@attribute [StreamRendering(enabled: true)]
 
 <LoadingIndicator ShowSpinners="this.IsBusy"></LoadingIndicator>
 
 <PageTitle>
-    @nameof(Common.Constants.ApiRoutes.MyStoreList)
+    @Localizer![nameof(Common.Constants.ApiRoutes.MyStoreList)].Value.Titleize()
 </PageTitle>
 
 <h3>
-    @nameof(Common.Constants.ApiRoutes.MyStoreList)
+    @Localizer![nameof(Common.Constants.ApiRoutes.MyStoreList)].Value.Titleize()
 </h3>
 
 @if (MyStores != null)
@@ -24,19 +25,34 @@
         <PropertyColumn Property="@( p=> p.Name)" Sortable="true"></PropertyColumn>
         <PropertyColumn Property="@( p=> p.CustomerCount)" Sortable="true"></PropertyColumn>
         <TemplateColumn>
-            <button class="btn btn-secondary" type="button" @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.CreateMyProduct}/Store/{context.StoreId}"))">Add Products</button>
+            <button class="btn btn-secondary" type="button" 
+            @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.CreateMyProduct}/Store/{context.StoreId}"))">
+                @Localizer!["Add Products"]
+            </button>
         </TemplateColumn>
         <TemplateColumn>
-            <button class="btn btn-secondary" type="button" @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.MyProductList}/Store/{context.StoreId}"))">List Products</button>
+            <button class="btn btn-secondary" type="button" 
+            @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.MyProductList}/Store/{context.StoreId}"))">
+                @Localizer!["List Products"]
+        </button>
         </TemplateColumn>
         <TemplateColumn>
-            <button class="btn btn-secondary" type="button" @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.CreateMyStoreCustomer}/Store/{context.StoreId}"))">Add Customers</button>
+            <button class="btn btn-secondary" type="button" 
+            @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.CreateMyStoreCustomer}/Store/{context.StoreId}"))">
+                @Localizer!["Add Customers"]
+        </button>
         </TemplateColumn>
         <TemplateColumn>
-            <button class="btn btn-secondary" type="button" @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.MyStoreCustomerList}/Store/{context.StoreId}"))">List Customers</button>
+            <button class="btn btn-secondary" type="button" 
+            @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.MyStoreCustomerList}/Store/{context.StoreId}"))">
+                @Localizer!["List Customers"]
+        </button>
         </TemplateColumn>
         <TemplateColumn>
-            <button class="btn btn-secondary" type="button" @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.CreateStoreCustomerOrder}/Store/{context.StoreId}"))">Create Customer Order</button>
+            <button class="btn btn-secondary" type="button" 
+            @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.CreateStoreCustomerOrder}/Store/{context.StoreId}"))">
+                @Localizer!["Create Customer Order"]
+        </button>
         </TemplateColumn>
     </QuickGrid>
 }
@@ -46,6 +62,8 @@
     private IStoreService? StoreService { get; set; }
     [Inject]
     private NavigationManager? NavigationManager { get; set; }
+    [Inject]
+    private IStringLocalizer<MyStoreList>? Localizer { get; set; }
     private IQueryable<StoreModel>? MyStores { get; set; }
     private bool IsBusy { get; set; }
 

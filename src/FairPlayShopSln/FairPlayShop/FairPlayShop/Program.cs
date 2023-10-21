@@ -43,7 +43,7 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
     .AddSignInManager()
     .AddDefaultTokenProviders();
 
-builder.Services.AddDbContext<FairPlayShopDatabaseContext>(optionsAction =>
+builder.Services.AddDbContextFactory<FairPlayShopDatabaseContext>(optionsAction =>
 {
     optionsAction.UseSqlServer(connectionString, sqlServerOptionsAction =>
     {

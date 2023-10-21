@@ -10,15 +10,15 @@ namespace FairPlayShop.CustomLocalization.EF
     /// </summary>
     public class EFStringLocalizer : IStringLocalizer
     {
-        private readonly FairPlayShopDatabaseContext _db;
+        IDbContextFactory<FairPlayShopDatabaseContext> _dbContextFactory;
 
         /// <summary>
         /// Initializes <see cref="EFStringLocalizer"/>
         /// </summary>
-        /// <param name="db"></param>
-        public EFStringLocalizer(FairPlayShopDatabaseContext db)
+        /// <param name="dbContextFactory"></param>
+        public EFStringLocalizer(IDbContextFactory<FairPlayShopDatabaseContext> dbContextFactory)
         {
-            _db = db;
+            _dbContextFactory = dbContextFactory;
         }
 
         /// <summary>
@@ -58,8 +58,9 @@ namespace FairPlayShop.CustomLocalization.EF
         /// <returns></returns>
         public IStringLocalizer WithCulture(CultureInfo culture)
         {
+            var db = this._dbContextFactory.CreateDbContext();
             CultureInfo.DefaultThreadCurrentCulture = culture;
-            return new EFStringLocalizer(_db);
+            return new EFStringLocalizer(this._dbContextFactory);
         }
 
         /// <summary>
@@ -69,7 +70,8 @@ namespace FairPlayShop.CustomLocalization.EF
         /// <returns></returns>
         public IEnumerable<LocalizedString> GetAllStrings(bool includeAncestorCultures)
         {
-            return _db.Resource
+            var db = this._dbContextFactory.CreateDbContext();
+            return db.Resource
                 .Include(r => r.Culture)
                 .Where(r => r.Culture.Name == CultureInfo.CurrentCulture.Name)
                 .Select(r => new LocalizedString(r.Key, r.Value, true));
@@ -77,7 +79,8 @@ namespace FairPlayShop.CustomLocalization.EF
 
         private string? GetString(string name)
         {
-            return _db.Resource
+            var db = this._dbContextFactory.CreateDbContext();
+            return db.Resource
                 .Include(r => r.Culture)
                 .Where(r => r.Culture.Name == CultureInfo.CurrentCulture.Name)
                 .FirstOrDefault(r => r.Key == name)?.Value;
