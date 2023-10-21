@@ -84,4 +84,32 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="CityId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="eb12e158-ba25-4ecb-b276-fa92e074b3b7" ChangeDateTime="10/21/2023 10:47:54">
+    <Property Name="ElementName" Value="[dbo].[CustomerOrder].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[CustomerOrder]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CustomerOrderId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="4e61ed2d-d930-4535-aea6-7b7ed906bd24" ChangeDateTime="10/21/2023 10:48:24">
+    <Property Name="ElementName" Value="[dbo].[CustomerOrder].[CustomerOrderId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[CustomerOrder]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="StoreCustomerOrderId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f5ea3dca-1c51-439a-a895-4801fef6e459" ChangeDateTime="10/21/2023 10:52:01">
+    <Property Name="ElementName" Value="[dbo].[StoreCustomerOrder].[SubTotal]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[StoreCustomerOrder]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="OrderSubTotal" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ef670da0-2193-40e4-9da9-e872a1917e8c" ChangeDateTime="10/21/2023 10:52:47">
+    <Property Name="ElementName" Value="[dbo].[StoreCustomerOrderDetail].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[StoreCustomerOrderDetail]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="StoreCustomerOrderDetail" />
+  </Operation>
 </Operations>
