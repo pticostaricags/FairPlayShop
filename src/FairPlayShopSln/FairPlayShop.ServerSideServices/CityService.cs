@@ -17,6 +17,7 @@ namespace FairPlayShop.ServerSideServices
         {
             var result = await fairPlayShopDatabaseContext!.City
                 .Where(p => p.StateOrProvinceId == stateOrProvinceId)
+                .OrderBy(p=>p.Name)
                 .Select(p=>new CityModel()
                 {
                     CityId = p.CityId,

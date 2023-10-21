@@ -1,8 +1,10 @@
 ﻿@using Blazored.Toast.Services
 @using FairPlayShop.Common.Enums
 @using FairPlayShop.Interfaces.Services
+@using FairPlayShop.Models.City
 @using FairPlayShop.Models.Country
 @using FairPlayShop.Models.Product
+@using FairPlayShop.Models.StateOrProvince
 @using FairPlayShop.Models.StoreCustomer
 @using Microsoft.AspNetCore.Authorization
 @attribute [Route($"{Common.Constants.ApiRoutes.CreateMyStoreCustomer}/Store/{{StoreId:long}}")]
@@ -23,6 +25,7 @@
           OnValidSubmit="OnValidSubmitAsync" Enhance>
     <div class="mb-3">
         <ObjectGraphDataAnnotationsValidator></ObjectGraphDataAnnotationsValidator>
+        <ValidationSummary></ValidationSummary>
     </div>
     <div class="mb-3">
         <h3>Customer Info</h3>
@@ -90,13 +93,46 @@
     {
         <div class="mb-3">
             <label class="form-label">Country</label>
-            <InputSelect class="form-select" @bind-Value="SelectedCountryId">
+            <InputSelect class="form-select"
+                         ValueExpression="@( () => SelectedCountryId)"
+                         Value="@SelectedCountryId"
+                         ValueChanged="@( async (int? selectedValue) => await OnSelectedCountryChangedAsync(selectedValue))">
                 <option value="">Select a Country</option>
                 @foreach (var singleCountry in this.CountryList)
                 {
                     <option value="@singleCountry.CountryId">@singleCountry.Name</option>
                 }
             </InputSelect>
+        </div>
+    }
+    @if (this.StateOrProvinceList != null)
+    {
+        <div class="mb-3">
+            <label class="form-label">State Or Province</label>
+            <InputSelect class="form-select"
+                         ValueExpression="@( () => SelectedStateOrProvinceId)"
+                         Value="@SelectedStateOrProvinceId"
+                         ValueChanged="@( async (int? selectedValue) => await OnSelectedStateOrProvinceChangedAsync(selectedValue))">
+                <option value="">Select a State Or Province</option>
+                @foreach (var singleStateOrProvince in this.StateOrProvinceList)
+                {
+                    <option value="@singleStateOrProvince.StateOrProvinceId">@singleStateOrProvince.Name</option>
+                }
+            </InputSelect>
+        </div>
+    }
+    @if (this.CityList != null)
+    {
+        <div class="mb-3">
+            <label class="form-label">City</label>
+            <InputSelect class="form-select" @bind-Value="this.CreateStoreCustomerModel.CreateStoreCustomerAddressModel.CityId">
+                <option value="">Select a City</option>
+                @foreach (var singleCity in this.CityList)
+                {
+                    <option value="@singleCity.CityId">@singleCity.Name</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@( () => CreateStoreCustomerModel.CreateStoreCustomerAddressModel.CityId)"></ValidationMessage>
         </div>
     }
     <div class="mb-3">
@@ -116,6 +152,10 @@
     [Inject]
     private ICountryService? CountryService { get; set; }
     [Inject]
+    private IStateOrProvinceService? StateOrProvinceService { get; set; }
+    [Inject]
+    private ICityService? CityService { get; set; }
+    [Inject]
     private NavigationManager? NavigationManager { get; set; }
     [SupplyParameterFromForm]
     private CreateStoreCustomerModel? CreateStoreCustomerModel { get; set; } = new CreateStoreCustomerModel()
@@ -124,7 +164,10 @@
         };
     private bool IsBusy { get; set; }
     private int? SelectedCountryId { get; set; }
+    private int? SelectedStateOrProvinceId { get; set; }
     private CountryModel[]? CountryList { get; set; }
+    private StateOrProvinceModel[]? StateOrProvinceList { get; set; }
+    private CityModel[]? CityList { get; set; }
     protected override async Task OnInitializedAsync()
     {
         this.CountryList = await this.CountryService!.GetCountryListAsync(CancellationToken.None);
@@ -150,5 +193,28 @@
         this.IsBusy = false;
         this.ToastService!.ShowSuccess(message: "Your customer has been saved");
         NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.MyStoreCustomerList}/Store/{StoreId}");
+    }
+
+    private async Task OnSelectedCountryChangedAsync(int? selectedValue)
+    {
+        this.IsBusy = true;
+        this.SelectedCountryId = selectedValue;
+        this.StateOrProvinceList = await this.StateOrProvinceService!
+        .GetCountryStateOrProvinceListAsync(this.SelectedCountryId!.Value,
+        CancellationToken.None);
+        this.SelectedStateOrProvinceId = null;
+        this.CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.CityId = null;
+        this.IsBusy = false;
+    }
+
+    private async Task OnSelectedStateOrProvinceChangedAsync(int? selectedValue)
+    {
+        this.IsBusy = true;
+        this.SelectedStateOrProvinceId = selectedValue;
+        this.CityList = await this.CityService!
+        .GetStateOrProvinceCityListAsync(this.SelectedStateOrProvinceId!.Value,
+        CancellationToken.None);
+        this.CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.CityId = null;
+        this.IsBusy = false;
     }
 }

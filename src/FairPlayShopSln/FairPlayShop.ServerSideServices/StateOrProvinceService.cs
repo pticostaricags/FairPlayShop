@@ -24,6 +24,7 @@ namespace FairPlayShop.ServerSideServices
                     Name = p.Name
                 })
                 .AsNoTracking()
+                .OrderBy(p=>p.Name)
                 .ToArrayAsync(cancellationToken: cancellationToken);
             return result;
         }

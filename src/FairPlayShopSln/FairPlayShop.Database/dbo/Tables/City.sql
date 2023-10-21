@@ -5,3 +5,7 @@
     [StateOrProvinceId] INT NOT NULL, 
     CONSTRAINT [FK_City_StateOrProvince] FOREIGN KEY ([StateOrProvinceId]) REFERENCES [StateOrProvince]([StateOrProvinceId])
 )
+
+GO
+
+CREATE UNIQUE INDEX [UI_City_Name] ON [dbo].[City] ([StateOrProvinceId],[Name])

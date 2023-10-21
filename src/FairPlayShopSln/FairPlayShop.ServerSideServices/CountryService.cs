@@ -16,6 +16,7 @@ namespace FairPlayShop.ServerSideServices
         {
             var result = await fairPlayShopDatabaseContext.Country
                 .AsNoTracking()
+                .OrderBy(p=>p.Name)
                 .Select(p => new CountryModel()
                 {
                     CountryId = p.CountryId,

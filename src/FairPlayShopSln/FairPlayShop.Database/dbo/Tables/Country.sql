@@ -6,4 +6,4 @@
 
 GO
 
-CREATE UNIQUE INDEX [uI_Country_Name] ON [dbo].[Country] ([Name])
+CREATE UNIQUE INDEX [UI_Country_Name] ON [dbo].[Country] ([Name])
