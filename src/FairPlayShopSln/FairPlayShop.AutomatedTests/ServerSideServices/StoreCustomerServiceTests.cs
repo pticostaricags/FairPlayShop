@@ -39,6 +39,10 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             {
                 ctx.Product.Remove(singleProduct);
             }
+            foreach (var singleStoreCustomerAddress in ctx.StoreCustomerAddress)
+            {
+                ctx.Remove(singleStoreCustomerAddress);
+            }
             foreach (var singleStoreCustomer in ctx.StoreCustomer)
             {
                 ctx.StoreCustomer.Remove(singleStoreCustomer);
@@ -90,7 +94,25 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                 OwnerId = user.Id,
             };
             await ctx.Store.AddAsync(store);
+            Country countryEntity = new Country()
+            {
+                Name = "C",
+                StateOrProvince = [
+                    new StateOrProvince()
+                    {
+                        Name = "SP",
+                        City = [
+                            new City()
+                            {
+                                Name = "C"
+                            }
+                            ]
+                    }
+                    ]
+            };
+            await ctx.Country.AddAsync(countryEntity);
             await ctx.SaveChangesAsync();
+            var city = await ctx.City.SingleAsync();
             IStoreCustomerService storeCustomerService = await GetStoreCustomerServiceAsync();
             CreateStoreCustomerModel createStoreCustomerModel = new CreateStoreCustomerModel()
             {
@@ -99,7 +121,18 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                 Lastname = "AT Lastname",
                 StoreId = store.StoreId,
                 PhoneNumber = "1234567890",
-                Surname = "AT Surname"
+                Surname = "AT Surname",
+                CreateStoreCustomerAddressModel = new Models.StoreCustomerAddress.CreateStoreCustomerAddressModel()
+                {
+                    AddressLine1 = "AD1",
+                    AddressLine2 = "AD2",
+                    CityId = city.CityId,
+                    Company = "CMP",
+                    Firstname = "AFN",
+                    Lastname = "ALN",
+                    PhoneNumber = "1234567890",
+                    PostalCode = "12345"
+                }
             };
             await storeCustomerService.CreateMyStoreCustomerAsync(createStoreCustomerModel, CancellationToken.None);
             var result = await ctx.StoreCustomer.SingleAsync();

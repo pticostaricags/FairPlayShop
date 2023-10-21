@@ -44,7 +44,13 @@ public partial class StoreCustomerAddress
     [StringLength(50)]
     public string PhoneNumber { get; set; }
 
+    public long StoreCustomerId { get; set; }
+
     [ForeignKey("CityId")]
     [InverseProperty("StoreCustomerAddress")]
     public virtual City City { get; set; }
+
+    [ForeignKey("StoreCustomerId")]
+    [InverseProperty("StoreCustomerAddress")]
+    public virtual StoreCustomer StoreCustomer { get; set; }
 }

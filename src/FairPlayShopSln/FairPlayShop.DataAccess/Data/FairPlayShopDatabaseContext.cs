@@ -139,6 +139,10 @@ public partial class FairPlayShopDatabaseContext : DbContext
             entity.HasOne(d => d.City).WithMany(p => p.StoreCustomerAddress)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_StoreCustomerAddress_City");
+
+            entity.HasOne(d => d.StoreCustomer).WithMany(p => p.StoreCustomerAddress)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_StoreCustomerAddress_StoreCustomer");
         });
 
         OnModelCreatingPartial(modelBuilder);

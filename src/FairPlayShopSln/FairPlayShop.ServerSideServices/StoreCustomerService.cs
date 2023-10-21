@@ -25,6 +25,19 @@ namespace FairPlayShop.ServerSideServices
                 PhoneNumber = createStoreCustomerModel.PhoneNumber,
                 StoreId = createStoreCustomerModel.StoreId!.Value,
                 Surname = createStoreCustomerModel.Surname,
+                StoreCustomerAddress = [
+                    new StoreCustomerAddress()
+                    {
+                        AddressLine1 = createStoreCustomerModel.CreateStoreCustomerAddressModel!.AddressLine1,
+                        AddressLine2 = createStoreCustomerModel.CreateStoreCustomerAddressModel.AddressLine2,
+                        CityId = createStoreCustomerModel.CreateStoreCustomerAddressModel.CityId!.Value,
+                        Company = createStoreCustomerModel.CreateStoreCustomerAddressModel.Company,
+                        Firstname = createStoreCustomerModel.CreateStoreCustomerAddressModel.Firstname,
+                        Lastname = createStoreCustomerModel.CreateStoreCustomerAddressModel.Lastname,
+                        PhoneNumber = createStoreCustomerModel.CreateStoreCustomerAddressModel.PhoneNumber,
+                        PostalCode = createStoreCustomerModel.CreateStoreCustomerAddressModel.PostalCode
+                    }
+                    ]
             };
             await fairPlayShopDatabaseContext.StoreCustomer.AddAsync(storeCustomer, cancellationToken: cancellationToken);
             await fairPlayShopDatabaseContext.SaveChangesAsync(cancellationToken: cancellationToken);

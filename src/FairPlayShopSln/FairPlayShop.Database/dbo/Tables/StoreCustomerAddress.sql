@@ -10,5 +10,7 @@
     [CityId] INT NOT NULL, 
     [PostalCode] NVARCHAR(10) NOT NULL, 
     [PhoneNumber] NVARCHAR(50) NOT NULL, 
-    CONSTRAINT [FK_StoreCustomerAddress_City] FOREIGN KEY ([CityId]) REFERENCES [City]([CityId]) 
+    [StoreCustomerId] BIGINT NOT NULL, 
+    CONSTRAINT [FK_StoreCustomerAddress_City] FOREIGN KEY ([CityId]) REFERENCES [City]([CityId]), 
+    CONSTRAINT [FK_StoreCustomerAddress_StoreCustomer] FOREIGN KEY ([StoreCustomerId]) REFERENCES [StoreCustomer]([StoreCustomerId]) 
 )

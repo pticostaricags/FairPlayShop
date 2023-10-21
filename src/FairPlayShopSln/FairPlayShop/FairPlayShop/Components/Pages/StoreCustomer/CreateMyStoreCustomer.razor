@@ -1,6 +1,7 @@
 ﻿@using Blazored.Toast.Services
 @using FairPlayShop.Common.Enums
 @using FairPlayShop.Interfaces.Services
+@using FairPlayShop.Models.Country
 @using FairPlayShop.Models.Product
 @using FairPlayShop.Models.StoreCustomer
 @using Microsoft.AspNetCore.Authorization
@@ -21,10 +22,10 @@
 <EditForm FormName="frmCreateStoreCustomer" Model="@this.CreateStoreCustomerModel"
           OnValidSubmit="OnValidSubmitAsync" Enhance>
     <div class="mb-3">
-        <DataAnnotationsValidator></DataAnnotationsValidator>
-        <ValidationSummary></ValidationSummary>
+        <ObjectGraphDataAnnotationsValidator></ObjectGraphDataAnnotationsValidator>
     </div>
     <div class="mb-3">
+        <h3>Customer Info</h3>
         <label class="form-label">@nameof(CreateStoreCustomerModel.Firstname)</label>
         <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.Firstname"></InputText>
         <ValidationMessage For="@( () => CreateStoreCustomerModel.Firstname)"></ValidationMessage>
@@ -50,6 +51,55 @@
         <ValidationMessage For="@( () => CreateStoreCustomerModel.PhoneNumber)"></ValidationMessage>
     </div>
     <div class="mb-3">
+        <h3>Customer Address</h3>
+        <label class="form-label">@nameof(CreateStoreCustomerModel.CreateStoreCustomerAddressModel.Firstname)</label>
+        <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.Firstname"></InputText>
+        <ValidationMessage For="@( () => CreateStoreCustomerModel.CreateStoreCustomerAddressModel.Firstname)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">@nameof(CreateStoreCustomerModel.CreateStoreCustomerAddressModel.Lastname)</label>
+        <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.Lastname"></InputText>
+        <ValidationMessage For="@( () => CreateStoreCustomerModel.CreateStoreCustomerAddressModel.Lastname)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">@nameof(CreateStoreCustomerModel.CreateStoreCustomerAddressModel.Company)</label>
+        <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.Company"></InputText>
+        <ValidationMessage For="@( () => CreateStoreCustomerModel.CreateStoreCustomerAddressModel.Company)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">@nameof(CreateStoreCustomerModel.CreateStoreCustomerAddressModel.AddressLine1)</label>
+        <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.AddressLine1"></InputText>
+        <ValidationMessage For="@( () => CreateStoreCustomerModel.CreateStoreCustomerAddressModel.AddressLine1)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">@nameof(CreateStoreCustomerModel.CreateStoreCustomerAddressModel.AddressLine2)</label>
+        <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.AddressLine2"></InputText>
+        <ValidationMessage For="@( () => CreateStoreCustomerModel.CreateStoreCustomerAddressModel.AddressLine2)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">@nameof(CreateStoreCustomerModel.CreateStoreCustomerAddressModel.PhoneNumber)</label>
+        <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.PhoneNumber"></InputText>
+        <ValidationMessage For="@( () => CreateStoreCustomerModel.CreateStoreCustomerAddressModel.PhoneNumber)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">@nameof(CreateStoreCustomerModel.CreateStoreCustomerAddressModel.PostalCode)</label>
+        <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.PostalCode"></InputText>
+        <ValidationMessage For="@( () => CreateStoreCustomerModel.CreateStoreCustomerAddressModel.PostalCode)"></ValidationMessage>
+    </div>
+    @if (this.CountryList != null)
+    {
+        <div class="mb-3">
+            <label class="form-label">Country</label>
+            <InputSelect class="form-select" @bind-Value="SelectedCountryId">
+                <option value="">Select a Country</option>
+                @foreach (var singleCountry in this.CountryList)
+                {
+                    <option value="@singleCountry.CountryId">@singleCountry.Name</option>
+                }
+            </InputSelect>
+        </div>
+    }
+    <div class="mb-3">
         <button class="btn btn-primary" type="submit">Save</button>
     </div>
 </EditForm>
@@ -64,13 +114,20 @@
     [Inject]
     private IStoreCustomerService? StoreCustomerService { get; set; }
     [Inject]
+    private ICountryService? CountryService { get; set; }
+    [Inject]
     private NavigationManager? NavigationManager { get; set; }
     [SupplyParameterFromForm]
-    private CreateStoreCustomerModel? CreateStoreCustomerModel { get; set; } = new CreateStoreCustomerModel();
+    private CreateStoreCustomerModel? CreateStoreCustomerModel { get; set; } = new CreateStoreCustomerModel()
+        {
+            CreateStoreCustomerAddressModel = new Models.StoreCustomerAddress.CreateStoreCustomerAddressModel()
+        };
     private bool IsBusy { get; set; }
-
+    private int? SelectedCountryId { get; set; }
+    private CountryModel[]? CountryList { get; set; }
     protected override async Task OnInitializedAsync()
     {
+        this.CountryList = await this.CountryService!.GetCountryListAsync(CancellationToken.None);
         if (this.CreateStoreCustomerModel != null)
         {
             this.CreateStoreCustomerModel.StoreId = this.StoreId;

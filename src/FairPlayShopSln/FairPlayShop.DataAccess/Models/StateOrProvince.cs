@@ -14,7 +14,7 @@ public partial class StateOrProvince
     public int StateOrProvinceId { get; set; }
 
     [Required]
-    [StringLength(50)]
+    [StringLength(500)]
     public string Name { get; set; }
 
     public int CountryId { get; set; }

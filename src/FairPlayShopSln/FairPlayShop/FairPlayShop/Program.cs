@@ -58,6 +58,7 @@ builder.Services.AddSingleton<IUserProviderService, UserProviderService>();
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<IStoreService, StoreService>();
 builder.Services.AddTransient<IStoreCustomerService, StoreCustomerService>();
+builder.Services.AddTransient<ICountryService, CountryService>();
 builder.Services.AddBlazoredToast();
 var app = builder.Build();
 

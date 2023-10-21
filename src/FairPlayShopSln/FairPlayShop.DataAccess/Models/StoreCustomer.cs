@@ -38,4 +38,7 @@ public partial class StoreCustomer
     [ForeignKey("StoreId")]
     [InverseProperty("StoreCustomer")]
     public virtual Store Store { get; set; }
+
+    [InverseProperty("StoreCustomer")]
+    public virtual ICollection<StoreCustomerAddress> StoreCustomerAddress { get; set; } = new List<StoreCustomerAddress>();
 }
