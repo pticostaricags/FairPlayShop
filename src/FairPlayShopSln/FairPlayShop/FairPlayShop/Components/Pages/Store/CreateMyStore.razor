@@ -1,16 +1,17 @@
 ﻿@using FairPlayShop.Interfaces.Services
 @using FairPlayShop.Models.Store
 @using Microsoft.AspNetCore.Authorization
+@using Microsoft.Extensions.Localization
 @attribute [Route(Common.Constants.ApiRoutes.CreateMyStore)]
 @attribute [Authorize]
 @rendermode RenderMode.InteractiveServer
 
 <PageTitle>
-    @nameof(Common.Constants.ApiRoutes.CreateMyStore)
+    @Localizer![nameof(Common.Constants.ApiRoutes.CreateMyStore)].Value.Titleize()
 </PageTitle>
 
 <h3>
-    @nameof(Common.Constants.ApiRoutes.CreateMyStore)
+    @Localizer![nameof(Common.Constants.ApiRoutes.CreateMyStore)].Value.Titleize()
 </h3>
 
 <EditForm FormName="frmCreateMyStore" Model="this.CreateStoreModel" OnValidSubmit="OnValidSubmitAsync">
@@ -19,18 +20,24 @@
         <ValidationSummary></ValidationSummary>
     </div>
     <div class="mb-3">
-        <label class="mb-3">@nameof(CreateStoreModel.Name)</label>
+        <label class="mb-3">
+            @Localizer![nameof(CreateStoreModel.Name)].Value.Titleize()
+        </label>
         <InputText class="form-control" @bind-Value="CreateStoreModel!.Name"></InputText>
         <ValidationMessage For="@( () => CreateStoreModel.Name)"></ValidationMessage>
     </div>
     <div class="mb-3">
-        <button class="btn btn-primary" type="submit">Save</button>
+        <button class="btn btn-primary" type="submit">
+            @Localizer["Save"]
+        </button>
     </div>
 </EditForm>
 
 @code {
     [Inject]
     private IStoreService? StoreService { get; set; }
+    [Inject]
+    private IStringLocalizer<CreateMyStore>? Localizer { get; set; }
     [SupplyParameterFromForm]
     private CreateStoreModel? CreateStoreModel { get; set; } = new CreateStoreModel();
 
