@@ -78,5 +78,12 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             FairPlayShopDatabaseContext fairPlayShopDatabaseContext = await GetFairPlayShopDatabaseContextAsync();
             return new CityService(fairPlayShopDatabaseContext);
         }
+
+        internal static async Task<IStoreCustomerOrderService> GetStoreCustomerOrderServiceAsync()
+        {
+            IUserProviderService userProviderService = GetUserProviderService();
+            FairPlayShopDatabaseContext fairPlayShopDatabaseContext = await GetFairPlayShopDatabaseContextAsync();
+            return new StoreCustomerOrderService(userProviderService, fairPlayShopDatabaseContext);
+        }
     }
 }

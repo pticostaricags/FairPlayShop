@@ -86,6 +86,14 @@
       {
          "Name": "[dbo].[StoreCustomerAddress]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[StoreCustomerOrder]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[StoreCustomerOrderDetail]",
+         "ObjectType": 0
       }
    ],
    "UiHint": "..\\FairPlayShop.Database\\FairPlayShop.Database.sqlproj",

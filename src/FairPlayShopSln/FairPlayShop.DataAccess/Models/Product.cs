@@ -59,6 +59,9 @@ public partial class Product
     [InverseProperty("Product")]
     public virtual Store Store { get; set; }
 
+    [InverseProperty("Product")]
+    public virtual ICollection<StoreCustomerOrderDetail> StoreCustomerOrderDetail { get; set; } = new List<StoreCustomerOrderDetail>();
+
     [ForeignKey("ThumbnailPhotoId")]
     [InverseProperty("Product")]
     public virtual Photo ThumbnailPhoto { get; set; }

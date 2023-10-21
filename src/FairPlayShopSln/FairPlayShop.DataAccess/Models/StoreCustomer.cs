@@ -41,4 +41,7 @@ public partial class StoreCustomer
 
     [InverseProperty("StoreCustomer")]
     public virtual ICollection<StoreCustomerAddress> StoreCustomerAddress { get; set; } = new List<StoreCustomerAddress>();
+
+    [InverseProperty("StoreCustomer")]
+    public virtual ICollection<StoreCustomerOrder> StoreCustomerOrder { get; set; } = new List<StoreCustomerOrder>();
 }

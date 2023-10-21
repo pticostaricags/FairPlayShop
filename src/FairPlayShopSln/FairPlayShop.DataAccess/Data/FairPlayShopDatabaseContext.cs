@@ -48,6 +48,10 @@ public partial class FairPlayShopDatabaseContext : DbContext
 
     public virtual DbSet<StoreCustomerAddress> StoreCustomerAddress { get; set; }
 
+    public virtual DbSet<StoreCustomerOrder> StoreCustomerOrder { get; set; }
+
+    public virtual DbSet<StoreCustomerOrderDetail> StoreCustomerOrderDetail { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<AspNetRoles>(entity =>
@@ -143,6 +147,24 @@ public partial class FairPlayShopDatabaseContext : DbContext
             entity.HasOne(d => d.StoreCustomer).WithMany(p => p.StoreCustomerAddress)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_StoreCustomerAddress_StoreCustomer");
+        });
+
+        modelBuilder.Entity<StoreCustomerOrder>(entity =>
+        {
+            entity.HasOne(d => d.StoreCustomer).WithMany(p => p.StoreCustomerOrder)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_StoreCustomerOrder_StoreCustomer");
+        });
+
+        modelBuilder.Entity<StoreCustomerOrderDetail>(entity =>
+        {
+            entity.HasOne(d => d.Product).WithMany(p => p.StoreCustomerOrderDetail)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_StoreCustomerOrderDetail_Product");
+
+            entity.HasOne(d => d.StoreCustomerOrder).WithMany(p => p.StoreCustomerOrderDetail)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_StoreCustomerOrderDetail_StoreCustomerOrder");
         });
 
         OnModelCreatingPartial(modelBuilder);

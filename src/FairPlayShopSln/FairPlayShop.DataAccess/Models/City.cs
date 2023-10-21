@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FairPlayShop.DataAccess.Models;
 
+[Index("StateOrProvinceId", "Name", Name = "UI_City_Name", IsUnique = true)]
 public partial class City
 {
     [Key]
