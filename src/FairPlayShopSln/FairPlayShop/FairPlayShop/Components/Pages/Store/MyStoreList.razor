@@ -35,6 +35,9 @@
         <TemplateColumn>
             <button class="btn btn-secondary" type="button" @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.MyStoreCustomerList}/Store/{context.StoreId}"))">List Customers</button>
         </TemplateColumn>
+        <TemplateColumn>
+            <button class="btn btn-secondary" type="button" @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.CreateStoreCustomerOrder}/Store/{context.StoreId}"))">Create Customer Order</button>
+        </TemplateColumn>
     </QuickGrid>
 }
 

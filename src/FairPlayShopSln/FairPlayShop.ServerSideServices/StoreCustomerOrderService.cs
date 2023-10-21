@@ -19,7 +19,7 @@ namespace FairPlayShop.ServerSideServices
             var userId = userProviderService.GetCurrentUserId();
             StoreCustomerOrder storeCustomerOrder = new()
             {
-                StoreCustomerId = createStoreCustomerOrderModel.StoreCustomerId,
+                StoreCustomerId = createStoreCustomerOrderModel.StoreCustomerId!.Value,
                 OrderDateTime = DateTimeOffset.UtcNow,
                 OrderSubTotal = createStoreCustomerOrderModel.OrderSubTotal,
                 OrderTotal = createStoreCustomerOrderModel.OrderTotal,

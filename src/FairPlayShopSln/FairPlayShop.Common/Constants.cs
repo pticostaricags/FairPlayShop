@@ -10,6 +10,7 @@
             public const string MyStoreList = $"/Store/{nameof(MyStoreList)}";
             public const string CreateMyStoreCustomer = $"/StoreCustomer/{nameof(CreateMyStoreCustomer)}";
             public const string MyStoreCustomerList = $"/StoreCustomer/{nameof(MyStoreCustomerList)}";
+            public const string CreateStoreCustomerOrder = $"/StoreCustomerOrder/{nameof(CreateStoreCustomerOrder)}";
         }
     }
 }
