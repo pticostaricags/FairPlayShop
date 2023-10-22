@@ -1,7 +1,9 @@
 ﻿@using FairPlayShop.Interfaces.Services
+@using FairPlayShop.Models.Product
 @using FairPlayShop.Models.Store
 @using FairPlayShop.Models.StoreCustomer
 @using FairPlayShop.Models.StoreCustomerOrder
+@using FairPlayShop.Models.StoreCustomerOrderDetail
 @using Microsoft.AspNetCore.Authorization
 @attribute [Route($"{Common.Constants.ApiRoutes.CreateStoreCustomerOrder}/Store/{{StoreId:long}}")]
 @attribute [Authorize]
@@ -49,6 +51,51 @@
         <label class="form-label">@nameof(CreateStoreCustomerOrderModel.OrderTotal)</label>
         <label class="form-label">@CreateStoreCustomerOrderModel!.OrderTotal</label>
     </div>
+    @if (this.CreateStoreCustomerOrderModel.CreateStoreCustomerOrderDetailModel != null)
+    {
+        <div class="row">
+            <div class="col">Product</div>
+            <div class="col">Unit Price</div>
+            <div class="col">Quantity</div>
+            <div class="col">Line Total</div>
+        </div>
+        foreach (var singleOrderLine in this.CreateStoreCustomerOrderModel.CreateStoreCustomerOrderDetailModel)
+        {
+            <div class="row">
+                <div class="col">
+                    <InputSelect class="form-select"
+                                 ValueExpression="@(()=>singleOrderLine.ProductId)"
+                                 Value="@singleOrderLine.ProductId"
+                                 ValueChanged="@( (long? selectedValue) => OnOrderLineProductSelectionChanged(selectedValue, singleOrderLine))">
+                        <option value="">Select a product</option>
+                        @if (this.MyStoreProducts?.Length > 0)
+                        {
+                            @foreach (var singleStoreProduct in this.MyStoreProducts)
+                            {
+                                <option value="@singleStoreProduct.ProductId">@singleStoreProduct.Name</option>
+                            }
+                        }
+                    </InputSelect>
+                </div>
+                <div class="col">
+                    <label class="form-label">@singleOrderLine.UnitPrice</label>
+                </div>
+                <div class="col">
+                    <InputNumber class="form-control" @bind-Value="@singleOrderLine.Quantity"></InputNumber>
+                </div>
+                <div class="col">
+                    <label class="form-label">@singleOrderLine.LineTotal</label>
+                </div>
+            </div>
+        }
+    }
+    <div class="mb-3">
+        <label class="form-label">Order SubTotal</label>
+        <label class="form-label">@CreateStoreCustomerOrderModel.OrderSubTotal</label>
+    </div>
+    <div class="mb-3">
+        <button class="btn btn-secondary" type="button" @onclick="OnAddOrderLineClicked">Add Order Line</button>
+    </div>
     <div class="mb-3">
         <button class="btn btn-primary">Save</button>
     </div>
@@ -58,12 +105,18 @@
     [Parameter]
     public long StoreId { get; set; }
     [SupplyParameterFromForm]
-    private CreateStoreCustomerOrderModel? CreateStoreCustomerOrderModel { get; set; } = new();
+    private CreateStoreCustomerOrderModel? CreateStoreCustomerOrderModel { get; set; } = new CreateStoreCustomerOrderModel()
+        {
+            CreateStoreCustomerOrderDetailModel = new List<CreateStoreCustomerOrderDetailModel>()
+        };
     [Inject]
     private IStoreCustomerService? StoreCustomerService { get; set; }
     [Inject]
     private IStoreCustomerOrderService? StoreCustomerOrderService { get; set; }
+    [Inject]
+    private IProductService? ProductService { get; set; }
     private StoreCustomerModel[]? MyStoreCustomerList;
+    private ProductModel[]? MyStoreProducts { get; set; }
     private bool IsBusy { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -71,6 +124,8 @@
         this.IsBusy = true;
         this.MyStoreCustomerList = await this.StoreCustomerService!
         .GetMyStoreCustomerListAsync(this.StoreId, CancellationToken.None);
+        this.MyStoreProducts = await this.ProductService!.GetMyStoreProductListAsync(this.StoreId,
+        CancellationToken.None);
         this.IsBusy = false;
     }
 
@@ -80,5 +135,26 @@
         await this.StoreCustomerOrderService!
         .CreateStoreCustomerOrderAsync(this.CreateStoreCustomerOrderModel!, CancellationToken.None);
         this.IsBusy = false;
+    }
+
+    private void OnAddOrderLineClicked()
+    {
+        this.CreateStoreCustomerOrderModel!.CreateStoreCustomerOrderDetailModel!.Add(new CreateStoreCustomerOrderDetailModel());
+    }
+
+    private void OnOrderLineProductSelectionChanged(long? selectedProductId,
+        CreateStoreCustomerOrderDetailModel selectedOrderLine)
+    {
+        if (selectedProductId.HasValue)
+        {
+            var selectedProduct = this.MyStoreProducts!.Single(p => p.ProductId ==
+            selectedProductId);
+            selectedOrderLine.UnitPrice = selectedProduct.SellingPrice;
+        }
+        else
+        {
+            selectedOrderLine.ProductId = selectedProductId;
+            selectedOrderLine.UnitPrice = null;
+        }
     }
 }
