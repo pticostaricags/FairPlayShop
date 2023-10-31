@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FairPlayShop.Common.CustomAttributes;
+using Microsoft.Extensions.Localization;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,14 +13,13 @@ namespace FairPlayShop.Models.Store
     {
         [Required(ErrorMessageResourceType = typeof(CreateStoreModelLocalizer),
             ErrorMessageResourceName = nameof(CreateStoreModelLocalizer.Name_Required))]
-        [StringLength(50, ErrorMessageResourceType =typeof(CreateStoreModelLocalizer),
+        [StringLength(50, ErrorMessageResourceType = typeof(CreateStoreModelLocalizer),
             ErrorMessageResourceName = nameof(CreateStoreModelLocalizer.Name_StringLength))]
         public string? Name { get; set; }
     }
 
-    public class CreateStoreModelLocalizer
+    [LocalizerOfT<CreateStoreModel>]
+    public partial class CreateStoreModelLocalizer
     {
-        public static string? Name_Required { get; set; } = "{0} is required";
-        public static string? Name_StringLength { get; set; } = "{0} must have a maximum of {1} characters";
     }
 }

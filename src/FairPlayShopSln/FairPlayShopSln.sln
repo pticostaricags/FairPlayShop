@@ -23,6 +23,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FairPlayShop.Models", "Fair
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FairPlayShop.DataImporter", "FairPlayShop.DataImporter\FairPlayShop.DataImporter.csproj", "{20FDC16A-4489-497B-A7E2-F5D8EFE1FA6B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FairPlayShop.Models.Generators", "FairPlayShop.Models.Generators\FairPlayShop.Models.Generators.csproj", "{0BFA0E47-F208-4195-939F-E67F6086F963}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FairPlayShop.Generators", "FairPlayShop.Generators\FairPlayShop.Generators.csproj", "{636362B3-ED79-4C6A-877C-9C25EF745B84}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +75,14 @@ Global
 		{20FDC16A-4489-497B-A7E2-F5D8EFE1FA6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20FDC16A-4489-497B-A7E2-F5D8EFE1FA6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20FDC16A-4489-497B-A7E2-F5D8EFE1FA6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BFA0E47-F208-4195-939F-E67F6086F963}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BFA0E47-F208-4195-939F-E67F6086F963}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BFA0E47-F208-4195-939F-E67F6086F963}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BFA0E47-F208-4195-939F-E67F6086F963}.Release|Any CPU.Build.0 = Release|Any CPU
+		{636362B3-ED79-4C6A-877C-9C25EF745B84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{636362B3-ED79-4C6A-877C-9C25EF745B84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{636362B3-ED79-4C6A-877C-9C25EF745B84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{636362B3-ED79-4C6A-877C-9C25EF745B84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
