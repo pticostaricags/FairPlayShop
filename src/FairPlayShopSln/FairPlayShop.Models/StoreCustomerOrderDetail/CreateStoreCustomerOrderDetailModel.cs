@@ -11,12 +11,12 @@ namespace FairPlayShop.Models.StoreCustomerOrderDetail
     public class CreateStoreCustomerOrderDetailModel
     {
         [Required]
-        public long? StoreCustomerOrderId { get; set; }
-        [Required]
         public long? ProductId { get; set; }
         [Required]
         public decimal? UnitPrice { get; set; }
         [Required]
+        [DeniedValues(0)]
+        [Range(0,100)]
         public decimal? Quantity { get; set; }
         public decimal? LineTotal => UnitPrice.GetValueOrDefault() * Quantity.GetValueOrDefault(0);
     }

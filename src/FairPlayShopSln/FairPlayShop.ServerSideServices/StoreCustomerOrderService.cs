@@ -1,4 +1,5 @@
-﻿using FairPlayShop.DataAccess.Data;
+﻿using FairPlayShop.Common.CustomAttributes;
+using FairPlayShop.DataAccess.Data;
 using FairPlayShop.DataAccess.Models;
 using FairPlayShop.Interfaces.Services;
 using FairPlayShop.Models.StoreCustomerOrder;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace FairPlayShop.ServerSideServices
 {
+    [ServerSideServiceOfT<DataAccess.Models.StoreCustomerOrder>]
     public class StoreCustomerOrderService(
         IUserProviderService userProviderService, FairPlayShopDatabaseContext fairPlayShopDatabaseContext)
         : IStoreCustomerOrderService
@@ -23,8 +25,18 @@ namespace FairPlayShop.ServerSideServices
                 OrderDateTime = DateTimeOffset.UtcNow,
                 OrderSubTotal = createStoreCustomerOrderModel.OrderSubTotal,
                 OrderTotal = createStoreCustomerOrderModel.OrderTotal,
-                TaxTotal = createStoreCustomerOrderModel.TaxTotal
+                TaxTotal = createStoreCustomerOrderModel.TaxTotal,
             };
+            foreach (var singleOrderLine in createStoreCustomerOrderModel.CreateStoreCustomerOrderDetailModel!)
+            {
+                storeCustomerOrder.StoreCustomerOrderDetail.Add(new StoreCustomerOrderDetail() 
+                {
+                    LineTotal = singleOrderLine.LineTotal!.Value,
+                    Quantity = singleOrderLine.Quantity!.Value,
+                    ProductId = singleOrderLine.ProductId!.Value,
+                    UnityPrice = singleOrderLine.UnitPrice!.Value
+                });
+            }
             await fairPlayShopDatabaseContext.StoreCustomerOrder.AddAsync(
                 storeCustomerOrder, cancellationToken: cancellationToken);
             await fairPlayShopDatabaseContext.SaveChangesAsync(cancellationToken: cancellationToken);

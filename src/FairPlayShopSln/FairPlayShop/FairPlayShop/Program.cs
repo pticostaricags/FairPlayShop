@@ -6,6 +6,7 @@ using FairPlayShop.Data;
 using FairPlayShop.DataAccess.Data;
 using FairPlayShop.Identity;
 using FairPlayShop.Interfaces.Services;
+using FairPlayShop.Models.StoreCustomerOrder;
 using FairPlayShop.ServerSideServices;
 using FairPlayShop.Services;
 using Microsoft.AspNetCore.Components.Authorization;

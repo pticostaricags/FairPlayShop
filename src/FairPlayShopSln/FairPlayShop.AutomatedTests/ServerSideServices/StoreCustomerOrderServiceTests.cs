@@ -104,7 +104,6 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             await ctx.SaveChangesAsync();
             CreateStoreCustomerOrderModel createStoreCustomerOrderModel = new()
             {
-                OrderSubTotal = 1000,
                 OrderTotal = 1100,
                 TaxTotal = 100,
                 StoreCustomerId = storeCustomer.StoreCustomerId
