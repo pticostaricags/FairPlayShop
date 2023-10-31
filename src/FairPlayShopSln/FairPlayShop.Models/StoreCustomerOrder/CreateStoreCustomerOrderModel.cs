@@ -14,8 +14,8 @@ namespace FairPlayShop.Models.StoreCustomerOrder
         [Required]
         public long? StoreCustomerId { get; set; }
         public decimal OrderSubTotal => CreateStoreCustomerOrderDetailModel!.Sum(p => p.LineTotal.GetValueOrDefault(0));
-        public decimal OrderTotal { get; set; }
-        public decimal TaxTotal { get; set; }
+        public decimal OrderTotal => OrderSubTotal + TaxTotal;
+        public decimal TaxTotal => OrderSubTotal * ((decimal)13 / 100);
         [Required]
         [ValidateComplexType]
         [Length(minimumLength:1, maximumLength:50, ErrorMessage = "Order must have between {1} and {2} lines")]

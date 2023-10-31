@@ -39,19 +39,7 @@
             </InputSelect>
         </div>
     }
-    <div class="mb-3">
-        <label class="form-label">@nameof(CreateStoreCustomerOrderModel.OrderSubTotal)</label>
-        <label class="form-label">@CreateStoreCustomerOrderModel!.OrderSubTotal</label>
-    </div>
-    <div class="mb-3">
-        <label class="form-label">@nameof(CreateStoreCustomerOrderModel.TaxTotal)</label>
-        <label class="form-label">@CreateStoreCustomerOrderModel!.TaxTotal</label>
-    </div>
-    <div class="mb-3">
-        <label class="form-label">@nameof(CreateStoreCustomerOrderModel.OrderTotal)</label>
-        <label class="form-label">@CreateStoreCustomerOrderModel!.OrderTotal</label>
-    </div>
-    @if (this.CreateStoreCustomerOrderModel.CreateStoreCustomerOrderDetailModel != null)
+    @if (this.CreateStoreCustomerOrderModel!.CreateStoreCustomerOrderDetailModel != null)
     {
         <div class="row">
             <div class="col">Product</div>
@@ -90,8 +78,28 @@
         }
     }
     <div class="mb-3">
-        <label class="form-label">Order SubTotal</label>
-        <label class="form-label">@CreateStoreCustomerOrderModel.OrderSubTotal</label>
+        <label class="form-label">
+            <strong>
+                @nameof(CreateStoreCustomerOrderModel.OrderSubTotal)
+            </strong>
+        </label>
+        <label class="form-label">@CreateStoreCustomerOrderModel!.OrderSubTotal</label>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">
+            <strong>
+                @nameof(CreateStoreCustomerOrderModel.TaxTotal)
+            </strong>
+        </label>
+        <label class="form-label">@CreateStoreCustomerOrderModel!.TaxTotal</label>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">
+            <strong>
+                @nameof(CreateStoreCustomerOrderModel.OrderTotal)
+            </strong>
+        </label>
+        <label class="form-label">@CreateStoreCustomerOrderModel!.OrderTotal</label>
     </div>
     <div class="mb-3">
         <button class="btn btn-secondary" type="button" @onclick="OnAddOrderLineClicked">Add Order Line</button>

@@ -7,6 +7,7 @@ using FairPlayShop.Data;
 using FairPlayShop.DataAccess.Data;
 using FairPlayShop.Identity;
 using FairPlayShop.Interfaces.Services;
+using FairPlayShop.Models.Store;
 using FairPlayShop.Models.StoreCustomerOrder;
 using FairPlayShop.ServerSideServices;
 using FairPlayShop.Services;
@@ -100,13 +101,13 @@ internal partial class Program
         app.Run();
     }
 
-    //static void ConfigureModelsLocalizers(IServiceProvider services)
-    //{
-    //    var localizerFactory = services.GetRequiredService<IStringLocalizerFactory>();
-    //    CreateStoreModelLocalizer.Localizer =
-    //        localizerFactory.Create(typeof(CreateStoreModelLocalizer))
-    //        as IStringLocalizer<CreateStoreModelLocalizer>;
-    //}
-    [ConfigureModelsLocalizers]
-    static partial void ConfigureModelsLocalizers(IServiceProvider services);
+    static void ConfigureModelsLocalizers(IServiceProvider services)
+    {
+        var localizerFactory = services.GetRequiredService<IStringLocalizerFactory>();
+        CreateStoreModelLocalizer.Localizer =
+            localizerFactory.Create(typeof(CreateStoreModelLocalizer))
+            as IStringLocalizer<CreateStoreModelLocalizer>;
+    }
+    //[ConfigureModelsLocalizers]
+    //static partial void ConfigureModelsLocalizers(IServiceProvider services);
 }

@@ -99,10 +99,10 @@ namespace FairPlaySocial.Services.Generators
                                     switch (singlePropertyMetadataName)
                                     {
                                         case "RequiredAttribute":
-                                            stringBuilder.AppendLine($"public static string {singleProperty.Name}_Required {{ get; set; }} = \"{{0}} is required\";");
+                                            stringBuilder.AppendLine($"public static string {singleProperty.Name}_Required => Localizer[\"{singleProperty.Name}_Required\"];");
                                             break;
                                         case "StringLengthAttribute":
-                                            stringBuilder.AppendLine($"public static string {singleProperty.Name}_StringLength {{ get; set; }} = \"{{0}} must have a maximum of {{1}} characters\";");
+                                            stringBuilder.AppendLine($"public static string {singleProperty.Name}_StringLength => Localizer[\"{singleProperty.Name}_StringLength\"];");
                                             break;
                                     }
                                 }

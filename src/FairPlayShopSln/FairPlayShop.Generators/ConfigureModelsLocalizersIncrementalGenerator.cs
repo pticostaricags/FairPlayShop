@@ -60,6 +60,8 @@ namespace FairPlaySocial.Services.Generators
         static void Execute(Compilation compilation,
             ImmutableArray<MethodDeclarationSyntax> classesDeclarationSyntax, SourceProductionContext context)
         {
+            if (classesDeclarationSyntax.Length == 0)
+                return;
             string assemblyName = compilation.AssemblyName!;
             string[] splittedAssemblyName = assemblyName.Split('.');
             string assemblyNameFirstPart = splittedAssemblyName[0];
