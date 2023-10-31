@@ -108,6 +108,7 @@ internal partial class Program
             localizerFactory.Create(typeof(CreateStoreModelLocalizer))
             as IStringLocalizer<CreateStoreModelLocalizer>;
     }
+    //TODO: Find a way to automatically generate the partial method using the generator: ConfigureModelsLocalizersIncrementalGenerator
     //[ConfigureModelsLocalizers]
     //static partial void ConfigureModelsLocalizers(IServiceProvider services);
 }
