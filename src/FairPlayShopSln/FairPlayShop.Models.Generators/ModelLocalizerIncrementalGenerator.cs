@@ -86,6 +86,7 @@ namespace FairPlaySocial.Services.Generators
                             var properties = typedSymbol.GetMembers().Where(p => p.Kind == SymbolKind.Property);
                             StringBuilder stringBuilder = new();
                             stringBuilder.AppendLine("using Microsoft.Extensions.Localization;");
+                            stringBuilder.AppendLine("using FairPlayShop.Common.CustomAttributes;");
                             stringBuilder.AppendLine($"namespace {namespaceValue};");
                             stringBuilder.AppendLine($"public partial class {newClassName}");
                             stringBuilder.AppendLine("{");
@@ -99,10 +100,14 @@ namespace FairPlaySocial.Services.Generators
                                     switch (singlePropertyMetadataName)
                                     {
                                         case "RequiredAttribute":
-                                            stringBuilder.AppendLine($"public static string {singleProperty.Name}_Required => Localizer[\"{singleProperty.Name}_Required\"];");
+                                            stringBuilder.AppendLine("[ResourceKey(defaultValue: \"{0} is required\")]");
+                                            stringBuilder.AppendLine($"public const string {singleProperty.Name}_RequiredTextKey = \"{singleProperty.Name}_RequiredText\";");
+                                            stringBuilder.AppendLine($"public static string {singleProperty.Name}_Required => Localizer[{singleProperty.Name}_RequiredTextKey];");
                                             break;
                                         case "StringLengthAttribute":
-                                            stringBuilder.AppendLine($"public static string {singleProperty.Name}_StringLength => Localizer[\"{singleProperty.Name}_StringLength\"];");
+                                            stringBuilder.AppendLine("[ResourceKey(defaultValue: \"{0} cannot have more than {1} characters\")]");
+                                            stringBuilder.AppendLine($"public const string {singleProperty.Name}StringLengthTextKey = \"{singleProperty.Name}StringLengthText\";");
+                                            stringBuilder.AppendLine($"public static string {singleProperty.Name}_StringLength => Localizer[{singleProperty.Name}StringLengthTextKey];");
                                             break;
                                     }
                                 }

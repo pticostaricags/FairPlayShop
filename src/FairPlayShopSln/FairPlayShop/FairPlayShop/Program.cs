@@ -11,6 +11,7 @@ using FairPlayShop.Models.Store;
 using FairPlayShop.Models.StoreCustomerOrder;
 using FairPlayShop.ServerSideServices;
 using FairPlayShop.Services;
+using FairPlayShop.Translations;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -70,6 +71,7 @@ internal partial class Program
         builder.Services.AddTransient<IStateOrProvinceService, StateOrProvinceService>();
         builder.Services.AddTransient<ICityService, CityService>();
         builder.Services.AddBlazoredToast();
+        builder.Services.AddHostedService<BackgroundTranslationService>();
         var app = builder.Build();
         ConfigureModelsLocalizers(app.Services);
 
