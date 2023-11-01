@@ -1,4 +1,5 @@
-﻿@using FairPlayShop.Components.Identity
+﻿@using FairPlayShop.Common.CustomAttributes
+@using FairPlayShop.Components.Identity
 @using Microsoft.Extensions.Localization
 
 <div class="top-row ps-3 navbar navbar-dark">
@@ -13,7 +14,7 @@
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill" aria-hidden="true"></span> Home
+                <span class="bi bi-house-door-fill" aria-hidden="true"></span> @Localizer![HomeTextKey]
             </NavLink>
         </div>
 
@@ -27,30 +28,34 @@
                 <div class="nav-item px-3">
                     <LogoutForm id="logout-form" />
                     <NavLink class="nav-link" href="#" onclick="document.getElementById('logout-form').submit(); return false;">
-                        <span class="bi bi-arrow-bar-left" aria-hidden="true"></span> Logout
+                        <span class="bi bi-arrow-bar-left" aria-hidden="true"></span> 
+                        @Localizer![LogoutTextKey]
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="@Common.Constants.ApiRoutes.CreateMyStore">
-                        <span class="bi bi-arrow-bar-left" aria-hidden="true"></span> @Localizer![nameof(Common.Constants.ApiRoutes.CreateMyStore)].Value.Titleize()
+                        <span class="bi bi-arrow-bar-left" aria-hidden="true"></span> 
+                        @Localizer![CreateMyStoreTextKey]
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="@Common.Constants.ApiRoutes.MyStoreList">
                         <span class="bi bi-arrow-bar-left" aria-hidden="true"></span> 
-                        @Localizer![nameof(Common.Constants.ApiRoutes.MyStoreList)].Value.Titleize()
+                        @Localizer![MyStoreListTextKey]
                     </NavLink>
                 </div>
             </Authorized>
             <NotAuthorized>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="/Account/Register">
-                        <span class="bi bi-person" aria-hidden="true"></span> Register
+                        <span class="bi bi-person" aria-hidden="true"></span> 
+                        @Localizer![RegisterTextKey]
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="/Account/Login">
-                        <span class="bi bi-person-badge" aria-hidden="true"></span> Login
+                        <span class="bi bi-person-badge" aria-hidden="true"></span> 
+                        @Localizer![LoginTextKey]
                     </NavLink>
                 </div>
             </NotAuthorized>
@@ -60,4 +65,16 @@
 @code{
     [Inject]
     private IStringLocalizer<NavMenu>? Localizer {get;set;}
+    [ResourceKey(defaultValue: "Home")]
+    public const string HomeTextKey = "HomeTextKey";
+    [ResourceKey(defaultValue: "Logout")]
+    public const string LogoutTextKey = "LogoutText";
+    [ResourceKey(defaultValue: "Register")]
+    public const string RegisterTextKey = "RegisterText";
+    [ResourceKey(defaultValue: "Login")]
+    public const string LoginTextKey = "LoginText";
+    [ResourceKey(defaultValue: "Create My Store")]
+    public const string CreateMyStoreTextKey = "CreateMyStore";
+    [ResourceKey(defaultValue:"My Store List")]
+    public const string MyStoreListTextKey = "MyStoreListText";
 }

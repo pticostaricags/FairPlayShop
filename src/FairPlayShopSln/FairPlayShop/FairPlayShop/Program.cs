@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using System.Diagnostics;
+using System.Reflection;
 
 internal partial class Program
 {
@@ -107,18 +109,19 @@ internal partial class Program
 
     static void ConfigureModelsLocalizers(IServiceProvider services)
     {
+        //Find a way to use Source Generators for this in order to avoid using reflection
+        var modelsAssembly = typeof(FairPlayShop.Models.Store.CreateStoreModelLocalizer)
+            .Assembly;
+        var typesWithLocalizerAttribute =
+            modelsAssembly.GetTypes().Where(p => p.CustomAttributes.Any(x => x.AttributeType.Name.Contains("LocalizerOfTAttribute")))
+            .ToList();
         var localizerFactory = services.GetRequiredService<IStringLocalizerFactory>();
-        CreateStoreModelLocalizer.Localizer =
-            localizerFactory.Create(typeof(CreateStoreModelLocalizer))
-            as IStringLocalizer<CreateStoreModelLocalizer>;
-
-        CreateProductModelLocalizer.Localizer =
-            localizerFactory.Create(typeof(CreateProductModelLocalizer))
-            as IStringLocalizer<CreateProductModelLocalizer>;
-
-        CreateStoreCustomerModelLocalizer.Localizer =
-            localizerFactory.Create(typeof(CreateStoreCustomerModelLocalizer))
-            as IStringLocalizer<CreateStoreCustomerModelLocalizer>;
+        foreach (var singleLocalizerType in typesWithLocalizerAttribute) 
+        {
+            var newLocalizerInstance = localizerFactory.Create(singleLocalizerType);
+            var field = singleLocalizerType.GetProperty("Localizer", BindingFlags.Public | BindingFlags.Static);
+            field!.SetValue(null, newLocalizerInstance);
+        }
     }
     //TODO: Find a way to automatically generate the partial method using the generator: ConfigureModelsLocalizersIncrementalGenerator
     //[ConfigureModelsLocalizers]

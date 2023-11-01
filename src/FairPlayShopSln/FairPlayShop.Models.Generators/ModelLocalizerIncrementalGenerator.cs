@@ -119,6 +119,16 @@ namespace FairPlaySocial.Services.Generators
                                             stringBuilder.AppendLine($"public const string {singleProperty.Name}PhoneTextKey = \"{singleProperty.Name}PhoneText\";");
                                             stringBuilder.AppendLine($"public static string {singleProperty.Name}_Phone => Localizer[{singleProperty.Name}PhoneTextKey];");
                                             break;
+                                        case "LengthAttribute":
+                                            stringBuilder.AppendLine("[ResourceKey(defaultValue: \"{0} must have between {1} and {2} items\")]");
+                                            stringBuilder.AppendLine($"public const string {singleProperty.Name}LengthTextKey = \"{singleProperty.Name}LengthText\";");
+                                            stringBuilder.AppendLine($"public static string {singleProperty.Name}_Length => Localizer[{singleProperty.Name}LengthTextKey];");
+                                            break;
+                                        case "RangeAttribute":
+                                            stringBuilder.AppendLine("[ResourceKey(defaultValue: \"{0} must have a value between {1} and {2}\")]");
+                                            stringBuilder.AppendLine($"public const string {singleProperty.Name}RangeTextKey = \"{singleProperty.Name}RangeText\";");
+                                            stringBuilder.AppendLine($"public static string {singleProperty.Name}_Range => Localizer[{singleProperty.Name}RangeTextKey];");
+                                            break;
                                     }
                                 }
                             }

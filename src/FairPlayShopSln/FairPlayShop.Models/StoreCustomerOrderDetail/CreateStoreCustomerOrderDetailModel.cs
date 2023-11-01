@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FairPlayShop.Common.CustomAttributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,14 +11,23 @@ namespace FairPlayShop.Models.StoreCustomerOrderDetail
 {
     public class CreateStoreCustomerOrderDetailModel
     {
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(CreateStoreCustomerOrderDetailModelLocalizer),
+            ErrorMessageResourceName = nameof(CreateStoreCustomerOrderDetailModelLocalizer.ProductId_Required))]
         public long? ProductId { get; set; }
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(CreateStoreCustomerOrderDetailModelLocalizer),
+            ErrorMessageResourceName = nameof(CreateStoreCustomerOrderDetailModelLocalizer.UnitPrice_Required))]
         public decimal? UnitPrice { get; set; }
-        [Required]
-        [DeniedValues(0)]
-        [Range(0,100)]
+        [Required(ErrorMessageResourceType = typeof(CreateStoreCustomerOrderDetailModelLocalizer),
+            ErrorMessageResourceName = nameof(CreateStoreCustomerOrderDetailModelLocalizer.Quantity_Required))]
+        [Range(1, 100, ErrorMessageResourceType = typeof(CreateStoreCustomerOrderDetailModelLocalizer),
+            ErrorMessageResourceName =nameof(CreateStoreCustomerOrderDetailModelLocalizer.Quantity_Range))]
         public decimal? Quantity { get; set; }
         public decimal? LineTotal => UnitPrice.GetValueOrDefault() * Quantity.GetValueOrDefault(0);
+    }
+
+    [LocalizerOfT<CreateStoreCustomerOrderDetailModel>]
+    public partial class CreateStoreCustomerOrderDetailModelLocalizer
+    {
+
     }
 }

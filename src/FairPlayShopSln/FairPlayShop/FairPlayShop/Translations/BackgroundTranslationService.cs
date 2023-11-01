@@ -50,8 +50,11 @@ namespace FairPlayShop.Translations
             var modelsAssembly = typeof(Models.City.CityModel).Assembly;
             var modelsTypes = modelsAssembly.GetTypes();
 
+            var serverAssembly = typeof(Program).Assembly;
+            var serverTypes = serverAssembly.GetTypes();
             List<Type> typesToCheck = new();
             typesToCheck.AddRange(modelsTypes);
+            typesToCheck.AddRange(serverTypes);
 
             foreach (var singleTypeToCheck in typesToCheck)
             {
