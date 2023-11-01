@@ -114,6 +114,11 @@ namespace FairPlaySocial.Services.Generators
                                             stringBuilder.AppendLine($"public const string {singleProperty.Name}EmailAddressTextKey = \"{singleProperty.Name}EmailAddressText\";");
                                             stringBuilder.AppendLine($"public static string {singleProperty.Name}_EmailAddress => Localizer[{singleProperty.Name}EmailAddressTextKey];");
                                             break;
+                                        case "PhoneAttribute":
+                                            stringBuilder.AppendLine("[ResourceKey(defaultValue: \"{0} must have a valid Phone format\")]");
+                                            stringBuilder.AppendLine($"public const string {singleProperty.Name}PhoneTextKey = \"{singleProperty.Name}PhoneText\";");
+                                            stringBuilder.AppendLine($"public static string {singleProperty.Name}_Phone => Localizer[{singleProperty.Name}PhoneTextKey];");
+                                            break;
                                     }
                                 }
                             }
