@@ -7,7 +7,9 @@ using FairPlayShop.Data;
 using FairPlayShop.DataAccess.Data;
 using FairPlayShop.Identity;
 using FairPlayShop.Interfaces.Services;
+using FairPlayShop.Models.Product;
 using FairPlayShop.Models.Store;
+using FairPlayShop.Models.StoreCustomer;
 using FairPlayShop.Models.StoreCustomerOrder;
 using FairPlayShop.ServerSideServices;
 using FairPlayShop.Services;
@@ -109,6 +111,14 @@ internal partial class Program
         CreateStoreModelLocalizer.Localizer =
             localizerFactory.Create(typeof(CreateStoreModelLocalizer))
             as IStringLocalizer<CreateStoreModelLocalizer>;
+
+        CreateProductModelLocalizer.Localizer =
+            localizerFactory.Create(typeof(CreateProductModelLocalizer))
+            as IStringLocalizer<CreateProductModelLocalizer>;
+
+        CreateStoreCustomerModelLocalizer.Localizer =
+            localizerFactory.Create(typeof(CreateStoreCustomerModelLocalizer))
+            as IStringLocalizer<CreateStoreCustomerModelLocalizer>;
     }
     //TODO: Find a way to automatically generate the partial method using the generator: ConfigureModelsLocalizersIncrementalGenerator
     //[ConfigureModelsLocalizers]

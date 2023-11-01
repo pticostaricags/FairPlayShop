@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FairPlayShop.Common.Enums;
+using FairPlayShop.Common.CustomAttributes;
 
 namespace FairPlayShop.Models.Product
 {
@@ -28,7 +29,6 @@ namespace FairPlayShop.Models.Product
         public decimal? AcquisitionCost { get; set; }
 
         [Required]
-        [Column("SKU")]
         [StringLength(50)]
         public string? Sku { get; set; }
 
@@ -46,5 +46,11 @@ namespace FairPlayShop.Models.Product
         public byte[]? PhotoBytes { get; set; }
         [Required]
         public long? StoreId { get; set; }
+    }
+
+    [LocalizerOfT<CreateProductModel>]
+    public partial class CreateProductModelLocalizer
+    {
+
     }
 }

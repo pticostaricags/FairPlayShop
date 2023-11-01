@@ -1,4 +1,5 @@
-﻿using FairPlayShop.Models.StoreCustomerAddress;
+﻿using FairPlayShop.Common.CustomAttributes;
+using FairPlayShop.Models.StoreCustomerAddress;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,8 +14,10 @@ namespace FairPlayShop.Models.StoreCustomer
         [Required]
         public long? StoreId { get; set; }
 
-        [Required]
-        [StringLength(50)]
+        [Required(ErrorMessageResourceType = typeof(CreateStoreCustomerModelLocalizer),
+            ErrorMessageResourceName = nameof(CreateStoreCustomerModelLocalizer.Firstname_Required))]
+        [StringLength(50, ErrorMessageResourceType = typeof(CreateStoreCustomerModelLocalizer),
+            ErrorMessageResourceName = nameof(CreateStoreCustomerModelLocalizer.Firstname_StringLength))]
         public string? Firstname { get; set; }
 
         [Required]
@@ -27,7 +30,8 @@ namespace FairPlayShop.Models.StoreCustomer
 
         [Required]
         [StringLength(50)]
-        [EmailAddress]
+        [EmailAddress(ErrorMessageResourceType = typeof(CreateStoreCustomerModelLocalizer),
+            ErrorMessageResourceName = nameof(CreateStoreCustomerModelLocalizer.EmailAddress_EmailAddress))]
         public string? EmailAddress { get; set; }
 
         [Required]
@@ -37,5 +41,11 @@ namespace FairPlayShop.Models.StoreCustomer
         [Required]
         [ValidateComplexType]
         public CreateStoreCustomerAddressModel? CreateStoreCustomerAddressModel { get; set; }
+    }
+
+    [LocalizerOfT<CreateStoreCustomerModel>]
+    public partial class CreateStoreCustomerModelLocalizer
+    {
+
     }
 }
