@@ -199,9 +199,14 @@
     {
         this.IsBusy = true;
         this.SelectedCountryId = selectedValue;
-        this.StateOrProvinceList = await this.StateOrProvinceService!
-        .GetCountryStateOrProvinceListAsync(this.SelectedCountryId!.Value,
-        CancellationToken.None);
+        this.CityList = null;
+        this.StateOrProvinceList = null;
+        if (selectedValue is not null)
+        {
+            this.StateOrProvinceList = await this.StateOrProvinceService!
+            .GetCountryStateOrProvinceListAsync(this.SelectedCountryId!.Value,
+            CancellationToken.None);
+        }
         this.SelectedStateOrProvinceId = null;
         this.CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.CityId = null;
         this.IsBusy = false;
@@ -211,9 +216,13 @@
     {
         this.IsBusy = true;
         this.SelectedStateOrProvinceId = selectedValue;
-        this.CityList = await this.CityService!
-        .GetStateOrProvinceCityListAsync(this.SelectedStateOrProvinceId!.Value,
-        CancellationToken.None);
+        CityList = null;
+        if (selectedValue is not null)
+        {
+            this.CityList = await this.CityService!
+            .GetStateOrProvinceCityListAsync(this.SelectedStateOrProvinceId!.Value,
+            CancellationToken.None);
+        }
         this.CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.CityId = null;
         this.IsBusy = false;
     }

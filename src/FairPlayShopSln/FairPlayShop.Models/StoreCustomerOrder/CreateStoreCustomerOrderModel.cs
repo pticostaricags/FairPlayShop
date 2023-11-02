@@ -23,7 +23,7 @@ namespace FairPlayShop.Models.StoreCustomerOrder
         [ValidateComplexType]
         [Length(minimumLength: 1, maximumLength: 50,
             ErrorMessageResourceType = typeof(CreateStoreCustomerOrderModelLocalizer),
-            ErrorMessageResourceName = nameof(CreateStoreCustomerOrderModelLocalizer))]
+            ErrorMessageResourceName = nameof(CreateStoreCustomerOrderModelLocalizer.CreateStoreCustomerOrderDetailModel_Length))]
         public List<CreateStoreCustomerOrderDetailModel>? CreateStoreCustomerOrderDetailModel { get; set; }
     }
 

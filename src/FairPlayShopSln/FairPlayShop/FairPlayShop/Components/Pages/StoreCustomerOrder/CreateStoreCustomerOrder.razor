@@ -64,12 +64,14 @@
                             }
                         }
                     </InputSelect>
+                    <ValidationMessage For="@(()=> singleOrderLine.ProductId)"></ValidationMessage>
                 </div>
                 <div class="col">
                     <label class="form-label">@singleOrderLine.UnitPrice</label>
                 </div>
                 <div class="col">
                     <InputNumber class="form-control" @bind-Value="@singleOrderLine.Quantity"></InputNumber>
+                    <ValidationMessage For="@(()=>singleOrderLine.Quantity)"></ValidationMessage>
                 </div>
                 <div class="col">
                     <label class="form-label">@singleOrderLine.LineTotal</label>
