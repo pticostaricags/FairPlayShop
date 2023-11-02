@@ -1,4 +1,5 @@
-﻿@using FairPlayShop.Interfaces.Services
+﻿@using FairPlayShop.Common.CustomAttributes
+@using FairPlayShop.Interfaces.Services
 @using FairPlayShop.Models.Store
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.QuickGrid
@@ -25,34 +26,39 @@
         <PropertyColumn Property="@( p=> p.Name)" Sortable="true"></PropertyColumn>
         <PropertyColumn Property="@( p=> p.CustomerCount)" Sortable="true"></PropertyColumn>
         <TemplateColumn>
-            <button class="btn btn-secondary" type="button" 
-            @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.CreateMyProduct}/Store/{context.StoreId}"))">
-                @Localizer!["Add Products"]
+            <button class="btn btn-secondary" type="button"
+                    @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.CreateMyProduct}/Store/{context.StoreId}"))"
+                    data-toggle="tooltip" data-placement="top" title="@Localizer![AddProductsTextKey]">
+                <i class="bi bi-bag-plus-fill"></i>
             </button>
         </TemplateColumn>
         <TemplateColumn>
-            <button class="btn btn-secondary" type="button" 
-            @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.MyProductList}/Store/{context.StoreId}"))">
-                @Localizer!["List Products"]
-        </button>
+            <button class="btn btn-secondary" type="button"
+                    @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.MyProductList}/Store/{context.StoreId}"))"
+                    data-toggle="tooltip" data-placement="top" title="@Localizer![ListProductsTextKey]">
+                <i class="bi bi-list-stars"></i>
+            </button>
         </TemplateColumn>
         <TemplateColumn>
-            <button class="btn btn-secondary" type="button" 
-            @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.CreateMyStoreCustomer}/Store/{context.StoreId}"))">
-                @Localizer!["Add Customers"]
-        </button>
+            <button class="btn btn-secondary" type="button"
+                    @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.CreateMyStoreCustomer}/Store/{context.StoreId}"))"
+                    data-toggle="tooltip" data-placement="top" title="@Localizer![AddCustomerTextKey]">
+                <i class="bi bi-person-fill-add"></i>
+            </button>
         </TemplateColumn>
         <TemplateColumn>
-            <button class="btn btn-secondary" type="button" 
-            @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.MyStoreCustomerList}/Store/{context.StoreId}"))">
-                @Localizer!["List Customers"]
-        </button>
+            <button class="btn btn-secondary" type="button"
+                    @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.MyStoreCustomerList}/Store/{context.StoreId}"))"
+                    data-toggle="tooltip" data-placement="top" title="@Localizer![ListCustomersTextKey]">
+                <i class="bi bi-person-lines-fill"></i>
+            </button>
         </TemplateColumn>
         <TemplateColumn>
-            <button class="btn btn-secondary" type="button" 
-            @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.CreateStoreCustomerOrder}/Store/{context.StoreId}"))">
-                @Localizer!["Create Customer Order"]
-        </button>
+            <button class="btn btn-secondary" type="button"
+                    @onclick="@( () => NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.CreateStoreCustomerOrder}/Store/{context.StoreId}"))"
+                    data-toggle="tooltip" data-placement="top" title="@Localizer![CreateCustomerOrderTextKey]">
+                <i class="bi bi-bag-fill"></i>
+            </button>
         </TemplateColumn>
     </QuickGrid>
 }
@@ -73,4 +79,15 @@
         this.MyStores = (await this.StoreService!.GetMyStoreListAsync(CancellationToken.None))?.AsQueryable();
         this.IsBusy = false;
     }
+
+    [ResourceKey(defaultValue: "Add Products")]
+    public const string AddProductsTextKey = "AddProductsText";
+    [ResourceKey(defaultValue: "List Products")]
+    public const string ListProductsTextKey = "ListProductsText";
+    [ResourceKey(defaultValue: "Add Customer")]
+    public const string AddCustomerTextKey = "AddCustomerText";
+    [ResourceKey(defaultValue: "List Customers")]
+    public const string ListCustomersTextKey = "ListCustomersText";
+    [ResourceKey(defaultValue: "Create Customer Order")]
+    public const string CreateCustomerOrderTextKey = "CreateCustomerOrderText";
 }
