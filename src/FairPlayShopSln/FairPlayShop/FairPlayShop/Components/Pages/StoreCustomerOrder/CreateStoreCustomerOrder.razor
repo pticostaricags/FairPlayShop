@@ -128,14 +128,14 @@
     private StoreCustomerModel[]? MyStoreCustomerList;
     private ProductModel[]? MyStoreProducts { get; set; }
     private bool IsBusy { get; set; }
-
+    private CancellationTokenSource CancellationTokenSource { get; set; } = new();
     protected override async Task OnInitializedAsync()
     {
         this.IsBusy = true;
         this.MyStoreCustomerList = await this.StoreCustomerService!
-        .GetMyStoreCustomerListAsync(this.StoreId, CancellationToken.None);
+        .GetMyStoreCustomerListAsync(this.StoreId, CancellationTokenSource.Token);
         this.MyStoreProducts = await this.ProductService!.GetMyStoreProductListAsync(this.StoreId,
-        CancellationToken.None);
+        CancellationTokenSource.Token);
         this.IsBusy = false;
     }
 
@@ -143,7 +143,7 @@
     {
         this.IsBusy = true;
         await this.StoreCustomerOrderService!
-        .CreateStoreCustomerOrderAsync(this.CreateStoreCustomerOrderModel!, CancellationToken.None);
+        .CreateStoreCustomerOrderAsync(this.CreateStoreCustomerOrderModel!, CancellationTokenSource.Token);
         this.IsBusy = false;
     }
 

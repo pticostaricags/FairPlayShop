@@ -33,6 +33,7 @@ internal partial class Program
         builder.Services.AddLocalization();
 
         // Add services to the container.
+        builder.Services.AddControllers();
         builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents()
             .AddInteractiveWebAssemblyComponents();
@@ -74,6 +75,7 @@ internal partial class Program
         builder.Services.AddTransient<ICountryService, CountryService>();
         builder.Services.AddTransient<IStateOrProvinceService, StateOrProvinceService>();
         builder.Services.AddTransient<ICityService, CityService>();
+        builder.Services.AddTransient<ICultureService, CultureService>();
         builder.Services.AddBlazoredToast();
         builder.Services.AddHostedService<BackgroundTranslationService>();
         var app = builder.Build();
@@ -95,11 +97,22 @@ internal partial class Program
 
         app.UseStaticFiles();
         app.UseAntiforgery();
+        using var scope = app.Services.CreateScope();
+        using var ctx = scope.ServiceProvider.GetRequiredService<FairPlayShopDatabaseContext>();
+        var supportedCultures = ctx.Culture.Select(p=>p.Name).ToArray();
+        var localizationOptions = new RequestLocalizationOptions()
+            .SetDefaultCulture(supportedCultures[0])
+            .AddSupportedCultures(supportedCultures)
+            .AddSupportedUICultures(supportedCultures);
+
+        app.UseRequestLocalization(localizationOptions);
 
         app.MapRazorComponents<App>()
             .AddInteractiveServerRenderMode()
             .AddInteractiveWebAssemblyRenderMode()
             .AddAdditionalAssemblies(typeof(Counter).Assembly);
+
+        app.MapControllers();
 
         // Add additional endpoints required by the Identity /Account Razor components.
         app.MapAdditionalIdentityEndpoints();

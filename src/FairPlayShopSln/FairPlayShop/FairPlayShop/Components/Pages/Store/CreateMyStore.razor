@@ -41,10 +41,11 @@
     private IStringLocalizer<CreateMyStore>? Localizer { get; set; }
     [SupplyParameterFromForm]
     private CreateStoreModel? CreateStoreModel { get; set; } = new CreateStoreModel();
+    private CancellationTokenSource CancellationTokenSource { get; set; } = new();
 
     private async Task OnValidSubmitAsync()
     {
-        await this.StoreService!.CreateMyStoreAsync(this.CreateStoreModel!, CancellationToken.None);
+        await this.StoreService!.CreateMyStoreAsync(this.CreateStoreModel!, CancellationTokenSource.Token);
     }
 
     [ResourceKey(defaultValue: "Create My Store")]

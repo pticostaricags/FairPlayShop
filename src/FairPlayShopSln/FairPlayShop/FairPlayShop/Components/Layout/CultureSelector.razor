@@ -1,0 +1,64 @@
+﻿@implements IAsyncDisposable
+@using System.Globalization
+@using FairPlayShop.Interfaces.Services
+@inject NavigationManager Navigation
+
+<LoadingIndicator ShowSpinners="@this.IsBusy"></LoadingIndicator>
+
+@if (this.supportedCultures != null)
+{
+    <p>
+        <label>
+            Select your locale:
+            <select class="form-select" @bind="Culture">
+                @foreach (var culture in supportedCultures)
+                {
+                    <option value="@culture">@culture.DisplayName</option>
+                }
+            </select>
+        </label>
+    </p>
+}
+
+@code
+{
+
+    private CancellationTokenSource CancellationTokenSource = new();
+    [Inject]
+    private ICultureService? CultureService { get; set; }
+    private CultureInfo[]? supportedCultures { get; set; }
+    private bool IsBusy { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        this.IsBusy = true;
+        this.Culture = CultureInfo.CurrentCulture;
+        this.supportedCultures = (await this.CultureService!
+        .GetSupportedCultures(this.CancellationTokenSource.Token))
+        .Select(p => new CultureInfo(p)).ToArray();
+        this.IsBusy = false;
+    }
+
+    private CultureInfo Culture
+    {
+        get => CultureInfo.CurrentCulture;
+        set
+        {
+            if (CultureInfo.CurrentCulture != value)
+            {
+                var uri = new Uri(Navigation.Uri)
+                    .GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
+                var cultureEscaped = Uri.EscapeDataString(value.Name);
+                var uriEscaped = Uri.EscapeDataString(uri);
+
+                Navigation.NavigateTo(
+                    $"Culture/Set?culture={cultureEscaped}&redirectUri={uriEscaped}",
+                    forceLoad: true);
+            }
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await this.CancellationTokenSource.CancelAsync();
+    }
+}

@@ -168,15 +168,16 @@
     private CountryModel[]? CountryList { get; set; }
     private StateOrProvinceModel[]? StateOrProvinceList { get; set; }
     private CityModel[]? CityList { get; set; }
+    private CancellationTokenSource CancellationTokenSource { get; set; } = new();
     protected override async Task OnInitializedAsync()
     {
-        this.CountryList = await this.CountryService!.GetCountryListAsync(CancellationToken.None);
+        this.CountryList = await this.CountryService!.GetCountryListAsync(CancellationTokenSource.Token);
         if (this.CreateStoreCustomerModel != null)
         {
             this.CreateStoreCustomerModel.StoreId = this.StoreId;
             if (this.CustomerId != null)
             {
-                StoreCustomerModel storeCustomerModel = await this.StoreCustomerService!.GetMyStoreCustomerAsync(this.CustomerId.Value, CancellationToken.None);
+                StoreCustomerModel storeCustomerModel = await this.StoreCustomerService!.GetMyStoreCustomerAsync(this.CustomerId.Value, CancellationTokenSource.Token);
                 this.CreateStoreCustomerModel!.PhoneNumber = storeCustomerModel.PhoneNumber;
                 this.CreateStoreCustomerModel.Firstname = storeCustomerModel.Firstname;
                 this.CreateStoreCustomerModel.Lastname = storeCustomerModel.Lastname;
@@ -189,7 +190,7 @@
     private async Task OnValidSubmitAsync()
     {
         this.IsBusy = true;
-        await this.StoreCustomerService!.CreateMyStoreCustomerAsync(this.CreateStoreCustomerModel!, CancellationToken.None);
+        await this.StoreCustomerService!.CreateMyStoreCustomerAsync(this.CreateStoreCustomerModel!, CancellationTokenSource.Token);
         this.IsBusy = false;
         this.ToastService!.ShowSuccess(message: "Your customer has been saved");
         NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.MyStoreCustomerList}/Store/{StoreId}");
@@ -205,7 +206,7 @@
         {
             this.StateOrProvinceList = await this.StateOrProvinceService!
             .GetCountryStateOrProvinceListAsync(this.SelectedCountryId!.Value,
-            CancellationToken.None);
+            CancellationTokenSource.Token);
         }
         this.SelectedStateOrProvinceId = null;
         this.CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.CityId = null;
@@ -221,7 +222,7 @@
         {
             this.CityList = await this.CityService!
             .GetStateOrProvinceCityListAsync(this.SelectedStateOrProvinceId!.Value,
-            CancellationToken.None);
+            CancellationTokenSource.Token);
         }
         this.CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.CityId = null;
         this.IsBusy = false;

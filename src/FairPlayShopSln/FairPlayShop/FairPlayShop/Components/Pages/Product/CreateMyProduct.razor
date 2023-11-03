@@ -92,6 +92,7 @@
     [SupplyParameterFromForm]
     private CreateProductModel? CreateProductModel { get; set; } = new CreateProductModel();
     private bool IsBusy { get; set; }
+    private CancellationTokenSource CancellationTokenSource { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -100,7 +101,7 @@
             this.CreateProductModel.StoreId = this.StoreId;
             if (this.ProductId != null)
             {
-                ProductModel productModel = await this.ProductService!.GetMyProductByIdAsync(this.ProductId.Value, CancellationToken.None);
+                ProductModel productModel = await this.ProductService!.GetMyProductByIdAsync(this.ProductId.Value, CancellationTokenSource.Token);
                 this.CreateProductModel!.ProductStatus = productModel.ProductStatus;
                 this.CreateProductModel.Sku = productModel.Sku;
                 this.CreateProductModel.AcquisitionCost = productModel.AcquisitionCost;
@@ -116,7 +117,7 @@
     private async Task OnValidSubmitAsync()
     {
         this.IsBusy = true;
-        await this.ProductService!.CreateMyProductAsync(this.CreateProductModel!, CancellationToken.None);
+        await this.ProductService!.CreateMyProductAsync(this.CreateProductModel!, CancellationTokenSource.Token);
         this.IsBusy = false;
         this.ToastService!.ShowSuccess(message: "Your product has been saved");
         NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.MyProductList}/Store/{StoreId}");

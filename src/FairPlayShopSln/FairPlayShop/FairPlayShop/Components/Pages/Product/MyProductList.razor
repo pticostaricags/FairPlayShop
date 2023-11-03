@@ -39,8 +39,9 @@
     private NavigationManager? NavigationManager { get; set; }
     private bool IsBusy { get; set; }
     private IQueryable<ProductModel>? MyProducts { get; set; }
+    private CancellationTokenSource CancellationTokenSource { get; set; } = new();
     protected override async Task OnInitializedAsync()
     {
-        this.MyProducts = (await this.ProductService!.GetMyStoreProductListAsync(this.StoreId, CancellationToken.None))?.AsQueryable();
+        this.MyProducts = (await this.ProductService!.GetMyStoreProductListAsync(this.StoreId, CancellationTokenSource.Token))?.AsQueryable();
     }
 }

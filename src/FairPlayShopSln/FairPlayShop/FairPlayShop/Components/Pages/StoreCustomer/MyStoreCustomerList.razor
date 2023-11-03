@@ -38,6 +38,7 @@
     private IStoreCustomerService? StoreCustomerService { get; set; }
     private IQueryable<StoreCustomerModel>? MyStoreCustomers { get; set; }
     private bool IsBusy { get; set; }
+    private CancellationTokenSource CancellationTokenSource { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -48,14 +49,14 @@
     {
         this.IsBusy = true;
         this.MyStoreCustomers =
-        (await this.StoreCustomerService!.GetMyStoreCustomerListAsync(this.StoreId!, CancellationToken.None))?
+        (await this.StoreCustomerService!.GetMyStoreCustomerListAsync(this.StoreId!, CancellationTokenSource.Token))?
         .AsQueryable();
         this.IsBusy = false;
     }
 
     private async Task OnDeleteCustomerAsync(long storeCustomerId)
     {
-        await this.StoreCustomerService!.DeleteMyStoreCustomerAsync(storeCustomerId, CancellationToken.None);
+        await this.StoreCustomerService!.DeleteMyStoreCustomerAsync(storeCustomerId, CancellationTokenSource.Token);
         await LoadDataAsync();
     }
 }
