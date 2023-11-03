@@ -1,8 +1,10 @@
 ﻿@using Blazored.Toast.Services
+@using FairPlayShop.Common.CustomAttributes
 @using FairPlayShop.Common.Enums
 @using FairPlayShop.Interfaces.Services
 @using FairPlayShop.Models.Product
 @using Microsoft.AspNetCore.Authorization
+@using Microsoft.Extensions.Localization
 @attribute [Route($"{Common.Constants.ApiRoutes.CreateMyProduct}/Store/{{StoreId:long}}")]
 @attribute [Route($"{Common.Constants.ApiRoutes.CreateMyProduct}/Store/{{StoreId:long}}/Product/{{ProductId:long}}")]
 @attribute [Authorize]
@@ -11,57 +13,57 @@
 <LoadingIndicator ShowSpinners="this.IsBusy"></LoadingIndicator>
 
 <PageTitle>
-    @nameof(Common.Constants.ApiRoutes.CreateMyProduct)
+    @Localizer![CreateMyProductTextKey]
 </PageTitle>
 <h3>
-    @nameof(Common.Constants.ApiRoutes.CreateMyProduct)
+    @Localizer![CreateMyProductTextKey]
 </h3>
 
 <EditForm FormName="frmCreateProduct" Model="@this.CreateProductModel"
-          OnValidSubmit="OnValidSubmitAsync" Enhance>
+          OnValidSubmit="OnValidSubmitAsync">
     <div class="mb-3">
         <DataAnnotationsValidator></DataAnnotationsValidator>
         <ValidationSummary></ValidationSummary>
     </div>
     <div class="mb-3">
-        <label class="form-label">@nameof(CreateProductModel.Name)</label>
+        <label class="form-label">@Localizer![NameTextKey]</label>
         <InputText class="form-control" @bind-Value="CreateProductModel!.Name"></InputText>
         <ValidationMessage For="@( () => CreateProductModel!.Name)"></ValidationMessage>
     </div>
     <div class="mb-3">
-        <label class="form-label">@nameof(CreateProductModel.Description)</label>
+        <label class="form-label">@Localizer![DescriptionTextKey]</label>
         <InputTextArea class="form-control" @bind-Value="CreateProductModel!.Description"></InputTextArea>
         <ValidationMessage For="@( () => CreateProductModel!.Description)"></ValidationMessage>
     </div>
     <div class="mb-3">
-        <label class="form-label">@nameof(CreateProductModel.Sku)</label>
+        <label class="form-label">@Localizer![SkuTextKey]</label>
         <InputText class="form-control" @bind-Value="CreateProductModel!.Sku"></InputText>
         <ValidationMessage For="@( () => CreateProductModel!.Sku)"></ValidationMessage>
     </div>
     <div class="mb-3">
-        <label class="form-label">@nameof(CreateProductModel.Barcode)</label>
+        <label class="form-label">@Localizer![BarcodeTextKey]</label>
         <InputText class="form-control" @bind-Value="CreateProductModel!.Barcode"></InputText>
         <ValidationMessage For="@( () => CreateProductModel!.Barcode)"></ValidationMessage>
     </div>
     <div class="mb-3">
-        <label class="form-label">@nameof(CreateProductModel.SellingPrice)</label>
+        <label class="form-label">@Localizer![SellingPriceTextKey]</label>
         <InputNumber class="form-control" @bind-Value="CreateProductModel!.SellingPrice"></InputNumber>
         <ValidationMessage For="@( () => CreateProductModel!.SellingPrice)"></ValidationMessage>
     </div>
     <div class="mb-3">
-        <label class="form-label">@nameof(CreateProductModel.AcquisitionCost)</label>
+        <label class="form-label">@Localizer![AcquisitionCostTextKey]</label>
         <InputNumber class="form-control" @bind-Value="CreateProductModel!.AcquisitionCost"></InputNumber>
         <ValidationMessage For="@( () => CreateProductModel!.AcquisitionCost)"></ValidationMessage>
     </div>
     <div class="mb-3">
-        <label class="form-label">@nameof(CreateProductModel.QuantityInStock)</label>
+        <label class="form-label">@Localizer![QuantityInStockTextKey]</label>
         <InputNumber class="form-control" @bind-Value="CreateProductModel!.QuantityInStock"></InputNumber>
         <ValidationMessage For="@( () => CreateProductModel!.QuantityInStock)"></ValidationMessage>
     </div>
     <div class="mb-3">
-        <label class="form-label">@nameof(CreateProductModel.ProductStatus)</label>
+        <label class="form-label">@Localizer![ProductStatusTextKey]</label>
         <InputSelect class="form-select" @bind-Value="@this.CreateProductModel!.ProductStatus">
-            <option value="">Select a Product Status</option>
+            <option value="">@Localizer![SelectProductStatusTextKey]</option>
             @foreach (var singleProductStatus in Enum.GetValues<ProductStatus>())
             {
                 <option value="@singleProductStatus">@singleProductStatus.ToString()</option>
@@ -70,11 +72,11 @@
         <ValidationMessage For="@( () => CreateProductModel!.ProductStatus)"></ValidationMessage>
     </div>
     <div class="mb-3">
-        <label class="form-label">Thumbnail Image</label>
+        <label class="form-label">@Localizer![ThumbnailImageTextKey]</label>
         <InputFile class="form-control" OnChange="OnThumbnailInputFileChanged"></InputFile>
     </div>
     <div class="mb-3">
-        <button class="btn btn-primary" type="submit">Save</button>
+        <button class="btn btn-primary" type="submit">@Localizer![SaveTextKey]</button>
     </div>
 </EditForm>
 
@@ -89,6 +91,8 @@
     private IProductService? ProductService { get; set; }
     [Inject]
     private NavigationManager? NavigationManager { get; set; }
+    [Inject]
+    private IStringLocalizer<CreateMyProduct>? Localizer { get; set; }
     [SupplyParameterFromForm]
     private CreateProductModel? CreateProductModel { get; set; } = new CreateProductModel();
     private bool IsBusy { get; set; }
@@ -119,7 +123,7 @@
         this.IsBusy = true;
         await this.ProductService!.CreateMyProductAsync(this.CreateProductModel!, CancellationTokenSource.Token);
         this.IsBusy = false;
-        this.ToastService!.ShowSuccess(message: "Your product has been saved");
+        this.ToastService!.ShowSuccess(message: Localizer![ProductSavedTextKey]);
         NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.MyProductList}/Store/{StoreId}");
     }
 
@@ -136,4 +140,31 @@
             this.CreateProductModel.PhotoFilename = inputFileChangeEventArgs.File.Name;
         }
     }
+
+    [ResourceKey(defaultValue: "Create My Product ")]
+    public const string CreateMyProductTextKey = "CreateMyProductText";
+    [ResourceKey(defaultValue: "Name")]
+    public const string NameTextKey = "NameText";
+    [ResourceKey(defaultValue: "Description")]
+    public const string DescriptionTextKey = "DescriptionText";
+    [ResourceKey(defaultValue: "Sku")]
+    public const string SkuTextKey = "SkuText";
+    [ResourceKey(defaultValue: "Barcode")]
+    public const string BarcodeTextKey = "BarcodeText";
+    [ResourceKey(defaultValue: "Selling Price")]
+    public const string SellingPriceTextKey = "SellingPriceText";
+    [ResourceKey(defaultValue: "Acquisition Cost")]
+    public const string AcquisitionCostTextKey = "AcquisitionCostText";
+    [ResourceKey(defaultValue: "Quantity In Stock")]
+    public const string QuantityInStockTextKey = "QuantityInStockText";
+    [ResourceKey(defaultValue: "Product Status")]
+    public const string ProductStatusTextKey = "ProductStatusText";
+    [ResourceKey(defaultValue: "Select a Product Status")]
+    public const string SelectProductStatusTextKey = "SelectProductStatusText";
+    [ResourceKey(defaultValue: "Thumbnail Image")]
+    public const string ThumbnailImageTextKey = "ThumbnailImageText";
+    [ResourceKey(defaultValue: "Save")]
+    public const string SaveTextKey = "SaveText";
+    [ResourceKey(defaultValue: "Your product has been saved")]
+    public const string ProductSavedTextKey = "ProductSavedText";
 }

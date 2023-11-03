@@ -47,21 +47,9 @@ namespace FairPlayShop.Models.Product
         [Required(ErrorMessageResourceType = typeof(CreateProductModelLocalizer),
             ErrorMessageResourceName = nameof(CreateProductModelLocalizer.ProductStatus_Required))]
         public ProductStatus? ProductStatus { get; set; }
-        [Required(ErrorMessageResourceType = typeof(CreateProductModelLocalizer),
-            ErrorMessageResourceName = nameof(CreateProductModelLocalizer.PhotoName_Required))]
-        [StringLength(50, ErrorMessageResourceType = typeof(CreateProductModelLocalizer),
-            ErrorMessageResourceName = nameof(CreateProductModelLocalizer.PhotoName_StringLength))]
         public string? PhotoName { get; set; }
-        [Required(ErrorMessageResourceType =typeof(CreateProductModelLocalizer),
-            ErrorMessageResourceName =nameof(CreateProductModelLocalizer.PhotoFilename_Required))]
-        [StringLength(50,ErrorMessageResourceType =typeof(CreateProductModelLocalizer),
-            ErrorMessageResourceName =nameof(CreateProductModelLocalizer.PhotoFilename_StringLength))]
         public string? PhotoFilename { get; set; }
-        [Required(ErrorMessageResourceType =typeof(CreateProductModelLocalizer),
-            ErrorMessageResourceName =nameof(CreateProductModelLocalizer.PhotoBytes_Required))]
         public byte[]? PhotoBytes { get; set; }
-        [Required(ErrorMessageResourceType =typeof(CreateProductModelLocalizer),
-            ErrorMessageResourceName =nameof(CreateProductModelLocalizer.StoreId_Required))]
         public long? StoreId { get; set; }
     }
 

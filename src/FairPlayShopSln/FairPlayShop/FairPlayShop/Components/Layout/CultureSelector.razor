@@ -7,17 +7,15 @@
 
 @if (this.supportedCultures != null)
 {
-    <p>
-        <label>
-            Select your locale:
-            <select class="form-select" @bind="Culture">
-                @foreach (var culture in supportedCultures)
-                {
-                    <option value="@culture">@culture.DisplayName</option>
-                }
-            </select>
-        </label>
-    </p>
+    <label class="form-label">
+        Select your locale:
+    </label>
+    <select class="form-select" @bind="Culture">
+        @foreach (var culture in supportedCultures)
+        {
+            <option value="@culture">@culture.DisplayName</option>
+        }
+    </select>
 }
 
 @code
