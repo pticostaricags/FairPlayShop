@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace FairPlayShop.ServerSideServices
 {
     public class ProductService(IUserProviderService userProviderService,
-        FairPlayShopDatabaseContext fairPlayShopDatabaseContext) : IProductService
+        IDbContextFactory<FairPlayShopDatabaseContext> dbContextFactory) : IProductService
     {
         public async Task CreateMyProductAsync(CreateProductModel createProductModel, CancellationToken cancellationToken)
         {
@@ -31,6 +31,7 @@ namespace FairPlayShop.ServerSideServices
                 },
                 StoreId = createProductModel.StoreId!.Value
             };
+            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken:cancellationToken);
             await fairPlayShopDatabaseContext.Product.AddAsync(entity, cancellationToken: cancellationToken);
             await fairPlayShopDatabaseContext.SaveChangesAsync(cancellationToken: cancellationToken);
         }
@@ -38,6 +39,7 @@ namespace FairPlayShop.ServerSideServices
         public async Task<ProductModel> GetMyProductByIdAsync(long productId, CancellationToken cancellationToken)
         {
             var userId = userProviderService.GetCurrentUserId();
+            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken:cancellationToken);
             var result = await fairPlayShopDatabaseContext.Product.AsNoTracking()
                 .Where(p => p.OwnerId == userId && p.ProductId == productId)
                 .Select(p => new ProductModel()
@@ -59,6 +61,7 @@ namespace FairPlayShop.ServerSideServices
         public async Task<ProductModel[]> GetMyStoreProductListAsync(long storeId, CancellationToken cancellationToken)
         {
             var userId = userProviderService.GetCurrentUserId();
+            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken:cancellationToken);
             var result = await fairPlayShopDatabaseContext.Product.AsNoTracking()
                 .Where(p => p.OwnerId == userId && p.StoreId == storeId)
                 .Select(p => new ProductModel()

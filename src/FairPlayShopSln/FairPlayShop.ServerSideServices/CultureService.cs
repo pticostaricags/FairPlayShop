@@ -15,7 +15,7 @@ namespace FairPlayShop.ServerSideServices
     {
         public async Task<string[]> GetSupportedCultures(CancellationToken cancellationToken)
         {
-            var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken: cancellationToken);
+            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken: cancellationToken);
             var result = await fairPlayShopDatabaseContext.Culture.AsNoTracking()
                 .Select(c => c.Name)
                 .ToArrayAsync(cancellationToken: cancellationToken);

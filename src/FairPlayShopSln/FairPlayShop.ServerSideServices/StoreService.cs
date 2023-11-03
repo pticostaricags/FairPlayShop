@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace FairPlayShop.ServerSideServices
 {
     public class StoreService(IUserProviderService userProviderService,
-        FairPlayShopDatabaseContext fairPlayShopDatabaseContext,
+        IDbContextFactory<FairPlayShopDatabaseContext> dbContextFactory,
         ILogger<StoreService> logger) : IStoreService
     {
         public async Task CreateMyStoreAsync(CreateStoreModel createStoreModel, CancellationToken cancellationToken)
@@ -25,6 +25,7 @@ namespace FairPlayShop.ServerSideServices
                 Name = createStoreModel.Name,
                 OwnerId = userId,
             };
+            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken:cancellationToken);
             await fairPlayShopDatabaseContext.Store.AddAsync(entity, cancellationToken: cancellationToken);
             await fairPlayShopDatabaseContext.SaveChangesAsync(cancellationToken: cancellationToken);
         }
@@ -32,6 +33,7 @@ namespace FairPlayShop.ServerSideServices
         public async Task<StoreModel[]?> GetMyStoreListAsync(CancellationToken cancellationToken)
         {
             var userId = userProviderService.GetCurrentUserId();
+            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken:cancellationToken);
             var result = await fairPlayShopDatabaseContext.Store
                 .Where(p=>p.OwnerId == userId)
                 .AsNoTracking()

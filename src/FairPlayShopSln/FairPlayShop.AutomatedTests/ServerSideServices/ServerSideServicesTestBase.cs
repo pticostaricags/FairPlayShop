@@ -2,6 +2,8 @@
 using FairPlayShop.Interfaces.Services;
 using FairPlayShop.ServerSideServices;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design.Internal;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -17,11 +19,13 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         public static string? CurrentUserId { get; protected set; }
         public static readonly MsSqlContainer _msSqlContainer
         = new MsSqlBuilder().Build();
-        protected static async Task<FairPlayShopDatabaseContext> GetFairPlayShopDatabaseContextAsync()
+        protected static async Task<(FairPlayShopDatabaseContext dbContext, 
+            IDbContextFactory<FairPlayShopDatabaseContext> dbContextFactory)> GetFairPlayShopDatabaseContextAsync()
         {
-            DbContextOptionsBuilder<FairPlayShopDatabaseContext> dbContextOptionsBuilder =
-                new();
-            dbContextOptionsBuilder.UseSqlServer(_msSqlContainer.GetConnectionString(),
+            ServiceCollection services = new ServiceCollection();
+            services.AddDbContextFactory<FairPlayShopDatabaseContext>(options => 
+            {
+                options.UseSqlServer(_msSqlContainer.GetConnectionString(),
                 sqlServerOptionsAction =>
                 {
                     sqlServerOptionsAction.EnableRetryOnFailure(
@@ -29,11 +33,14 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                             maxRetryDelay: TimeSpan.FromSeconds(3),
                             errorNumbersToAdd: null);
                 });
+            });
+            var sp = services.BuildServiceProvider();
+            var dbContextFactory = sp.GetRequiredService<IDbContextFactory<FairPlayShopDatabaseContext>>();
             FairPlayShopDatabaseContext fairPlayShopDatabaseContext =
-                new(dbContextOptionsBuilder.Options);
+                dbContextFactory.CreateDbContext();
             await fairPlayShopDatabaseContext.Database.EnsureCreatedAsync();
             await fairPlayShopDatabaseContext.Database.ExecuteSqlRawAsync(Properties.Resources.SeedData);
-            return fairPlayShopDatabaseContext;
+            return (fairPlayShopDatabaseContext, dbContextFactory);
         }
 
         private static TestUserProviderService GetUserProviderService()
@@ -44,49 +51,49 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         internal static async Task<IProductService> GetProductServiceAsync()
         {
             IUserProviderService userProviderService = GetUserProviderService();
-            FairPlayShopDatabaseContext fairPlayShopDatabaseContext = await GetFairPlayShopDatabaseContextAsync();
-            return new ProductService(userProviderService, fairPlayShopDatabaseContext);
+            var (fairPlayShopDatabaseContext, dbFactory) = await GetFairPlayShopDatabaseContextAsync();
+            return new ProductService(userProviderService, dbFactory);
         }
 
         internal static async Task<IStoreService> GetStoreServiceAsync()
         {
             IUserProviderService userProviderService = GetUserProviderService();
-            FairPlayShopDatabaseContext fairPlayShopDatabaseContext = await GetFairPlayShopDatabaseContextAsync();
+            var (fairPlayShopDatabaseContext, dbFactory) = await GetFairPlayShopDatabaseContextAsync();
             var loggerFactory = LoggerFactory.Create(p => p.AddConsole());
             var logger =
             loggerFactory.CreateLogger<StoreService>();
-            return new StoreService(userProviderService, fairPlayShopDatabaseContext, logger);
+            return new StoreService(userProviderService, dbFactory, logger);
         }
 
         internal static async Task<IStoreCustomerService> GetStoreCustomerServiceAsync()
         {
             IUserProviderService userProviderService = GetUserProviderService();
-            FairPlayShopDatabaseContext fairPlayShopDatabaseContext = await GetFairPlayShopDatabaseContextAsync();
-            return new StoreCustomerService(userProviderService, fairPlayShopDatabaseContext);
+            var (fairPlayShopDatabaseContext, dbFactory) = await GetFairPlayShopDatabaseContextAsync();
+            return new StoreCustomerService(userProviderService, dbFactory);
         }
 
         internal static async Task<ICountryService> GetCountryServiceAsync()
         {
-            FairPlayShopDatabaseContext fairPlayShopDatabaseContext = await GetFairPlayShopDatabaseContextAsync();
-            return new CountryService(fairPlayShopDatabaseContext);
+            var config = await GetFairPlayShopDatabaseContextAsync();
+            return new CountryService(config.dbContextFactory);
         }
 
         internal static async Task<IStateOrProvinceService> GetStateOrProvinceServiceAsync()
         {
-            FairPlayShopDatabaseContext fairPlayShopDatabaseContext = await GetFairPlayShopDatabaseContextAsync();
-            return new StateOrProvinceService(fairPlayShopDatabaseContext);
+            var config = await GetFairPlayShopDatabaseContextAsync();
+            return new StateOrProvinceService(config.dbContextFactory);
         }
 
         internal static async Task<ICityService> GetCityServiceAsync()
         {
-            FairPlayShopDatabaseContext fairPlayShopDatabaseContext = await GetFairPlayShopDatabaseContextAsync();
-            return new CityService(fairPlayShopDatabaseContext);
+            var config = await GetFairPlayShopDatabaseContextAsync();
+            return new CityService(config.dbContextFactory);
         }
 
         internal static async Task<IStoreCustomerOrderService> GetStoreCustomerOrderServiceAsync()
         {
-            FairPlayShopDatabaseContext fairPlayShopDatabaseContext = await GetFairPlayShopDatabaseContextAsync();
-            return new StoreCustomerOrderService(fairPlayShopDatabaseContext);
+            var config = await GetFairPlayShopDatabaseContextAsync();
+            return new StoreCustomerOrderService(config.dbContextFactory);
         }
     }
 }

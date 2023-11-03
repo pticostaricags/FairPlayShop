@@ -10,10 +10,11 @@ using System.Threading.Tasks;
 
 namespace FairPlayShop.ServerSideServices
 {
-    public class CountryService(FairPlayShopDatabaseContext fairPlayShopDatabaseContext) : ICountryService
+    public class CountryService(IDbContextFactory<FairPlayShopDatabaseContext> dbContextFactory) : ICountryService
     {
         public async Task<CountryModel[]?> GetCountryListAsync(CancellationToken cancellationToken)
         {
+            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken:cancellationToken);
             var result = await fairPlayShopDatabaseContext.Country
                 .AsNoTracking()
                 .OrderBy(p=>p.Name)

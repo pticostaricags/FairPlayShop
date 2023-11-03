@@ -3,6 +3,7 @@ using FairPlayShop.DataAccess.Data;
 using FairPlayShop.DataAccess.Models;
 using FairPlayShop.Interfaces.Services;
 using FairPlayShop.Models.StoreCustomerOrder;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 namespace FairPlayShop.ServerSideServices
 {
     [ServerSideServiceOfT<DataAccess.Models.StoreCustomerOrder>]
-    public class StoreCustomerOrderService(FairPlayShopDatabaseContext fairPlayShopDatabaseContext)
+    public class StoreCustomerOrderService(IDbContextFactory<FairPlayShopDatabaseContext> dbContextFactory)
         : IStoreCustomerOrderService
     {
         public async Task CreateStoreCustomerOrderAsync(CreateStoreCustomerOrderModel createStoreCustomerOrderModel, CancellationToken cancellationToken)
@@ -35,6 +36,7 @@ namespace FairPlayShop.ServerSideServices
                     UnityPrice = singleOrderLine.UnitPrice!.Value
                 });
             }
+            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken:cancellationToken);
             await fairPlayShopDatabaseContext.StoreCustomerOrder.AddAsync(
                 storeCustomerOrder, cancellationToken: cancellationToken);
             await fairPlayShopDatabaseContext.SaveChangesAsync(cancellationToken: cancellationToken);

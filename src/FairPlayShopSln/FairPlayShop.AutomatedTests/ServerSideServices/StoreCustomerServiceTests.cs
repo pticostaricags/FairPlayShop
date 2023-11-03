@@ -34,7 +34,8 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestCleanup]
         public async Task TestCleanupAsync()
         {
-            var ctx = await GetFairPlayShopDatabaseContextAsync();
+            var config = await GetFairPlayShopDatabaseContextAsync();
+            var ctx = config.dbContext;
             foreach (var singleProduct in ctx.Product)
             {
                 ctx.Product.Remove(singleProduct);
@@ -85,7 +86,8 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestMethod]
         public async Task Test_CreateMyStoreCustomerAsync()
         {
-            var ctx = await GetFairPlayShopDatabaseContextAsync();
+            var config = await GetFairPlayShopDatabaseContextAsync();
+            var ctx = config.dbContext;
             var user = await CreateTestUserAsync(ctx);
             ServerSideServicesTestBase.CurrentUserId = user.Id;
             Store store = new Store()
@@ -143,7 +145,8 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestMethod]
         public async Task Test_GetMyStoreCustomerAsync()
         {
-            var ctx = await GetFairPlayShopDatabaseContextAsync();
+            var config = await GetFairPlayShopDatabaseContextAsync();
+            var ctx = config.dbContext;
             var user = await CreateTestUserAsync(ctx);
             ServerSideServicesTestBase.CurrentUserId = user.Id;
             Store store = new Store()
@@ -173,7 +176,8 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestMethod]
         public async Task Test_GetMyStoreCustomerListAsync()
         {
-            var ctx = await GetFairPlayShopDatabaseContextAsync();
+            var config = await GetFairPlayShopDatabaseContextAsync();
+            var ctx = config.dbContext;
             var user = await CreateTestUserAsync(ctx);
             ServerSideServicesTestBase.CurrentUserId = user.Id;
             Store store = new Store()
@@ -204,7 +208,8 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestMethod]
         public async Task Test_DeleteMyStoreCustomerAsync()
         {
-            var ctx = await GetFairPlayShopDatabaseContextAsync();
+            var config = await GetFairPlayShopDatabaseContextAsync();
+            var ctx = config.dbContext;
             var user = await CreateTestUserAsync(ctx);
             ServerSideServicesTestBase.CurrentUserId = user.Id;
             Store store = new Store()

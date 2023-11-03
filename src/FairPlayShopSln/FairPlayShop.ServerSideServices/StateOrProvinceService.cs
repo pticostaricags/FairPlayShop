@@ -10,12 +10,13 @@ using System.Threading.Tasks;
 
 namespace FairPlayShop.ServerSideServices
 {
-    public class StateOrProvinceService(FairPlayShopDatabaseContext fairPlayShopDatabaseContext) 
+    public class StateOrProvinceService(IDbContextFactory<FairPlayShopDatabaseContext> dbContextFactory) 
         : IStateOrProvinceService
     {
         public async Task<StateOrProvinceModel[]?> GetCountryStateOrProvinceListAsync(
             long countryId, CancellationToken cancellationToken)
         {
+            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken:cancellationToken);
             var result = await fairPlayShopDatabaseContext.StateOrProvince
                 .Where(p => p.CountryId == countryId)
                 .Select(p => new StateOrProvinceModel() 

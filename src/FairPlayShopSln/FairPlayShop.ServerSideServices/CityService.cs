@@ -10,11 +10,12 @@ using System.Threading.Tasks;
 
 namespace FairPlayShop.ServerSideServices
 {
-    public class CityService(FairPlayShopDatabaseContext fairPlayShopDatabaseContext)
+    public class CityService(IDbContextFactory<FairPlayShopDatabaseContext> dbContextFactory)
         : ICityService
     {
         public async Task<CityModel[]?> GetStateOrProvinceCityListAsync(long stateOrProvinceId, CancellationToken cancellationToken)
         {
+            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken:cancellationToken);
             var result = await fairPlayShopDatabaseContext!.City
                 .Where(p => p.StateOrProvinceId == stateOrProvinceId)
                 .OrderBy(p=>p.Name)
