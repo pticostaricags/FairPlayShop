@@ -9,18 +9,12 @@ namespace FairPlayShop.CustomLocalization.EF
     /// Handles EF-based localization
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class EFStringLocalizer<T> : IStringLocalizer<T>
+    /// <remarks>
+    /// Initializes <see cref="EFStringLocalizer{T}"/>
+    /// </remarks>
+    /// <param name="dbContextFactory"></param>
+    public class EFStringLocalizer<T>(IDbContextFactory<FairPlayShopDatabaseContext> dbContextFactory) : IStringLocalizer<T>
     {
-        private IDbContextFactory<FairPlayShopDatabaseContext> _dbContextFactory;
-
-        /// <summary>
-        /// Initializes <see cref="EFStringLocalizer{T}"/>
-        /// </summary>
-        /// <param name="dbContextFactory"></param>
-        public EFStringLocalizer(IDbContextFactory<FairPlayShopDatabaseContext> dbContextFactory)
-        {
-            _dbContextFactory = dbContextFactory;
-        }
 
         /// <summary>
         /// Retrieves the value for the given key
@@ -60,7 +54,7 @@ namespace FairPlayShop.CustomLocalization.EF
         public IStringLocalizer WithCulture(CultureInfo culture)
         {
             CultureInfo.DefaultThreadCurrentCulture = culture;
-            return new EFStringLocalizer(_dbContextFactory);
+            return new EFStringLocalizer(dbContextFactory);
         }
 
         /// <summary>
@@ -70,7 +64,7 @@ namespace FairPlayShop.CustomLocalization.EF
         /// <returns></returns>
         public IEnumerable<LocalizedString> GetAllStrings(bool includeAncestorCultures)
         {
-            var db = this._dbContextFactory.CreateDbContext();
+            var db = dbContextFactory.CreateDbContext();
             var typeFullName = typeof(T).FullName;
             return db.Resource
                 .Include(r => r.Culture)
@@ -82,7 +76,7 @@ namespace FairPlayShop.CustomLocalization.EF
 
         private string? GetString(string name)
         {
-            var db = this._dbContextFactory.CreateDbContext();
+            var db = dbContextFactory.CreateDbContext();
             var typeFullName = typeof(T).FullName;
             return db.Resource
                 .Include(r => r.Culture)

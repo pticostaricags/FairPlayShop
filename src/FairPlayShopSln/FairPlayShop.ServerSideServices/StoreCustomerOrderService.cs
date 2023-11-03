@@ -12,13 +12,11 @@ using System.Threading.Tasks;
 namespace FairPlayShop.ServerSideServices
 {
     [ServerSideServiceOfT<DataAccess.Models.StoreCustomerOrder>]
-    public class StoreCustomerOrderService(
-        IUserProviderService userProviderService, FairPlayShopDatabaseContext fairPlayShopDatabaseContext)
+    public class StoreCustomerOrderService(FairPlayShopDatabaseContext fairPlayShopDatabaseContext)
         : IStoreCustomerOrderService
     {
         public async Task CreateStoreCustomerOrderAsync(CreateStoreCustomerOrderModel createStoreCustomerOrderModel, CancellationToken cancellationToken)
         {
-            var userId = userProviderService.GetCurrentUserId();
             StoreCustomerOrder storeCustomerOrder = new()
             {
                 StoreCustomerId = createStoreCustomerOrderModel.StoreCustomerId!.Value,

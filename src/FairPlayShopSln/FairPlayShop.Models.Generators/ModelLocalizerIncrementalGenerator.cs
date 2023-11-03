@@ -83,7 +83,7 @@ namespace FairPlaySocial.Services.Generators
                             string namespaceValue = $"FairPlayShop.Models.{entityName}";
                             var fullyQualifiedMetadataName = $"{namespaceValue}.{typeArgumentName}";
                             var typedSymbol = compilation.GetTypeByMetadataName(fullyQualifiedMetadataName);
-                            var properties = typedSymbol.GetMembers().Where(p => p.Kind == SymbolKind.Property);
+                            var properties = typedSymbol!.GetMembers().Where(p => p.Kind == SymbolKind.Property);
                             StringBuilder stringBuilder = new();
                             stringBuilder.AppendLine("using Microsoft.Extensions.Localization;");
                             stringBuilder.AppendLine("using FairPlayShop.Common.CustomAttributes;");

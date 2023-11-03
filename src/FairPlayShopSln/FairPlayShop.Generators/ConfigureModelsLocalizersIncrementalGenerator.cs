@@ -82,7 +82,7 @@ namespace FairPlaySocial.Services.Generators
                 }
             }
 
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             sb.AppendLine("partial class Program");
             sb.AppendLine("{");
             sb.AppendLine("static partial void ConfigureModelsLocalizers(IServiceProvider services)");

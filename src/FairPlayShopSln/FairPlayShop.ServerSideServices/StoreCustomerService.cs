@@ -17,7 +17,7 @@ namespace FairPlayShop.ServerSideServices
         public async Task CreateMyStoreCustomerAsync(CreateStoreCustomerModel createStoreCustomerModel, CancellationToken cancellationToken)
         {
             var userId = userProviderService.GetCurrentUserId();
-            StoreCustomer storeCustomer = new StoreCustomer()
+            StoreCustomer storeCustomer = new()
             {
                 EmailAddress = createStoreCustomerModel.EmailAddress,
                 Firstname = createStoreCustomerModel.Firstname,

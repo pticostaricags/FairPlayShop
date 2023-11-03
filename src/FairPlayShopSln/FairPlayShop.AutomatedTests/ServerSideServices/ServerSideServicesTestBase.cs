@@ -85,9 +85,8 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
 
         internal static async Task<IStoreCustomerOrderService> GetStoreCustomerOrderServiceAsync()
         {
-            IUserProviderService userProviderService = GetUserProviderService();
             FairPlayShopDatabaseContext fairPlayShopDatabaseContext = await GetFairPlayShopDatabaseContextAsync();
-            return new StoreCustomerOrderService(userProviderService, fairPlayShopDatabaseContext);
+            return new StoreCustomerOrderService(fairPlayShopDatabaseContext);
         }
     }
 }

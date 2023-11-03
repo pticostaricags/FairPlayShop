@@ -1,19 +1,22 @@
 ﻿using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 
-[Route("[controller]/[action]")]
-public class CultureController : Controller
+namespace FairPlayShop.Controllers
 {
-    public IActionResult Set(string culture, string redirectUri)
+    [Route("[controller]/[action]")]
+    public class CultureController : Controller
     {
-        if (culture != null)
+        public IActionResult Set(string culture, string redirectUri)
         {
-            HttpContext.Response.Cookies.Append(
-                CookieRequestCultureProvider.DefaultCookieName,
-                CookieRequestCultureProvider.MakeCookieValue(
-                    new RequestCulture(culture, culture)));
-        }
+            if (culture != null)
+            {
+                HttpContext.Response.Cookies.Append(
+                    CookieRequestCultureProvider.DefaultCookieName,
+                    CookieRequestCultureProvider.MakeCookieValue(
+                        new RequestCulture(culture, culture)));
+            }
 
-        return LocalRedirect(redirectUri);
+            return LocalRedirect(redirectUri);
+        }
     }
 }

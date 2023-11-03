@@ -20,7 +20,7 @@ namespace FairPlayShop.ServerSideServices
         {
             logger.LogInformation($"Executing {{{nameof(createStoreModel)}}}", createStoreModel);
             var userId = userProviderService.GetCurrentUserId();
-            Store entity = new Store()
+            Store entity = new()
             {
                 Name = createStoreModel.Name,
                 OwnerId = userId,
