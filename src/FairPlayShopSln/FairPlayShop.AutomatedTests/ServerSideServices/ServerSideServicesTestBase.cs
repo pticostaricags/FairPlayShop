@@ -2,6 +2,7 @@
 using FairPlayShop.Interfaces.Services;
 using FairPlayShop.ServerSideServices;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,7 +52,10 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         {
             IUserProviderService userProviderService = GetUserProviderService();
             FairPlayShopDatabaseContext fairPlayShopDatabaseContext = await GetFairPlayShopDatabaseContextAsync();
-            return new StoreService(userProviderService, fairPlayShopDatabaseContext);
+            var loggerFactory = LoggerFactory.Create(p => p.AddConsole());
+            var logger =
+            loggerFactory.CreateLogger<StoreService>();
+            return new StoreService(userProviderService, fairPlayShopDatabaseContext, logger);
         }
 
         internal static async Task<IStoreCustomerService> GetStoreCustomerServiceAsync()
