@@ -3,6 +3,7 @@ using FairPlayShop.DataAccess.Models;
 using FairPlayShop.Interfaces.Services;
 using FairPlayShop.Models.Store;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,13 @@ using System.Threading.Tasks;
 namespace FairPlayShop.ServerSideServices
 {
     public class StoreService(IUserProviderService userProviderService,
-        FairPlayShopDatabaseContext fairPlayShopDatabaseContext) : IStoreService
+        FairPlayShopDatabaseContext fairPlayShopDatabaseContext,
+        ILogger<StoreService> logger) : IStoreService
     {
         public async Task CreateMyStoreAsync(CreateStoreModel createStoreModel, CancellationToken cancellationToken)
         {
+            Convert.tore
+            logger.LogInformation($"Executing {{{nameof(createStoreModel)}}}", createStoreModel);
             var userId = userProviderService.GetCurrentUserId();
             Store entity = new Store()
             {
