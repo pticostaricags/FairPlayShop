@@ -1,7 +1,9 @@
-﻿@using FairPlayShop.Interfaces.Services
+﻿@using FairPlayShop.Common.CustomAttributes
+@using FairPlayShop.Interfaces.Services
 @using FairPlayShop.Models.Product
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.QuickGrid
+@using Microsoft.Extensions.Localization
 @attribute [Route($"{Common.Constants.ApiRoutes.MyProductList}/Store/{{StoreId:long}}")]
 @attribute [Authorize]
 @rendermode RenderMode.InteractiveServer
@@ -9,21 +11,21 @@
 <FairPlayShop.Components.Spinners.LoadingIndicator ShowSpinners="@this.IsBusy"></FairPlayShop.Components.Spinners.LoadingIndicator>
 
 <PageTitle>
-    @nameof(Common.Constants.ApiRoutes.MyProductList)
+    @Localizer![MyProductListTextKey]
 </PageTitle>
 <h3>
-    @nameof(Common.Constants.ApiRoutes.MyProductList)
+    @Localizer![MyProductListTextKey]
 </h3>
 
 @if (this.MyProducts != null)
 {
     <QuickGrid Items="this.MyProducts">
-        <PropertyColumn Property="@( p => p.ProductId)" Sortable="true" IsDefaultSortColumn="true"></PropertyColumn>
-        <PropertyColumn Property="@( p => p.Name)" Sortable="true"></PropertyColumn>
-        <PropertyColumn Property="@( p => p.QuantityInStock)" Sortable="true"></PropertyColumn>
-        <PropertyColumn Property="@( p => p.SellingPrice)" Format="c" Sortable="true"></PropertyColumn>
-        <PropertyColumn Property="@( p => p.AcquisitionCost)" Format="c" Sortable="true"></PropertyColumn>
-        <PropertyColumn Property="@( p => p.Profit)" Format="c" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![ProductIdTextKey]" Property="@( p => p.ProductId)" Sortable="true" IsDefaultSortColumn="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![ProductNameTextKey]" Property="@( p => p.Name)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![QuantityInStockTextKey]" Property="@( p => p.QuantityInStock)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![SellingPriceTextKey]" Property="@( p => p.SellingPrice)" Format="c" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![AcquisitionCostTextKey]" Property="@( p => p.AcquisitionCost)" Format="c" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![ProfitTextKey]" Property="@( p => p.Profit)" Format="c" Sortable="true"></PropertyColumn>
         <TemplateColumn>
             <button class="btn btn-secondary" @onclick="@(()=>NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.CreateMyProduct}/Store/{StoreId}/Product/{context.ProductId}"))">Edit Product</button>
         </TemplateColumn>
@@ -37,6 +39,8 @@
     private IProductService? ProductService { get; set; }
     [Inject]
     private NavigationManager? NavigationManager { get; set; }
+    [Inject]
+    private IStringLocalizer<MyProductList>? Localizer { get; set; }
     private bool IsBusy { get; set; }
     private IQueryable<ProductModel>? MyProducts { get; set; }
     private CancellationTokenSource CancellationTokenSource { get; set; } = new();
@@ -44,4 +48,19 @@
     {
         this.MyProducts = (await this.ProductService!.GetMyStoreProductListAsync(this.StoreId, CancellationTokenSource.Token))?.AsQueryable();
     }
+
+    [ResourceKey(defaultValue: "My Product List")]
+    public const string MyProductListTextKey = "MyProductListText";
+    [ResourceKey(defaultValue: "Product Id")]
+    public const string ProductIdTextKey = "ProductIdText";
+    [ResourceKey(defaultValue: "Product Name")]
+    public const string ProductNameTextKey = "ProductNameText";
+    [ResourceKey(defaultValue: "Quantity In Stock")]
+    public const string QuantityInStockTextKey = "QuantityInStockText";
+    [ResourceKey(defaultValue: "Selling Price")]
+    public const string SellingPriceTextKey = "SellingPriceText";
+    [ResourceKey(defaultValue: "Acquisition Cost")]
+    public const string AcquisitionCostTextKey = "AcquisitionCostText";
+    [ResourceKey(defaultValue: "Profit Text")]
+    public const string ProfitTextKey = "ProfitText";
 }
