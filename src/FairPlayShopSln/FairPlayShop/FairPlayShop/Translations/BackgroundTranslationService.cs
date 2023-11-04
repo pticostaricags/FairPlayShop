@@ -115,6 +115,7 @@ namespace FairPlayShop.Translations
                             .AnyAsync(p => p.CultureId == singleCulture.CultureId &&
                             p.Key == resource.Key && p.Type == resource.Type) == false)
                         {
+                            Logger.LogInformation("Translating: \"{Value}\" to \"{Name}\"", resource.Value, singleCulture.Name);
                             TranslationResponse? translationResponse = await
                                 azureOpenAIService!
                                 .TranslateSimpleTextAsync(resource.Value,
@@ -144,6 +145,7 @@ namespace FairPlayShop.Translations
                 Logger.LogError(ex.Message);
             }
             //TODO: Find a Translaton NuGet package that does not require external services
+            Logger.LogInformation("Process {BackgroundTranslationService} completed", nameof(BackgroundTranslationService));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿@using Blazored.Toast.Services
+@using FairPlayShop.Common.CustomAttributes
 @using FairPlayShop.Common.Enums
 @using FairPlayShop.Interfaces.Services
 @using FairPlayShop.Models.City
@@ -7,6 +8,7 @@
 @using FairPlayShop.Models.StateOrProvince
 @using FairPlayShop.Models.StoreCustomer
 @using Microsoft.AspNetCore.Authorization
+@using Microsoft.Extensions.Localization
 @attribute [Route($"{Common.Constants.ApiRoutes.CreateMyStoreCustomer}/Store/{{StoreId:long}}")]
 @attribute [Route($"{Common.Constants.ApiRoutes.CreateMyStoreCustomer}/Store/{{StoreId:long}}/Customer/{{CustomerId:long}}")]
 @attribute [Authorize]
@@ -15,10 +17,10 @@
 <LoadingIndicator ShowSpinners="this.IsBusy"></LoadingIndicator>
 
 <PageTitle>
-    @nameof(Common.Constants.ApiRoutes.CreateMyStoreCustomer)
+    @Localizer![CreateMyStoreCustomerTextKey]
 </PageTitle>
 <h3>
-    @nameof(Common.Constants.ApiRoutes.CreateMyStoreCustomer)
+    @Localizer![CreateMyStoreCustomerTextKey]
 </h3>
 
 <EditForm FormName="frmCreateStoreCustomer" Model="@this.CreateStoreCustomerModel"
@@ -29,75 +31,75 @@
     </div>
     <div class="mb-3">
         <h3>Customer Info</h3>
-        <label class="form-label">@nameof(CreateStoreCustomerModel.Firstname)</label>
+        <label class="form-label">@Localizer![FirstnameTextKey]</label>
         <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.Firstname"></InputText>
         <ValidationMessage For="@( () => CreateStoreCustomerModel.Firstname)"></ValidationMessage>
     </div>
     <div class="mb-3">
-        <label class="form-label">@nameof(CreateStoreCustomerModel.Lastname)</label>
+        <label class="form-label">@Localizer![LastnameTextKey]</label>
         <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.Lastname"></InputText>
         <ValidationMessage For="@( () => CreateStoreCustomerModel.Lastname)"></ValidationMessage>
     </div>
     <div class="mb-3">
-        <label class="form-label">@nameof(CreateStoreCustomerModel.Surname)</label>
+        <label class="form-label">@Localizer![SurnameTextKey]</label>
         <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.Surname"></InputText>
         <ValidationMessage For="@( () => CreateStoreCustomerModel.Surname)"></ValidationMessage>
     </div>
     <div class="mb-3">
-        <label class="form-label">@nameof(CreateStoreCustomerModel.EmailAddress)</label>
+        <label class="form-label">@Localizer![EmailAddressTextKey]</label>
         <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.EmailAddress"></InputText>
         <ValidationMessage For="@( () => CreateStoreCustomerModel.EmailAddress)"></ValidationMessage>
     </div>
     <div class="mb-3">
-        <label class="form-label">@nameof(CreateStoreCustomerModel.PhoneNumber)</label>
+        <label class="form-label">@Localizer![PhoneNumberTextKey]</label>
         <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.PhoneNumber"></InputText>
         <ValidationMessage For="@( () => CreateStoreCustomerModel.PhoneNumber)"></ValidationMessage>
     </div>
     <div class="mb-3">
         <h3>Customer Address</h3>
-        <label class="form-label">@nameof(CreateStoreCustomerModel.CreateStoreCustomerAddressModel.Firstname)</label>
+        <label class="form-label">@Localizer![FirstnameTextKey]</label>
         <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.Firstname"></InputText>
         <ValidationMessage For="@( () => CreateStoreCustomerModel.CreateStoreCustomerAddressModel.Firstname)"></ValidationMessage>
     </div>
     <div class="mb-3">
-        <label class="form-label">@nameof(CreateStoreCustomerModel.CreateStoreCustomerAddressModel.Lastname)</label>
+        <label class="form-label">@Localizer![LastnameTextKey]</label>
         <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.Lastname"></InputText>
         <ValidationMessage For="@( () => CreateStoreCustomerModel.CreateStoreCustomerAddressModel.Lastname)"></ValidationMessage>
     </div>
     <div class="mb-3">
-        <label class="form-label">@nameof(CreateStoreCustomerModel.CreateStoreCustomerAddressModel.Company)</label>
+        <label class="form-label">@Localizer![CompanyTextKey]</label>
         <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.Company"></InputText>
         <ValidationMessage For="@( () => CreateStoreCustomerModel.CreateStoreCustomerAddressModel.Company)"></ValidationMessage>
     </div>
     <div class="mb-3">
-        <label class="form-label">@nameof(CreateStoreCustomerModel.CreateStoreCustomerAddressModel.AddressLine1)</label>
+        <label class="form-label">@Localizer![AddressLine1TextKey]</label>
         <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.AddressLine1"></InputText>
         <ValidationMessage For="@( () => CreateStoreCustomerModel.CreateStoreCustomerAddressModel.AddressLine1)"></ValidationMessage>
     </div>
     <div class="mb-3">
-        <label class="form-label">@nameof(CreateStoreCustomerModel.CreateStoreCustomerAddressModel.AddressLine2)</label>
+        <label class="form-label">@Localizer![AddressLine2TextKey]</label>
         <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.AddressLine2"></InputText>
         <ValidationMessage For="@( () => CreateStoreCustomerModel.CreateStoreCustomerAddressModel.AddressLine2)"></ValidationMessage>
     </div>
     <div class="mb-3">
-        <label class="form-label">@nameof(CreateStoreCustomerModel.CreateStoreCustomerAddressModel.PhoneNumber)</label>
+        <label class="form-label">@Localizer![PhoneNumberTextKey]</label>
         <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.PhoneNumber"></InputText>
         <ValidationMessage For="@( () => CreateStoreCustomerModel.CreateStoreCustomerAddressModel.PhoneNumber)"></ValidationMessage>
     </div>
     <div class="mb-3">
-        <label class="form-label">@nameof(CreateStoreCustomerModel.CreateStoreCustomerAddressModel.PostalCode)</label>
+        <label class="form-label">@Localizer![PostalCodeTextKey]</label>
         <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.PostalCode"></InputText>
         <ValidationMessage For="@( () => CreateStoreCustomerModel.CreateStoreCustomerAddressModel.PostalCode)"></ValidationMessage>
     </div>
     @if (this.CountryList != null)
     {
         <div class="mb-3">
-            <label class="form-label">Country</label>
+            <label class="form-label">@Localizer![CountryTextKey]</label>
             <InputSelect class="form-select"
                          ValueExpression="@( () => SelectedCountryId)"
                          Value="@SelectedCountryId"
                          ValueChanged="@( async (int? selectedValue) => await OnSelectedCountryChangedAsync(selectedValue))">
-                <option value="">Select a Country</option>
+                <option value="">@Localizer![SelectCountryTextKey]</option>
                 @foreach (var singleCountry in this.CountryList)
                 {
                     <option value="@singleCountry.CountryId">@singleCountry.Name</option>
@@ -108,12 +110,12 @@
     @if (this.StateOrProvinceList != null)
     {
         <div class="mb-3">
-            <label class="form-label">State Or Province</label>
+            <label class="form-label">@Localizer![StateOrProvinceTextKey]</label>
             <InputSelect class="form-select"
                          ValueExpression="@( () => SelectedStateOrProvinceId)"
                          Value="@SelectedStateOrProvinceId"
                          ValueChanged="@( async (int? selectedValue) => await OnSelectedStateOrProvinceChangedAsync(selectedValue))">
-                <option value="">Select a State Or Province</option>
+                <option value="">@Localizer![SelectStateOrProvinceTextKey]</option>
                 @foreach (var singleStateOrProvince in this.StateOrProvinceList)
                 {
                     <option value="@singleStateOrProvince.StateOrProvinceId">@singleStateOrProvince.Name</option>
@@ -124,9 +126,9 @@
     @if (this.CityList != null)
     {
         <div class="mb-3">
-            <label class="form-label">City</label>
+            <label class="form-label">@Localizer![CityTextKey]</label>
             <InputSelect class="form-select" @bind-Value="this.CreateStoreCustomerModel.CreateStoreCustomerAddressModel.CityId">
-                <option value="">Select a City</option>
+                <option value="">@Localizer![SelectCityTextKey]</option>
                 @foreach (var singleCity in this.CityList)
                 {
                     <option value="@singleCity.CityId">@singleCity.Name</option>
@@ -157,6 +159,8 @@
     private ICityService? CityService { get; set; }
     [Inject]
     private NavigationManager? NavigationManager { get; set; }
+    [Inject]
+    private IStringLocalizer<CreateMyStoreCustomer>? Localizer { get; set; }
     [SupplyParameterFromForm]
     private CreateStoreCustomerModel? CreateStoreCustomerModel { get; set; } = new CreateStoreCustomerModel()
         {
@@ -227,4 +231,39 @@
         this.CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.CityId = null;
         this.IsBusy = false;
     }
+
+    [ResourceKey(defaultValue: "Create My Store Customer")]
+    public const string CreateMyStoreCustomerTextKey = "CreateMyStoreCustomerText";
+    [ResourceKey(defaultValue: "Name")]
+    public const string FirstnameTextKey = "FirstnameTextKey";
+    [ResourceKey(defaultValue: "First Surname")]
+    public const string LastnameTextKey = "LastnameTextKey";
+    [ResourceKey(defaultValue: "Middle Surname")]
+    public const string SurnameTextKey = "SurnameTextKey";
+    [ResourceKey(defaultValue: "Email Address")]
+    public const string EmailAddressTextKey = "EmailAddressText";
+    [ResourceKey(defaultValue: "Phone Number")]
+    public const string PhoneNumberTextKey = "PhoneNumberText";
+    [ResourceKey(defaultValue: "Company")]
+    public const string CompanyTextKey = "CompanyText";
+    [ResourceKey(defaultValue: "Address Line 1")]
+    public const string AddressLine1TextKey = "AddressLine1Text";
+    [ResourceKey(defaultValue: "Address Line 2")]
+    public const string AddressLine2TextKey = "AddressLine2Text";
+    [ResourceKey(defaultValue: "Postal Code")]
+    public const string PostalCodeTextKey = "PostalCodeText";
+    [ResourceKey(defaultValue: "Country")]
+    public const string CountryTextKey = "CountryText";
+    [ResourceKey(defaultValue: "Select a Country")]
+    public const string SelectCountryTextKey = "SelectCountryText";
+    [ResourceKey(defaultValue: "State Or Province")]
+    public const string StateOrProvinceTextKey = "StateOrProvinceText";
+    [ResourceKey(defaultValue: "Select a State Or Province")]
+    public const string SelectStateOrProvinceTextKey = "SelectStateOrProvinceText";
+    [ResourceKey(defaultValue: "City")]
+    public const string CityTextKey = "CityText";
+    [ResourceKey(defaultValue: "Select a City")]
+    public const string SelectCityTextKey = "SelectCityText";
+    [ResourceKey(defaultValue: "Save")]
+    public const string SaveTextKey = "SaveText";
 }
