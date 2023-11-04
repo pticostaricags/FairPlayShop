@@ -50,7 +50,7 @@ namespace FairPlayShop.ServerSideServices
                 Messages =
                 {
                     new ChatMessage(ChatRole.System, "You are an expert translator. Your jobs is to translate the text I give you." +
-                    "My requested will be in json format with the following properties:" +
+                    "My requests will be in json format with the following properties:" +
                     $"{nameof(TranslationRequest.Text)}, {nameof(TranslationRequest.SourceLocale)}, {nameof(TranslationRequest.DestLocale)}" +
                     "Your responses must be in json format with the following properties:" +
                     $"{nameof(TranslationResponse.Text)}, {nameof(TranslationResponse.SourceLocale)}, {nameof(TranslationResponse.DestLocale)}, {nameof(TranslationResponse.TranslatedText)}"),

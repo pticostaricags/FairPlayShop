@@ -20,9 +20,9 @@
 {
     <QuickGrid Items="this.MyStoreCustomers">
         <PropertyColumn Property="@( p=> p.StoreCustomerId)" Sortable="true"></PropertyColumn>
-        <PropertyColumn Property="@( p=> p.Firstname)" Sortable="true"></PropertyColumn>
-        <PropertyColumn Property="@( p=> p.Lastname)" Sortable="true"></PropertyColumn>
-        <PropertyColumn Property="@( p=> p.Surname)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Property="@( p=> p.Name)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Property="@( p=> p.FirstSurname)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Property="@( p=> p.MiddleSurname)" Sortable="true"></PropertyColumn>
         <PropertyColumn Property="@( p=> p.EmailAddress)" Sortable="true"></PropertyColumn>
         <PropertyColumn Property="@( p=> p.PhoneNumber)" Sortable="true"></PropertyColumn>
         <TemplateColumn>

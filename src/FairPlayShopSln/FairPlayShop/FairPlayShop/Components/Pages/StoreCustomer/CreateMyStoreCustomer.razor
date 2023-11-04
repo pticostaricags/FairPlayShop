@@ -31,19 +31,19 @@
     </div>
     <div class="mb-3">
         <h3>Customer Info</h3>
-        <label class="form-label">@Localizer![FirstnameTextKey]</label>
-        <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.Firstname"></InputText>
-        <ValidationMessage For="@( () => CreateStoreCustomerModel.Firstname)"></ValidationMessage>
+        <label class="form-label">@Localizer![NameTextKey]</label>
+        <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.Name"></InputText>
+        <ValidationMessage For="@( () => CreateStoreCustomerModel.Name)"></ValidationMessage>
     </div>
     <div class="mb-3">
-        <label class="form-label">@Localizer![LastnameTextKey]</label>
-        <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.Lastname"></InputText>
-        <ValidationMessage For="@( () => CreateStoreCustomerModel.Lastname)"></ValidationMessage>
+        <label class="form-label">@Localizer![FirstSurnameTextKey]</label>
+        <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.FirstSurname"></InputText>
+        <ValidationMessage For="@( () => CreateStoreCustomerModel.FirstSurname)"></ValidationMessage>
     </div>
     <div class="mb-3">
-        <label class="form-label">@Localizer![SurnameTextKey]</label>
-        <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.Surname"></InputText>
-        <ValidationMessage For="@( () => CreateStoreCustomerModel.Surname)"></ValidationMessage>
+        <label class="form-label">@Localizer![MiddleSurnameTextKey]</label>
+        <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.MiddleSurname"></InputText>
+        <ValidationMessage For="@( () => CreateStoreCustomerModel.MiddleSurname)"></ValidationMessage>
     </div>
     <div class="mb-3">
         <label class="form-label">@Localizer![EmailAddressTextKey]</label>
@@ -57,12 +57,12 @@
     </div>
     <div class="mb-3">
         <h3>Customer Address</h3>
-        <label class="form-label">@Localizer![FirstnameTextKey]</label>
+        <label class="form-label">@Localizer![NameTextKey]</label>
         <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.Firstname"></InputText>
         <ValidationMessage For="@( () => CreateStoreCustomerModel.CreateStoreCustomerAddressModel.Firstname)"></ValidationMessage>
     </div>
     <div class="mb-3">
-        <label class="form-label">@Localizer![LastnameTextKey]</label>
+        <label class="form-label">@Localizer![FirstSurnameTextKey]</label>
         <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.Lastname"></InputText>
         <ValidationMessage For="@( () => CreateStoreCustomerModel.CreateStoreCustomerAddressModel.Lastname)"></ValidationMessage>
     </div>
@@ -183,9 +183,9 @@
             {
                 StoreCustomerModel storeCustomerModel = await this.StoreCustomerService!.GetMyStoreCustomerAsync(this.CustomerId.Value, CancellationTokenSource.Token);
                 this.CreateStoreCustomerModel!.PhoneNumber = storeCustomerModel.PhoneNumber;
-                this.CreateStoreCustomerModel.Firstname = storeCustomerModel.Firstname;
-                this.CreateStoreCustomerModel.Lastname = storeCustomerModel.Lastname;
-                this.CreateStoreCustomerModel.Surname = storeCustomerModel.Surname;
+                this.CreateStoreCustomerModel.Name = storeCustomerModel.Name;
+                this.CreateStoreCustomerModel.FirstSurname = storeCustomerModel.FirstSurname;
+                this.CreateStoreCustomerModel.MiddleSurname = storeCustomerModel.MiddleSurname;
                 this.CreateStoreCustomerModel.EmailAddress = storeCustomerModel.EmailAddress;
             }
         }
@@ -235,11 +235,11 @@
     [ResourceKey(defaultValue: "Create My Store Customer")]
     public const string CreateMyStoreCustomerTextKey = "CreateMyStoreCustomerText";
     [ResourceKey(defaultValue: "Name")]
-    public const string FirstnameTextKey = "FirstnameTextKey";
+    public const string NameTextKey = "NameTextKey";
     [ResourceKey(defaultValue: "First Surname")]
-    public const string LastnameTextKey = "LastnameTextKey";
+    public const string FirstSurnameTextKey = "FirstSurnameText";
     [ResourceKey(defaultValue: "Middle Surname")]
-    public const string SurnameTextKey = "SurnameTextKey";
+    public const string MiddleSurnameTextKey = "MiddleSurnameText";
     [ResourceKey(defaultValue: "Email Address")]
     public const string EmailAddressTextKey = "EmailAddressText";
     [ResourceKey(defaultValue: "Phone Number")]

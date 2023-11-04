@@ -20,11 +20,11 @@ namespace FairPlayShop.ServerSideServices
             StoreCustomer storeCustomer = new()
             {
                 EmailAddress = createStoreCustomerModel.EmailAddress,
-                Firstname = createStoreCustomerModel.Firstname,
-                Lastname = createStoreCustomerModel.Lastname,
+                Name = createStoreCustomerModel.Name,
+                FirstSurname = createStoreCustomerModel.FirstSurname,
                 PhoneNumber = createStoreCustomerModel.PhoneNumber,
                 StoreId = createStoreCustomerModel.StoreId!.Value,
-                Surname = createStoreCustomerModel.Surname,
+                MiddleSurname = createStoreCustomerModel.MiddleSurname,
                 StoreCustomerAddress = [
                     new StoreCustomerAddress()
                     {
@@ -67,12 +67,12 @@ namespace FairPlayShop.ServerSideServices
                 .Select(p => new StoreCustomerModel()
                 {
                     EmailAddress = p.EmailAddress,
-                    Firstname = p.Firstname,
-                    Lastname = p.Lastname,
+                    Name = p.Name,
+                    FirstSurname = p.FirstSurname,
                     PhoneNumber = p.PhoneNumber,
                     StoreId = p.StoreId,
                     StoreCustomerId = p.StoreCustomerId,
-                    Surname = p.Surname
+                    MiddleSurname = p.MiddleSurname
                 }).SingleAsync(cancellationToken: cancellationToken);
             return result;
         }
@@ -85,12 +85,12 @@ namespace FairPlayShop.ServerSideServices
                 .Select(p => new StoreCustomerModel()
                 {
                     EmailAddress = p.EmailAddress,
-                    Firstname = p.Firstname,
-                    Lastname = p.Lastname,
+                    Name = p.Name,
+                    FirstSurname = p.FirstSurname,
                     PhoneNumber = p.PhoneNumber,
                     StoreId = p.StoreId,
                     StoreCustomerId = p.StoreCustomerId,
-                    Surname = p.Surname
+                    MiddleSurname = p.MiddleSurname
                 }).ToArrayAsync(cancellationToken: cancellationToken);
             return result;
         }

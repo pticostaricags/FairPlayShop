@@ -119,11 +119,11 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             CreateStoreCustomerModel createStoreCustomerModel = new CreateStoreCustomerModel()
             {
                 EmailAddress = "t@t.t",
-                Firstname = "AT Firstname",
-                Lastname = "AT Lastname",
+                Name = "AT Firstname",
+                FirstSurname = "AT Lastname",
                 StoreId = store.StoreId,
                 PhoneNumber = "1234567890",
-                Surname = "AT Surname",
+                MiddleSurname = "AT Surname",
                 CreateStoreCustomerAddressModel = new Models.StoreCustomerAddress.CreateStoreCustomerAddressModel()
                 {
                     AddressLine1 = "AD1",
@@ -160,11 +160,11 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             StoreCustomer storeCustomer = new StoreCustomer()
             {
                 EmailAddress = "t@t.t",
-                Firstname = "AT Firstname",
-                Lastname = "AT Lastname",
+                Name = "AT Firstname",
+                FirstSurname = "AT Lastname",
                 StoreId = store.StoreId,
                 PhoneNumber = "1234567890",
-                Surname = "AT Surname"
+                MiddleSurname = "AT Surname"
             };
             await ctx.StoreCustomer.AddAsync(storeCustomer);
             await ctx.SaveChangesAsync();
@@ -191,11 +191,11 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             StoreCustomer storeCustomer = new StoreCustomer()
             {
                 EmailAddress = "t@t.t",
-                Firstname = "AT Firstname",
-                Lastname = "AT Lastname",
+                Name = "AT Firstname",
+                FirstSurname = "AT Lastname",
                 StoreId = store.StoreId,
                 PhoneNumber = "1234567890",
-                Surname = "AT Surname"
+                MiddleSurname = "AT Surname"
             };
             await ctx.StoreCustomer.AddAsync(storeCustomer);
             await ctx.SaveChangesAsync();
@@ -223,11 +223,11 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             StoreCustomer storeCustomer = new StoreCustomer()
             {
                 EmailAddress = "t@t.t",
-                Firstname = "AT Firstname",
-                Lastname = "AT Lastname",
+                Name = "AT Firstname",
+                FirstSurname = "AT Lastname",
                 StoreId = store.StoreId,
                 PhoneNumber = "1234567890",
-                Surname = "AT Surname"
+                MiddleSurname = "AT Surname"
             };
             await ctx.StoreCustomer.AddAsync(storeCustomer);
             await ctx.SaveChangesAsync();

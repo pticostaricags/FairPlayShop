@@ -24,8 +24,8 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                 new Azure.AzureKeyCredential(key));
             AzureOpenAIService azureOpenAIService =
                 new AzureOpenAIService(openAIClient);
-            var sourceText = "Hola";
-            var expectedTranslation = "Hello";
+            var sourceText = "Hello";
+            var expectedTranslation = "Hola";
             var result = await azureOpenAIService.TranslateSimpleTextAsync(sourceText, "en-US",
                 "es-CR", CancellationToken.None);
             Assert.AreEqual(expectedTranslation, result!.TranslatedText);

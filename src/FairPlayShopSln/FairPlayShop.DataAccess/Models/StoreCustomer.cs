@@ -17,15 +17,15 @@ public partial class StoreCustomer
 
     [Required]
     [StringLength(50)]
-    public string Firstname { get; set; }
+    public string Name { get; set; }
 
     [Required]
     [StringLength(50)]
-    public string Lastname { get; set; }
+    public string FirstSurname { get; set; }
 
     [Required]
     [StringLength(50)]
-    public string Surname { get; set; }
+    public string MiddleSurname { get; set; }
 
     [Required]
     [StringLength(50)]

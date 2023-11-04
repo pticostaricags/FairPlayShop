@@ -16,22 +16,22 @@ namespace FairPlayShop.Models.StoreCustomer
         public long? StoreId { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(CreateStoreCustomerModelLocalizer),
-            ErrorMessageResourceName = nameof(CreateStoreCustomerModelLocalizer.Firstname_Required))]
+            ErrorMessageResourceName = nameof(CreateStoreCustomerModelLocalizer.Name_Required))]
         [StringLength(50, ErrorMessageResourceType = typeof(CreateStoreCustomerModelLocalizer),
-            ErrorMessageResourceName = nameof(CreateStoreCustomerModelLocalizer.Firstname_StringLength))]
-        public string? Firstname { get; set; }
+            ErrorMessageResourceName = nameof(CreateStoreCustomerModelLocalizer.Name_StringLength))]
+        public string? Name { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(CreateStoreCustomerModelLocalizer),
-            ErrorMessageResourceName = nameof(CreateStoreCustomerModelLocalizer.Lastname_Required))]
+            ErrorMessageResourceName = nameof(CreateStoreCustomerModelLocalizer.FirstSurname_Required))]
         [StringLength(50, ErrorMessageResourceType = typeof(CreateStoreCustomerModelLocalizer),
-            ErrorMessageResourceName = nameof(CreateStoreCustomerModelLocalizer.LastnameStringLengthTextKey))]
-        public string? Lastname { get; set; }
+            ErrorMessageResourceName = nameof(CreateStoreCustomerModelLocalizer.FirstSurnameStringLengthTextKey))]
+        public string? FirstSurname { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(CreateStoreCustomerModelLocalizer),
-            ErrorMessageResourceName = nameof(CreateStoreCustomerModelLocalizer.Surname_Required))]
+            ErrorMessageResourceName = nameof(CreateStoreCustomerModelLocalizer.MiddleSurname_Required))]
         [StringLength(50, ErrorMessageResourceType = typeof(CreateStoreCustomerModelLocalizer),
-            ErrorMessageResourceName = nameof(CreateStoreCustomerModelLocalizer.SurnameStringLengthTextKey))]
-        public string? Surname { get; set; }
+            ErrorMessageResourceName = nameof(CreateStoreCustomerModelLocalizer.MiddleSurnameStringLengthTextKey))]
+        public string? MiddleSurname { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(CreateStoreCustomerModelLocalizer),
             ErrorMessageResourceName =nameof(CreateStoreCustomerModelLocalizer.EmailAddress_Required))]
