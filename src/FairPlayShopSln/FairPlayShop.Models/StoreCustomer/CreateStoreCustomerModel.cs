@@ -28,10 +28,10 @@ namespace FairPlayShop.Models.StoreCustomer
         public string? FirstSurname { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(CreateStoreCustomerModelLocalizer),
-            ErrorMessageResourceName = nameof(CreateStoreCustomerModelLocalizer.MiddleSurname_Required))]
+            ErrorMessageResourceName = nameof(CreateStoreCustomerModelLocalizer.SecondSurname_Required))]
         [StringLength(50, ErrorMessageResourceType = typeof(CreateStoreCustomerModelLocalizer),
-            ErrorMessageResourceName = nameof(CreateStoreCustomerModelLocalizer.MiddleSurnameStringLengthTextKey))]
-        public string? MiddleSurname { get; set; }
+            ErrorMessageResourceName = nameof(CreateStoreCustomerModelLocalizer.SecondSurnameStringLengthTextKey))]
+        public string? SecondSurname { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(CreateStoreCustomerModelLocalizer),
             ErrorMessageResourceName =nameof(CreateStoreCustomerModelLocalizer.EmailAddress_Required))]

@@ -123,15 +123,16 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                 FirstSurname = "AT Lastname",
                 StoreId = store.StoreId,
                 PhoneNumber = "1234567890",
-                MiddleSurname = "AT Surname",
+                SecondSurname = "AT Surname",
                 CreateStoreCustomerAddressModel = new Models.StoreCustomerAddress.CreateStoreCustomerAddressModel()
                 {
                     AddressLine1 = "AD1",
                     AddressLine2 = "AD2",
                     CityId = city.CityId,
                     Company = "CMP",
-                    Firstname = "AFN",
-                    Lastname = "ALN",
+                    Name = "NMN",
+                    FirstSurname = "AFN",
+                    SecondSurname = "ALN",
                     PhoneNumber = "1234567890",
                     PostalCode = "12345"
                 }
@@ -164,7 +165,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                 FirstSurname = "AT Lastname",
                 StoreId = store.StoreId,
                 PhoneNumber = "1234567890",
-                MiddleSurname = "AT Surname"
+                SecondSurname = "AT Surname"
             };
             await ctx.StoreCustomer.AddAsync(storeCustomer);
             await ctx.SaveChangesAsync();
@@ -195,7 +196,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                 FirstSurname = "AT Lastname",
                 StoreId = store.StoreId,
                 PhoneNumber = "1234567890",
-                MiddleSurname = "AT Surname"
+                SecondSurname = "AT Surname"
             };
             await ctx.StoreCustomer.AddAsync(storeCustomer);
             await ctx.SaveChangesAsync();
@@ -227,7 +228,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                 FirstSurname = "AT Lastname",
                 StoreId = store.StoreId,
                 PhoneNumber = "1234567890",
-                MiddleSurname = "AT Surname"
+                SecondSurname = "AT Surname"
             };
             await ctx.StoreCustomer.AddAsync(storeCustomer);
             await ctx.SaveChangesAsync();

@@ -24,7 +24,7 @@
         <PropertyColumn Title="@Localizer![StoreCustomerIdTextKey]" Property="@( p=> p.StoreCustomerId)" Sortable="true"></PropertyColumn>
         <PropertyColumn Title="@Localizer![NameTextKey]" Property="@( p=> p.Name)" Sortable="true"></PropertyColumn>
         <PropertyColumn Title="@Localizer![FirstSurnameTextKey]" Property="@( p=> p.FirstSurname)" Sortable="true"></PropertyColumn>
-        <PropertyColumn Title="@Localizer![MiddleSurnameTextKey]" Property="@( p=> p.MiddleSurname)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![SecondSurnameTextKey]" Property="@( p=> p.SecondSurname)" Sortable="true"></PropertyColumn>
         <PropertyColumn Title="@Localizer![EmailAddressTextKey]" Property="@( p=> p.EmailAddress)" Sortable="true"></PropertyColumn>
         <PropertyColumn Title="@Localizer![PhoneNumberTextKey]" Property="@( p=> p.PhoneNumber)" Sortable="true"></PropertyColumn>
         <TemplateColumn>
@@ -72,8 +72,8 @@
     public const string NameTextKey = "NameText";
     [ResourceKey(defaultValue: "First Surname")]
     public const string FirstSurnameTextKey = "FirstSurnameText";
-    [ResourceKey(defaultValue: "Middle Surname")]
-    public const string MiddleSurnameTextKey = "MiddleSurnameText";
+    [ResourceKey(defaultValue: "Second Surname")]
+    public const string SecondSurnameTextKey = "SecondSurnameText";
     [ResourceKey(defaultValue: "Email Address")]
     public const string EmailAddressTextKey = "EmailAddressText";
     [ResourceKey(defaultValue: "Phone Number")]

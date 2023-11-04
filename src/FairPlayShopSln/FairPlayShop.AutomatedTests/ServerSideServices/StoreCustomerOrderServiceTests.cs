@@ -100,7 +100,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                 FirstSurname = "AT Lastname",
                 StoreId = store.StoreId,
                 PhoneNumber = "1234567890",
-                MiddleSurname = "AT Surname"
+                SecondSurname = "AT Surname"
             };
             await ctx.StoreCustomer.AddAsync(storeCustomer);
             await ctx.SaveChangesAsync();

@@ -41,9 +41,9 @@
         <ValidationMessage For="@( () => CreateStoreCustomerModel.FirstSurname)"></ValidationMessage>
     </div>
     <div class="mb-3">
-        <label class="form-label">@Localizer![MiddleSurnameTextKey]</label>
-        <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.MiddleSurname"></InputText>
-        <ValidationMessage For="@( () => CreateStoreCustomerModel.MiddleSurname)"></ValidationMessage>
+        <label class="form-label">@Localizer![SecondSurnameTextKey]</label>
+        <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.SecondSurname"></InputText>
+        <ValidationMessage For="@( () => CreateStoreCustomerModel.SecondSurname)"></ValidationMessage>
     </div>
     <div class="mb-3">
         <label class="form-label">@Localizer![EmailAddressTextKey]</label>
@@ -58,13 +58,18 @@
     <div class="mb-3">
         <h3>Customer Address</h3>
         <label class="form-label">@Localizer![NameTextKey]</label>
-        <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.Firstname"></InputText>
-        <ValidationMessage For="@( () => CreateStoreCustomerModel.CreateStoreCustomerAddressModel.Firstname)"></ValidationMessage>
+        <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.Name"></InputText>
+        <ValidationMessage For="@( () => CreateStoreCustomerModel.CreateStoreCustomerAddressModel.Name)"></ValidationMessage>
     </div>
     <div class="mb-3">
         <label class="form-label">@Localizer![FirstSurnameTextKey]</label>
-        <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.Lastname"></InputText>
-        <ValidationMessage For="@( () => CreateStoreCustomerModel.CreateStoreCustomerAddressModel.Lastname)"></ValidationMessage>
+        <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.FirstSurname"></InputText>
+        <ValidationMessage For="@( () => CreateStoreCustomerModel.CreateStoreCustomerAddressModel.FirstSurname)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">@Localizer![SecondSurnameTextKey]</label>
+        <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.SecondSurname"></InputText>
+        <ValidationMessage For="@( () => CreateStoreCustomerModel.CreateStoreCustomerAddressModel.SecondSurname)"></ValidationMessage>
     </div>
     <div class="mb-3">
         <label class="form-label">@Localizer![CompanyTextKey]</label>
@@ -185,7 +190,7 @@
                 this.CreateStoreCustomerModel!.PhoneNumber = storeCustomerModel.PhoneNumber;
                 this.CreateStoreCustomerModel.Name = storeCustomerModel.Name;
                 this.CreateStoreCustomerModel.FirstSurname = storeCustomerModel.FirstSurname;
-                this.CreateStoreCustomerModel.MiddleSurname = storeCustomerModel.MiddleSurname;
+                this.CreateStoreCustomerModel.SecondSurname = storeCustomerModel.SecondSurname;
                 this.CreateStoreCustomerModel.EmailAddress = storeCustomerModel.EmailAddress;
             }
         }
@@ -238,8 +243,8 @@
     public const string NameTextKey = "NameTextKey";
     [ResourceKey(defaultValue: "First Surname")]
     public const string FirstSurnameTextKey = "FirstSurnameText";
-    [ResourceKey(defaultValue: "Middle Surname")]
-    public const string MiddleSurnameTextKey = "MiddleSurnameText";
+    [ResourceKey(defaultValue: "Second Surname")]
+    public const string SecondSurnameTextKey = "SecondSurnameText";
     [ResourceKey(defaultValue: "Email Address")]
     public const string EmailAddressTextKey = "EmailAddressText";
     [ResourceKey(defaultValue: "Phone Number")]

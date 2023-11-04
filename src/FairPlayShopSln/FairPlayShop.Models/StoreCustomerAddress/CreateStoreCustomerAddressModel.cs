@@ -11,16 +11,22 @@ namespace FairPlayShop.Models.StoreCustomerAddress
     public class CreateStoreCustomerAddressModel
     {
         [Required(ErrorMessageResourceType = typeof(CreateStoreCustomerAddressModelLocalizer),
-            ErrorMessageResourceName = nameof(CreateStoreCustomerAddressModelLocalizer.Firstname_Required))]
+            ErrorMessageResourceName = nameof(CreateStoreCustomerAddressModelLocalizer.Name_Required))]
         [StringLength(50, ErrorMessageResourceType = typeof(CreateStoreCustomerAddressModelLocalizer),
-            ErrorMessageResourceName = nameof(CreateStoreCustomerAddressModelLocalizer.Firstname_StringLength))]
-        public string? Firstname { get; set; }
+            ErrorMessageResourceName = nameof(CreateStoreCustomerAddressModelLocalizer.Name_StringLength))]
+        public string? Name { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(CreateStoreCustomerAddressModelLocalizer),
-            ErrorMessageResourceName = nameof(CreateStoreCustomerAddressModelLocalizer.Lastname_Required))]
+            ErrorMessageResourceName = nameof(CreateStoreCustomerAddressModelLocalizer.FirstSurname_Required))]
         [StringLength(50, ErrorMessageResourceType = typeof(CreateStoreCustomerAddressModelLocalizer),
-            ErrorMessageResourceName = nameof(CreateStoreCustomerAddressModelLocalizer.Lastname_StringLength))]
-        public string? Lastname { get; set; }
+            ErrorMessageResourceName = nameof(CreateStoreCustomerAddressModelLocalizer.FirstSurname_StringLength))]
+        public string? FirstSurname { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(CreateStoreCustomerAddressModelLocalizer),
+            ErrorMessageResourceName = nameof(CreateStoreCustomerAddressModelLocalizer.SecondSurname_Required))]
+        [StringLength(50, ErrorMessageResourceType = typeof(CreateStoreCustomerAddressModelLocalizer),
+            ErrorMessageResourceName = nameof(CreateStoreCustomerAddressModelLocalizer.SecondSurname_StringLength))]
+        public string? SecondSurname { get; set; }
 
         [StringLength(50, ErrorMessageResourceType = typeof(CreateStoreCustomerAddressModelLocalizer),
             ErrorMessageResourceName = nameof(CreateStoreCustomerAddressModelLocalizer.Company_StringLength))]

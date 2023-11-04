@@ -17,11 +17,15 @@ public partial class StoreCustomerAddress
 
     [Required]
     [StringLength(50)]
-    public string Firstname { get; set; }
+    public string Name { get; set; }
 
     [Required]
     [StringLength(50)]
-    public string Lastname { get; set; }
+    public string FirstSurname { get; set; }
+
+    [Required]
+    [StringLength(50)]
+    public string SecondSurname { get; set; }
 
     [StringLength(50)]
     public string Company { get; set; }

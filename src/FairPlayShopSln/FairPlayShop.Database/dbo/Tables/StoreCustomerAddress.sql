@@ -2,8 +2,9 @@
 (
 	[StoreCustomerAddressId] BIGINT NOT NULL CONSTRAINT PK_StoreCustomerAddress PRIMARY KEY IDENTITY, 
     [CountryId] INT NOT NULL, 
-    [Firstname] NVARCHAR(50) NOT NULL, 
-    [Lastname] NVARCHAR(50) NOT NULL, 
+    [Name] NVARCHAR(50) NOT NULL, 
+    [FirstSurname] NVARCHAR(50) NOT NULL,
+    [SecondSurname] NVARCHAR(50) NOT NULL,
     [Company] NVARCHAR(50) NULL, 
     [AddressLine1] NVARCHAR(50) NOT NULL, 
     [AddressLine2] NVARCHAR(50) NOT NULL, 

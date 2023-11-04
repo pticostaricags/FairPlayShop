@@ -25,7 +25,7 @@ public partial class StoreCustomer
 
     [Required]
     [StringLength(50)]
-    public string MiddleSurname { get; set; }
+    public string SecondSurname { get; set; }
 
     [Required]
     [StringLength(50)]

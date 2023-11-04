@@ -24,7 +24,7 @@ namespace FairPlayShop.ServerSideServices
                 FirstSurname = createStoreCustomerModel.FirstSurname,
                 PhoneNumber = createStoreCustomerModel.PhoneNumber,
                 StoreId = createStoreCustomerModel.StoreId!.Value,
-                MiddleSurname = createStoreCustomerModel.MiddleSurname,
+                SecondSurname = createStoreCustomerModel.SecondSurname,
                 StoreCustomerAddress = [
                     new StoreCustomerAddress()
                     {
@@ -32,8 +32,9 @@ namespace FairPlayShop.ServerSideServices
                         AddressLine2 = createStoreCustomerModel.CreateStoreCustomerAddressModel.AddressLine2,
                         CityId = createStoreCustomerModel.CreateStoreCustomerAddressModel.CityId!.Value,
                         Company = createStoreCustomerModel.CreateStoreCustomerAddressModel.Company,
-                        Firstname = createStoreCustomerModel.CreateStoreCustomerAddressModel.Firstname,
-                        Lastname = createStoreCustomerModel.CreateStoreCustomerAddressModel.Lastname,
+                        Name = createStoreCustomerModel.CreateStoreCustomerAddressModel.Name,
+                        FirstSurname = createStoreCustomerModel.CreateStoreCustomerAddressModel.FirstSurname,
+                        SecondSurname = createStoreCustomerModel.CreateStoreCustomerAddressModel.SecondSurname,
                         PhoneNumber = createStoreCustomerModel.CreateStoreCustomerAddressModel.PhoneNumber,
                         PostalCode = createStoreCustomerModel.CreateStoreCustomerAddressModel.PostalCode
                     }
@@ -72,7 +73,7 @@ namespace FairPlayShop.ServerSideServices
                     PhoneNumber = p.PhoneNumber,
                     StoreId = p.StoreId,
                     StoreCustomerId = p.StoreCustomerId,
-                    MiddleSurname = p.MiddleSurname
+                    SecondSurname = p.SecondSurname
                 }).SingleAsync(cancellationToken: cancellationToken);
             return result;
         }
@@ -90,7 +91,7 @@ namespace FairPlayShop.ServerSideServices
                     PhoneNumber = p.PhoneNumber,
                     StoreId = p.StoreId,
                     StoreCustomerId = p.StoreCustomerId,
-                    MiddleSurname = p.MiddleSurname
+                    SecondSurname = p.SecondSurname
                 }).ToArrayAsync(cancellationToken: cancellationToken);
             return result;
         }

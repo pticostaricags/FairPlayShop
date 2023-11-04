@@ -39,6 +39,8 @@
     private IStoreService? StoreService { get; set; }
     [Inject]
     private IStringLocalizer<CreateMyStore>? Localizer { get; set; }
+    [Inject]
+    private NavigationManager? NavigationManager { get; set; }
     [SupplyParameterFromForm]
     private CreateStoreModel? CreateStoreModel { get; set; } = new CreateStoreModel();
     private CancellationTokenSource CancellationTokenSource { get; set; } = new();
@@ -46,6 +48,7 @@
     private async Task OnValidSubmitAsync()
     {
         await this.StoreService!.CreateMyStoreAsync(this.CreateStoreModel!, CancellationTokenSource.Token);
+        this.NavigationManager?.NavigateTo(Common.Constants.ApiRoutes.MyStoreList);
     }
 
     [ResourceKey(defaultValue: "Create My Store")]
