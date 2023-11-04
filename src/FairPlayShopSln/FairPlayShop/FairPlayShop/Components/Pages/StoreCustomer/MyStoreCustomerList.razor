@@ -46,22 +46,24 @@
 
     protected override async Task OnInitializedAsync()
     {
+        this.IsBusy = true;
         await LoadDataAsync();
+        this.IsBusy = false;
     }
 
     private async Task LoadDataAsync()
     {
-        this.IsBusy = true;
         this.MyStoreCustomers =
         (await this.StoreCustomerService!.GetMyStoreCustomerListAsync(this.StoreId!, CancellationTokenSource.Token))?
         .AsQueryable();
-        this.IsBusy = false;
     }
 
     private async Task OnDeleteCustomerAsync(long storeCustomerId)
     {
+        this.IsBusy = true;
         await this.StoreCustomerService!.DeleteMyStoreCustomerAsync(storeCustomerId, CancellationTokenSource.Token);
         await LoadDataAsync();
+        this.IsBusy = false;
     }
 
     [ResourceKey(defaultValue: "My Store Customer List")]

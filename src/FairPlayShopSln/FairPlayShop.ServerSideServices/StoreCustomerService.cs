@@ -40,7 +40,7 @@ namespace FairPlayShop.ServerSideServices
                     }
                     ]
             };
-            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken:cancellationToken);
+            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken: cancellationToken);
             await fairPlayShopDatabaseContext.StoreCustomer.AddAsync(storeCustomer, cancellationToken: cancellationToken);
             await fairPlayShopDatabaseContext.SaveChangesAsync(cancellationToken: cancellationToken);
         }
@@ -48,13 +48,19 @@ namespace FairPlayShop.ServerSideServices
         public async Task DeleteMyStoreCustomerAsync(long storeCustomerId, CancellationToken cancellationToken)
         {
             var userId = userProviderService.GetCurrentUserId();
-            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken:cancellationToken);
+            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken: cancellationToken);
             var entity = await fairPlayShopDatabaseContext
                 .StoreCustomer
+                .Include(p => p.StoreCustomerAddress)
                 .Where(p => p.StoreCustomerId == storeCustomerId && p.Store.OwnerId == userId)
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
             if (entity is not null)
             {
+                foreach (var singleAddress in entity.StoreCustomerAddress)
+                {
+                    fairPlayShopDatabaseContext
+                        .StoreCustomerAddress.Remove(singleAddress);
+                }
                 fairPlayShopDatabaseContext.StoreCustomer.Remove(entity);
                 await fairPlayShopDatabaseContext.SaveChangesAsync(cancellationToken: cancellationToken);
             }
@@ -62,7 +68,7 @@ namespace FairPlayShop.ServerSideServices
 
         public async Task<StoreCustomerModel> GetMyStoreCustomerAsync(long storeCustomerId, CancellationToken cancellationToken)
         {
-            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken:cancellationToken);
+            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken: cancellationToken);
             var result = await fairPlayShopDatabaseContext.StoreCustomer.AsNoTracking()
                 .Where(p => p.StoreCustomerId == storeCustomerId)
                 .Select(p => new StoreCustomerModel()
@@ -80,7 +86,7 @@ namespace FairPlayShop.ServerSideServices
 
         public async Task<StoreCustomerModel[]?> GetMyStoreCustomerListAsync(long storeId, CancellationToken cancellationToken)
         {
-            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken:cancellationToken);
+            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken: cancellationToken);
             var result = await fairPlayShopDatabaseContext.StoreCustomer.AsNoTracking()
                 .Where(p => p.StoreId == storeId)
                 .Select(p => new StoreCustomerModel()
