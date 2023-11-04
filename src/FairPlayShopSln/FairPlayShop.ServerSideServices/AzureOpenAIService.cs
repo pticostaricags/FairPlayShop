@@ -33,7 +33,7 @@ namespace FairPlayShop.ServerSideServices
                     new ChatMessage(ChatRole.User, JsonSerializer.Serialize(translationRequest))
                 }
             };
-            var response = await openAIClient.GetChatCompletionsAsync("testchat",
+            var response = await openAIClient.GetChatCompletionsAsync("translationschat",
                 chatCompletionsOptions, cancellationToken: cancellationToken);
             var contentResponse = 
             response.Value.Choices[0].Message.Content;
@@ -57,7 +57,7 @@ namespace FairPlayShop.ServerSideServices
                     new ChatMessage(ChatRole.User, JsonSerializer.Serialize(textsToTranslate))
                 }
             };
-            var response = await openAIClient.GetChatCompletionsAsync("testchat",
+            var response = await openAIClient.GetChatCompletionsAsync("translationschat",
                 chatCompletionsOptions, cancellationToken: cancellationToken);
             var contentResponse =
             response.Value.Choices[0].Message.Content;

@@ -1,3 +1,4 @@
+using Azure.AI.OpenAI;
 using Blazored.Toast;
 using FairPlayShop.Client.Pages;
 using FairPlayShop.Common.CustomAttributes;
@@ -18,6 +19,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Localization;
 using System.Diagnostics;
 using System.Reflection;
@@ -66,6 +68,15 @@ internal partial class Program
             });
         });
 
+        var endpoint = builder.Configuration["AzureOpenAI:Endpoint"] ?? throw new Exception("Can't find config for AzureOpenAI:Endpoint");
+        var key = builder.Configuration["AzureOpenAI:Key"] ?? throw new Exception("Can't find config for AzureOpenAI:Key");
+
+        builder.Services.AddTransient<IAzureOpenAIService>(sp => 
+        {
+            OpenAIClient openAIClient = new OpenAIClient(endpoint:new Uri(endpoint),
+                keyCredential:new Azure.AzureKeyCredential(key));
+            return new AzureOpenAIService(openAIClient);
+        });
         builder.Services.AddSingleton<IEmailSender, NoOpEmailSender>();
         builder.Services.AddSingleton<IUserProviderService, UserProviderService>();
         builder.Services.AddTransient<IProductService, ProductService>();

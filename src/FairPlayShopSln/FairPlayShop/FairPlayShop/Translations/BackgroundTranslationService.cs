@@ -1,6 +1,8 @@
 ﻿using FairPlayShop.Common.CustomAttributes;
 using FairPlayShop.DataAccess.Data;
 using FairPlayShop.DataAccess.Models;
+using FairPlayShop.Interfaces.Services;
+using FairPlayShop.Models.AzureOpenAI;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -99,6 +101,41 @@ namespace FairPlayShop.Translations
                 .Include(p => p.Culture)
                 .Where(p => p.Culture.Name == "en-US")
                 .ToListAsync(stoppingToken);
+            var allNonDefaultCulture = await fairplayshopDatabaseContext.Culture
+                .Where(p => p.Name != "en-US").ToArrayAsync(stoppingToken);
+            IAzureOpenAIService azureOpenAIService =
+                scope.ServiceProvider.GetRequiredService<IAzureOpenAIService>();
+            foreach (var resource in allEnglishUSKeys)
+            {
+                foreach (var singleCulture in await fairplayshopDatabaseContext.Culture.ToArrayAsync(cancellationToken: stoppingToken))
+                {
+                    if (await fairplayshopDatabaseContext.Resource
+                        .AnyAsync(p => p.CultureId == singleCulture.CultureId &&
+                        p.Key == resource.Key) == false)
+                    {
+                        TranslationResponse? translationResponse = await
+                            azureOpenAIService!
+                            .TranslateSimpleTextAsync(resource.Value,
+                            "en-US", singleCulture.Name,
+                            cancellationToken: stoppingToken);
+                        if (translationResponse != null)
+                        {
+                            await fairplayshopDatabaseContext.Resource
+                                .AddAsync(new Resource()
+                                {
+                                    CultureId = singleCulture.CultureId,
+                                    Key = resource.Key,
+                                    Type = resource.Type,
+                                    Value = translationResponse.TranslatedText ?? resource.Value
+                                },
+                                cancellationToken: stoppingToken);
+                            await fairplayshopDatabaseContext
+                                .SaveChangesAsync(cancellationToken: stoppingToken);
+                        }
+
+                    }
+                }
+            }
             //TODO: Find a Translaton NuGet package that does not require external services
         }
     }

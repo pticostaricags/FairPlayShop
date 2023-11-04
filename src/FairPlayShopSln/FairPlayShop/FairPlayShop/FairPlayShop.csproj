@@ -19,6 +19,7 @@
     <ProjectReference Include="..\..\FairPlayShop.Generators\FairPlayShop.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     <ProjectReference Include="..\..\FairPlayShop.ServerSideServices\FairPlayShop.ServerSideServices.csproj" />
     <ProjectReference Include="..\FairPlayShop.Client\FairPlayShop.Client.csproj" />
+    <PackageReference Include="Azure.AI.OpenAI" Version="1.0.0-beta.8" />
     <PackageReference Include="Blazored.Toast" Version="4.1.0" />
     <PackageReference Include="Humanizer" Version="2.14.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="8.0.0-rc.2.23480.2" />
