@@ -13,19 +13,19 @@
 <LoadingIndicator ShowSpinners="this.IsBusy"></LoadingIndicator>
 
 <PageTitle>
-    @Localizer![nameof(Common.Constants.ApiRoutes.MyStoreList)].Value.Titleize()
+    @Localizer![MyStoreListTextKey]
 </PageTitle>
 
 <h3>
-    @Localizer![nameof(Common.Constants.ApiRoutes.MyStoreList)].Value.Titleize()
+    @Localizer![MyStoreListTextKey]
 </h3>
 
 @if (MyStores != null)
 {
     <QuickGrid Items="MyStores">
-        <PropertyColumn Property="@( p=> p.StoreId)" Sortable="true"></PropertyColumn>
-        <PropertyColumn Property="@( p=> p.Name)" Sortable="true"></PropertyColumn>
-        <PropertyColumn Property="@( p=> p.CustomerCount)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![StoreIdTextKey]" Property="@( p=> p.StoreId)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![NameTextKey]" Property="@( p=> p.Name)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![CustomerCountTextKey]" Property="@( p=> p.CustomerCount)" Sortable="true"></PropertyColumn>
         <TemplateColumn>
             <a href="@($"{Common.Constants.ApiRoutes.CreateMyProduct}/Store/{context.StoreId}")"
                data-toggle="tooltip" data-placement="top" title="@Localizer![AddProductsTextKey]">
@@ -83,6 +83,8 @@
         await this.CancellationTokenSource.CancelAsync();
     }
 
+    [ResourceKey(defaultValue: "My Store List")]
+    public const string MyStoreListTextKey = "MyStoreListText";
     [ResourceKey(defaultValue: "Add Products")]
     public const string AddProductsTextKey = "AddProductsText";
     [ResourceKey(defaultValue: "List Products")]
@@ -93,4 +95,10 @@
     public const string ListCustomersTextKey = "ListCustomersText";
     [ResourceKey(defaultValue: "Create Customer Order")]
     public const string CreateCustomerOrderTextKey = "CreateCustomerOrderText";
+    [ResourceKey(defaultValue: "Store Id")]
+    public const string StoreIdTextKey = "StoreIdText";
+    [ResourceKey(defaultValue: "Name")]
+    public const string NameTextKey = "NameText";
+    [ResourceKey(defaultValue: "Customer Count")]
+    public const string CustomerCountTextKey = "CustomerCountText";
 }
