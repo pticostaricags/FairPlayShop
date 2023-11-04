@@ -105,36 +105,43 @@ namespace FairPlayShop.Translations
                 .Where(p => p.Name != "en-US").ToArrayAsync(stoppingToken);
             IAzureOpenAIService azureOpenAIService =
                 scope.ServiceProvider.GetRequiredService<IAzureOpenAIService>();
-            foreach (var resource in allEnglishUSKeys)
+            try
             {
-                foreach (var singleCulture in await fairplayshopDatabaseContext.Culture.ToArrayAsync(cancellationToken: stoppingToken))
+                foreach (var resource in allEnglishUSKeys)
                 {
-                    if (await fairplayshopDatabaseContext.Resource
-                        .AnyAsync(p => p.CultureId == singleCulture.CultureId &&
-                        p.Key == resource.Key) == false)
+                    foreach (var singleCulture in await fairplayshopDatabaseContext.Culture.ToArrayAsync(cancellationToken: stoppingToken))
                     {
-                        TranslationResponse? translationResponse = await
-                            azureOpenAIService!
-                            .TranslateSimpleTextAsync(resource.Value,
-                            "en-US", singleCulture.Name,
-                            cancellationToken: stoppingToken);
-                        if (translationResponse != null)
+                        if (await fairplayshopDatabaseContext.Resource
+                            .AnyAsync(p => p.CultureId == singleCulture.CultureId &&
+                            p.Key == resource.Key && p.Type == resource.Type) == false)
                         {
-                            await fairplayshopDatabaseContext.Resource
-                                .AddAsync(new Resource()
-                                {
-                                    CultureId = singleCulture.CultureId,
-                                    Key = resource.Key,
-                                    Type = resource.Type,
-                                    Value = translationResponse.TranslatedText ?? resource.Value
-                                },
+                            TranslationResponse? translationResponse = await
+                                azureOpenAIService!
+                                .TranslateSimpleTextAsync(resource.Value,
+                                "en-US", singleCulture.Name,
                                 cancellationToken: stoppingToken);
-                            await fairplayshopDatabaseContext
-                                .SaveChangesAsync(cancellationToken: stoppingToken);
-                        }
+                            if (translationResponse != null)
+                            {
+                                await fairplayshopDatabaseContext.Resource
+                                    .AddAsync(new Resource()
+                                    {
+                                        CultureId = singleCulture.CultureId,
+                                        Key = resource.Key,
+                                        Type = resource.Type,
+                                        Value = translationResponse.TranslatedText ?? resource.Value
+                                    },
+                                    cancellationToken: stoppingToken);
+                                await fairplayshopDatabaseContext
+                                    .SaveChangesAsync(cancellationToken: stoppingToken);
+                            }
 
+                        }
                     }
                 }
+            }
+            catch (Exception ex) 
+            {
+                Logger.LogError(ex.Message);
             }
             //TODO: Find a Translaton NuGet package that does not require external services
         }
