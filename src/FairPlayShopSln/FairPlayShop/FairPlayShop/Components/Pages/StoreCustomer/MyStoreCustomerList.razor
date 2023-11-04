@@ -1,6 +1,8 @@
-﻿@using FairPlayShop.Interfaces.Services
+﻿@using FairPlayShop.Common.CustomAttributes
+@using FairPlayShop.Interfaces.Services
 @using FairPlayShop.Models.StoreCustomer
 @using Microsoft.AspNetCore.Authorization
+@using Microsoft.Extensions.Localization
 @attribute [Route($"{Common.Constants.ApiRoutes.MyStoreCustomerList}/Store/{{StoreId:long}}")]
 @attribute [Authorize]
 @rendermode RenderMode.InteractiveServer
@@ -9,24 +11,24 @@
 <LoadingIndicator ShowSpinners="this.IsBusy"></LoadingIndicator>
 
 <PageTitle>
-    @nameof(Common.Constants.ApiRoutes.MyStoreCustomerList)
+    @Localizer![MyStoreCustomerListTextKey]
 </PageTitle>
 
 <h3>
-    @nameof(Common.Constants.ApiRoutes.MyStoreCustomerList)
+    @Localizer![MyStoreCustomerListTextKey]
 </h3>
 
 @if (this.MyStoreCustomers != null)
 {
     <QuickGrid Items="this.MyStoreCustomers">
-        <PropertyColumn Property="@( p=> p.StoreCustomerId)" Sortable="true"></PropertyColumn>
-        <PropertyColumn Property="@( p=> p.Name)" Sortable="true"></PropertyColumn>
-        <PropertyColumn Property="@( p=> p.FirstSurname)" Sortable="true"></PropertyColumn>
-        <PropertyColumn Property="@( p=> p.MiddleSurname)" Sortable="true"></PropertyColumn>
-        <PropertyColumn Property="@( p=> p.EmailAddress)" Sortable="true"></PropertyColumn>
-        <PropertyColumn Property="@( p=> p.PhoneNumber)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![StoreCustomerIdTextKey]" Property="@( p=> p.StoreCustomerId)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![NameTextKey]" Property="@( p=> p.Name)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![FirstSurnameTextKey]" Property="@( p=> p.FirstSurname)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![MiddleSurnameTextKey]" Property="@( p=> p.MiddleSurname)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![EmailAddressTextKey]" Property="@( p=> p.EmailAddress)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![PhoneNumberTextKey]" Property="@( p=> p.PhoneNumber)" Sortable="true"></PropertyColumn>
         <TemplateColumn>
-            <button class="btn btn-danger" type="button" @onclick="@( async () => await OnDeleteCustomerAsync(context.StoreCustomerId))">Delete</button>
+            <button class="btn btn-danger" type="button" @onclick="@( async () => await OnDeleteCustomerAsync(context.StoreCustomerId))">@Localizer![DeleteTextKey]</button>
         </TemplateColumn>
     </QuickGrid>
 }
@@ -36,6 +38,8 @@
     public long StoreId { get; set; }
     [Inject]
     private IStoreCustomerService? StoreCustomerService { get; set; }
+    [Inject]
+    private IStringLocalizer<MyStoreCustomerList>? Localizer { get; set; }
     private IQueryable<StoreCustomerModel>? MyStoreCustomers { get; set; }
     private bool IsBusy { get; set; }
     private CancellationTokenSource CancellationTokenSource { get; set; } = new();
@@ -59,4 +63,21 @@
         await this.StoreCustomerService!.DeleteMyStoreCustomerAsync(storeCustomerId, CancellationTokenSource.Token);
         await LoadDataAsync();
     }
+
+    [ResourceKey(defaultValue: "My Store Customer List")]
+    public const string MyStoreCustomerListTextKey = "MyStoreCustomerListText";
+    [ResourceKey(defaultValue: "Store Customer Id")]
+    public const string StoreCustomerIdTextKey = "StoreCustomerIdText";
+    [ResourceKey(defaultValue: "Name")]
+    public const string NameTextKey = "NameText";
+    [ResourceKey(defaultValue: "First Surname")]
+    public const string FirstSurnameTextKey = "FirstSurnameText";
+    [ResourceKey(defaultValue: "Middle Surname")]
+    public const string MiddleSurnameTextKey = "MiddleSurnameText";
+    [ResourceKey(defaultValue: "Email Address")]
+    public const string EmailAddressTextKey = "EmailAddressText";
+    [ResourceKey(defaultValue: "Phone Number")]
+    public const string PhoneNumberTextKey = "PhoneNumberText";
+    [ResourceKey(defaultValue: "Delete")]
+    public const string DeleteTextKey = "DeleteText";
 }
