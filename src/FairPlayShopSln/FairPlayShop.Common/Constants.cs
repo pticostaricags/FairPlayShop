@@ -13,5 +13,10 @@
             public const string CreateStoreCustomerOrder = $"/StoreCustomerOrder/{nameof(CreateStoreCustomerOrder)}";
             public const string StoreCustomerOrderList = $"/StoreCustomerOrder/{nameof(StoreCustomerOrderList)}";
         }
+
+        public static class Pagination
+        {
+            public const int PageSize = 2;
+        }
     }
 }

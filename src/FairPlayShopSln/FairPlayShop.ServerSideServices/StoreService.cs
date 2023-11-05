@@ -1,6 +1,8 @@
-﻿using FairPlayShop.DataAccess.Data;
+﻿using FairPlayShop.Common;
+using FairPlayShop.DataAccess.Data;
 using FairPlayShop.DataAccess.Models;
 using FairPlayShop.Interfaces.Services;
+using FairPlayShop.Models.Pagination;
 using FairPlayShop.Models.Store;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -30,13 +32,19 @@ namespace FairPlayShop.ServerSideServices
             await fairPlayShopDatabaseContext.SaveChangesAsync(cancellationToken: cancellationToken);
         }
 
-        public async Task<StoreModel[]?> GetMyStoreListAsync(CancellationToken cancellationToken)
+        public async Task<PaginationOfT<StoreModel>> GetMyStoreListAsync(int startIndex, CancellationToken cancellationToken)
         {
+            PaginationOfT<StoreModel> result = new PaginationOfT<StoreModel>();
             var userId = userProviderService.GetCurrentUserId();
             using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken:cancellationToken);
-            var result = await fairPlayShopDatabaseContext.Store
-                .Where(p=>p.OwnerId == userId)
-                .AsNoTracking()
+            var query = fairPlayShopDatabaseContext.Store
+                .Where(p => p.OwnerId == userId)
+                .AsNoTracking();
+            result.TotalItems = await query.CountAsync(cancellationToken: cancellationToken);
+            result.TotalPages = (int)Math.Ceiling((decimal)result.TotalItems / 
+                Constants.Pagination.PageSize);
+            result.PageSize = Constants.Pagination.PageSize;
+            result.Items = await query.Skip(startIndex).Take(Constants.Pagination.PageSize)
                 .Select(p => new StoreModel() 
                 {
                     StoreId = p.StoreId,

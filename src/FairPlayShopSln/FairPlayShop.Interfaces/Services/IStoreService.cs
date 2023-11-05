@@ -1,4 +1,5 @@
-﻿using FairPlayShop.Models.Store;
+﻿using FairPlayShop.Models.Pagination;
+using FairPlayShop.Models.Store;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,6 @@ namespace FairPlayShop.Interfaces.Services
     public interface IStoreService
     {
         Task CreateMyStoreAsync(CreateStoreModel createStoreModel, CancellationToken cancellationToken);
-        Task<StoreModel[]?> GetMyStoreListAsync(CancellationToken cancellationToken);
+        Task<PaginationOfT<StoreModel>> GetMyStoreListAsync(int startIndex, CancellationToken cancellationToken);
     }
 }

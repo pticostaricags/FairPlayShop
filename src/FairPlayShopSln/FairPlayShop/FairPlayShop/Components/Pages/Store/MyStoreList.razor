@@ -20,52 +20,49 @@
     @Localizer![MyStoreListTextKey]
 </h3>
 
-@if (MyStores != null)
-{
-    <QuickGrid Items="MyStores" Pagination="@pagination">
-        <PropertyColumn Title="@Localizer![StoreIdTextKey]" Property="@( p=> p.StoreId)" Sortable="true"></PropertyColumn>
-        <PropertyColumn Title="@Localizer![NameTextKey]" Property="@( p=> p.Name)" Sortable="true"></PropertyColumn>
-        <PropertyColumn Title="@Localizer![CustomerCountTextKey]" Property="@( p=> p.CustomerCount)" Sortable="true"></PropertyColumn>
-        <TemplateColumn>
-            <a href="@($"{Common.Constants.ApiRoutes.CreateMyProduct}/Store/{context.StoreId}")"
-               data-toggle="tooltip" data-placement="top" title="@Localizer![AddProductsTextKey]">
-                <i class="bi bi-bag-plus-fill"></i>
-            </a>
-        </TemplateColumn>
-        <TemplateColumn>
-            <a href="@($"{Common.Constants.ApiRoutes.MyProductList}/Store/{context.StoreId}")"
-               data-toggle="tooltip" data-placement="top" title="@Localizer![ListProductsTextKey]">
-                <i class="bi bi-list-stars"></i>
-            </a>
-        </TemplateColumn>
-        <TemplateColumn>
-            <a href="@($"{Common.Constants.ApiRoutes.CreateMyStoreCustomer}/Store/{context.StoreId}")"
-               data-toggle="tooltip" data-placement="top" title="@Localizer![AddCustomerTextKey]">
-                <i class="bi bi-person-fill-add"></i>
-            </a>
-        </TemplateColumn>
-        <TemplateColumn>
-            <a href="@($"{Common.Constants.ApiRoutes.MyStoreCustomerList}/Store/{context.StoreId}")"
-               data-toggle="tooltip" data-placement="top" title="@Localizer![ListCustomersTextKey]">
-                <i class="bi bi-person-lines-fill"></i>
-            </a>
+<QuickGrid ItemsProvider="@ItemsProvider" Pagination="@pagination">
+    <PropertyColumn Title="@Localizer![StoreIdTextKey]" Property="@( p=> p.StoreId)" Sortable="true"></PropertyColumn>
+    <PropertyColumn Title="@Localizer![NameTextKey]" Property="@( p=> p.Name)" Sortable="true"></PropertyColumn>
+    <PropertyColumn Title="@Localizer![CustomerCountTextKey]" Property="@( p=> p.CustomerCount)" Sortable="true"></PropertyColumn>
+    <TemplateColumn>
+        <a href="@($"{Common.Constants.ApiRoutes.CreateMyProduct}/Store/{context.StoreId}")"
+           data-toggle="tooltip" data-placement="top" title="@Localizer![AddProductsTextKey]">
+            <i class="bi bi-bag-plus-fill"></i>
+        </a>
+    </TemplateColumn>
+    <TemplateColumn>
+        <a href="@($"{Common.Constants.ApiRoutes.MyProductList}/Store/{context.StoreId}")"
+           data-toggle="tooltip" data-placement="top" title="@Localizer![ListProductsTextKey]">
+            <i class="bi bi-list-stars"></i>
+        </a>
+    </TemplateColumn>
+    <TemplateColumn>
+        <a href="@($"{Common.Constants.ApiRoutes.CreateMyStoreCustomer}/Store/{context.StoreId}")"
+           data-toggle="tooltip" data-placement="top" title="@Localizer![AddCustomerTextKey]">
+            <i class="bi bi-person-fill-add"></i>
+        </a>
+    </TemplateColumn>
+    <TemplateColumn>
+        <a href="@($"{Common.Constants.ApiRoutes.MyStoreCustomerList}/Store/{context.StoreId}")"
+           data-toggle="tooltip" data-placement="top" title="@Localizer![ListCustomersTextKey]">
+            <i class="bi bi-person-lines-fill"></i>
+        </a>
 
-        </TemplateColumn>
-        <TemplateColumn>
-            <a href="@($"{Common.Constants.ApiRoutes.CreateStoreCustomerOrder}/Store/{context.StoreId}")"
-               data-toggle="tooltip" data-placement="top" title="@Localizer![CreateCustomerOrderTextKey]">
-                <i class="bi bi-bag-fill"></i>
-            </a>
-        </TemplateColumn>
-        <TemplateColumn>
-            <a href="@($"{Common.Constants.ApiRoutes.StoreCustomerOrderList}/Store/{context.StoreId}")"
-               data-toggle="tooltip" data-placement="top" title="@Localizer![StoreCustomerOrderListTextKey]">
-                <i class="bi bi-bag-fill"></i>
-            </a>
-        </TemplateColumn>
-    </QuickGrid>
-    <Paginator State="@pagination"></Paginator>
-}
+    </TemplateColumn>
+    <TemplateColumn>
+        <a href="@($"{Common.Constants.ApiRoutes.CreateStoreCustomerOrder}/Store/{context.StoreId}")"
+           data-toggle="tooltip" data-placement="top" title="@Localizer![CreateCustomerOrderTextKey]">
+            <i class="bi bi-bag-fill"></i>
+        </a>
+    </TemplateColumn>
+    <TemplateColumn>
+        <a href="@($"{Common.Constants.ApiRoutes.StoreCustomerOrderList}/Store/{context.StoreId}")"
+           data-toggle="tooltip" data-placement="top" title="@Localizer![StoreCustomerOrderListTextKey]">
+            <i class="bi bi-bag-fill"></i>
+        </a>
+    </TemplateColumn>
+</QuickGrid>
+<Paginator State="@pagination"></Paginator>
 
 @code {
     [Inject]
@@ -74,17 +71,25 @@
     private NavigationManager? NavigationManager { get; set; }
     [Inject]
     private IStringLocalizer<MyStoreList>? Localizer { get; set; }
-    private IQueryable<StoreModel>? MyStores { get; set; }
     private bool IsBusy { get; set; }
     private CancellationTokenSource CancellationTokenSource { get; set; } = new();
     private PaginationState pagination = new PaginationState()
         {
             ItemsPerPage = 1
         };
-    protected override async Task OnInitializedAsync()
+    private GridItemsProvider<StoreModel>? ItemsProvider;
+    protected override void OnInitialized()
     {
         this.IsBusy = true;
-        this.MyStores = (await this.StoreService!.GetMyStoreListAsync(this.CancellationTokenSource.Token))?.AsQueryable();
+        ItemsProvider = async req =>
+        {
+            var paginationResult = await this.StoreService!.GetMyStoreListAsync(req.StartIndex, this.CancellationTokenSource.Token);
+            paginationResult.Items = req.ApplySorting(paginationResult!.Items!.AsQueryable()).ToArray();
+            var result = GridItemsProviderResult.From(
+            items: paginationResult.Items!,
+            totalItemCount: paginationResult!.TotalItems);
+            return result;
+        };
         this.IsBusy = false;
     }
 
