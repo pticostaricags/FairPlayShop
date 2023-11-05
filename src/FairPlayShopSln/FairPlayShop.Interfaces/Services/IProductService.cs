@@ -7,8 +7,8 @@ namespace FairPlayShop.Interfaces.Services
     public interface IProductService
     {
         Task CreateMyProductAsync(CreateProductModel createProductModel, CancellationToken cancellationToken);
-        Task<ProductModel[]> GetMyStoreProductListAsync(long storeId,CancellationToken cancellationToken);
-        Task<PaginationOfT<ProductModel>> GetMyStoreProductListAsync(long storeId, int startIndex, CancellationToken cancellationToken);
+        Task<ProductModel[]> GetAllMyStoreProductListAsync(long storeId,CancellationToken cancellationToken);
+        Task<PaginationOfT<ProductModel>> GetPaginatedMyStoreProductListAsync(long storeId, int startIndex, CancellationToken cancellationToken);
         Task<ProductModel> GetMyProductByIdAsync(long productId, CancellationToken cancellationToken);
     }
 }

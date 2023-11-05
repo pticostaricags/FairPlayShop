@@ -146,7 +146,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                 StoreId = store.StoreId
             };
             await productService.CreateMyProductAsync(createProductModel, CancellationToken.None);
-            var result = await productService.GetMyStoreProductListAsync(store.StoreId, CancellationToken.None);
+            var result = await productService.GetAllMyStoreProductListAsync(store.StoreId, CancellationToken.None);
             Assert.IsNotNull(result);
             Assert.AreEqual(1, result.Length);
         }

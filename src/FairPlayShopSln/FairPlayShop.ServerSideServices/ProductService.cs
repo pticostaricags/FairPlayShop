@@ -63,7 +63,7 @@ namespace FairPlayShop.ServerSideServices
             return result;
         }
 
-        public async Task<ProductModel[]> GetMyStoreProductListAsync(long storeId, CancellationToken cancellationToken)
+        public async Task<ProductModel[]> GetAllMyStoreProductListAsync(long storeId, CancellationToken cancellationToken)
         {
             var userId = userProviderService.GetCurrentUserId();
             using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken:cancellationToken);
@@ -85,7 +85,7 @@ namespace FairPlayShop.ServerSideServices
             return result;
         }
 
-        public async Task<PaginationOfT<ProductModel>> GetMyStoreProductListAsync(long storeId, int startIndex, CancellationToken cancellationToken)
+        public async Task<PaginationOfT<ProductModel>> GetPaginatedMyStoreProductListAsync(long storeId, int startIndex, CancellationToken cancellationToken)
         {
             PaginationOfT<ProductModel> result = new();
             var userId = userProviderService.GetCurrentUserId();
