@@ -22,7 +22,7 @@
 
 @if (MyStores != null)
 {
-    <QuickGrid Items="MyStores">
+    <QuickGrid Items="MyStores" Pagination="@pagination">
         <PropertyColumn Title="@Localizer![StoreIdTextKey]" Property="@( p=> p.StoreId)" Sortable="true"></PropertyColumn>
         <PropertyColumn Title="@Localizer![NameTextKey]" Property="@( p=> p.Name)" Sortable="true"></PropertyColumn>
         <PropertyColumn Title="@Localizer![CustomerCountTextKey]" Property="@( p=> p.CustomerCount)" Sortable="true"></PropertyColumn>
@@ -64,6 +64,7 @@
             </a>
         </TemplateColumn>
     </QuickGrid>
+    <Paginator State="@pagination"></Paginator>
 }
 
 @code {
@@ -76,7 +77,10 @@
     private IQueryable<StoreModel>? MyStores { get; set; }
     private bool IsBusy { get; set; }
     private CancellationTokenSource CancellationTokenSource { get; set; } = new();
-
+    private PaginationState pagination = new PaginationState()
+        {
+            ItemsPerPage = 1
+        };
     protected override async Task OnInitializedAsync()
     {
         this.IsBusy = true;
