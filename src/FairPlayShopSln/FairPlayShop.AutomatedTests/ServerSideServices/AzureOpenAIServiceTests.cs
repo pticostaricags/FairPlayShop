@@ -48,13 +48,13 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                 {
                     new Models.AzureOpenAI.TranslationRequest()
                     {
-                        Text= "Hello",
+                        OriginalText= "Hello",
                         SourceLocale="en-US",
                         DestLocale="es-CR",
                     },
                     new Models.AzureOpenAI.TranslationRequest()
                     {
-                        Text = "Perro",
+                        OriginalText = "Perro",
                         SourceLocale= "es-MX",
                         DestLocale = "en-US"
                     }

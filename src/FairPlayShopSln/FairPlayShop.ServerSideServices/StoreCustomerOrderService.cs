@@ -12,8 +12,10 @@ using System.Threading.Tasks;
 
 namespace FairPlayShop.ServerSideServices
 {
-    [ServerSideServiceOfT<DataAccess.Models.StoreCustomerOrder>]
-    public class StoreCustomerOrderService(IDbContextFactory<FairPlayShopDatabaseContext> dbContextFactory)
+    [ServerSideServiceOfT<StoreCustomerOrder>]
+    public class StoreCustomerOrderService(
+        IUserProviderService userProviderService,
+        IDbContextFactory<FairPlayShopDatabaseContext> dbContextFactory)
         : IStoreCustomerOrderService
     {
         public async Task CreateStoreCustomerOrderAsync(CreateStoreCustomerOrderModel createStoreCustomerOrderModel, CancellationToken cancellationToken)
@@ -28,7 +30,7 @@ namespace FairPlayShop.ServerSideServices
             };
             foreach (var singleOrderLine in createStoreCustomerOrderModel.CreateStoreCustomerOrderDetailModel!)
             {
-                storeCustomerOrder.StoreCustomerOrderDetail.Add(new StoreCustomerOrderDetail() 
+                storeCustomerOrder.StoreCustomerOrderDetail.Add(new StoreCustomerOrderDetail()
                 {
                     LineTotal = singleOrderLine.LineTotal!.Value,
                     Quantity = singleOrderLine.Quantity!.Value,
@@ -36,10 +38,34 @@ namespace FairPlayShop.ServerSideServices
                     UnityPrice = singleOrderLine.UnitPrice!.Value
                 });
             }
-            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken:cancellationToken);
+            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken: cancellationToken);
             await fairPlayShopDatabaseContext.StoreCustomerOrder.AddAsync(
                 storeCustomerOrder, cancellationToken: cancellationToken);
             await fairPlayShopDatabaseContext.SaveChangesAsync(cancellationToken: cancellationToken);
+        }
+
+        public async Task<CustomerOrderModel[]?> GetStoreCustomerOrderListAsync(long storeId, CancellationToken cancellationToken)
+        {
+            var userId = userProviderService.GetCurrentUserId();
+            using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken: cancellationToken);
+            bool storeFounder = await dbContext.Store.AnyAsync(p => p.StoreId == storeId &&
+            p.OwnerId == userId, cancellationToken: cancellationToken);
+            if (!storeFounder)
+                return null;
+            var result = await dbContext.StoreCustomerOrder.Include(p => p.StoreCustomer)
+                .ThenInclude(p => p.Store)
+                .Where(p => p.StoreCustomer.StoreId == storeId)
+                .Select(p=>new CustomerOrderModel() 
+                {
+                    OrderSubTotal = p.OrderSubTotal,
+                    OrderTotal = p.OrderTotal,
+                    OrderDateTime = p.OrderDateTime,
+                    StoreCustomerName= p.StoreCustomer.Name,
+                    StoreCustomerFirstSurname = p.StoreCustomer.FirstSurname,
+                    StoreCustomerSecondSurname = p.StoreCustomer.SecondSurname
+                })
+                .ToArrayAsync(cancellationToken: cancellationToken);
+            return result;
         }
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FairPlayShop.AutomatedTests.ServerSideServices
 {
+    [TestClass]
     public class StoreCustomerOrderServiceTests : ServerSideServicesTestBase
     {
         [ClassInitialize]
@@ -30,6 +31,14 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         {
             var config = await GetFairPlayShopDatabaseContextAsync();
             var ctx = config.dbContext;
+            foreach (var singleCustomerOrderDetail in ctx.StoreCustomerOrderDetail)
+            {
+                ctx.StoreCustomerOrderDetail.Remove(singleCustomerOrderDetail);
+            }
+            foreach (var singleCustomerOrder in ctx.StoreCustomerOrder)
+            {
+                ctx.StoreCustomerOrder.Remove(singleCustomerOrder);
+            }
             foreach (var singleProduct in ctx.Product)
             {
                 ctx.Product.Remove(singleProduct);
@@ -50,7 +59,14 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             {
                 ctx.AspNetUsers.Remove(singleUser);
             }
-            await ctx.SaveChangesAsync();
+            try
+            {
+                await ctx.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         private static async Task<AspNetUsers> CreateTestUserAsync(FairPlayShopDatabaseContext ctx)
@@ -85,10 +101,32 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             var ctx = config.dbContext;
             var user = await CreateTestUserAsync(ctx);
             ServerSideServicesTestBase.CurrentUserId = user.Id;
+            Product product = new Product()
+            {
+                AcquisitionCost = 12,
+                Barcode = "Barcode",
+                Description = "Description",
+                Name = "Name",
+                OwnerId = user.Id,
+                ProductStatusId = (byte)Common.Enums.ProductStatus.Active,
+                QuantityInStock = 10,
+                SellingPrice = 20,
+                Sku = "Sku",
+                ThumbnailPhoto = new Photo()
+                {
+                    Name = nameof(Properties.Resources.TestProduct),
+                    Filename = $"{Properties.Resources.TestProduct}.bmp",
+                    PhotoBytes = Properties.Resources.TestProduct,
+                }
+            };
             Store store = new Store()
             {
                 Name = $"AT Store: {nameof(Test_CreateStoreCustomerOrderAsync)}",
                 OwnerId = user.Id,
+                Product =
+                {
+                    product
+                }
             };
             await ctx.Store.AddAsync(store);
             await ctx.SaveChangesAsync();
@@ -106,15 +144,98 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             await ctx.SaveChangesAsync();
             CreateStoreCustomerOrderModel createStoreCustomerOrderModel = new()
             {
-                StoreCustomerId = storeCustomer.StoreCustomerId
+                StoreCustomerId = storeCustomer.StoreCustomerId,
+                CreateStoreCustomerOrderDetailModel =
+                new List<Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModel>()
+                {
+                    new Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModel()
+                    {
+                        ProductId = product.ProductId,
+                        Quantity=12,
+                        UnitPrice=product.SellingPrice
+                    }
+                }
             };
-            IStoreCustomerOrderService storeCustomerOrderService = 
+            IStoreCustomerOrderService storeCustomerOrderService =
                 await GetStoreCustomerOrderServiceAsync();
             await storeCustomerOrderService.CreateStoreCustomerOrderAsync(createStoreCustomerOrderModel,
                 CancellationToken.None);
             var result = await ctx.StoreCustomerOrder.SingleOrDefaultAsync();
             Assert.IsNotNull(result);
             Assert.AreEqual(createStoreCustomerOrderModel.OrderTotal, result.OrderTotal);
+        }
+
+        [TestMethod]
+        public async Task Test_GetStoreCustomerOrderListAsync()
+        {
+            var config = await GetFairPlayShopDatabaseContextAsync();
+            var ctx = config.dbContext;
+            var user = await CreateTestUserAsync(ctx);
+            ServerSideServicesTestBase.CurrentUserId = user.Id;
+            Product product = new Product()
+            {
+                AcquisitionCost = 12,
+                Barcode = "Barcode",
+                Description = "Description",
+                Name = "Name",
+                OwnerId = user.Id,
+                ProductStatusId = (byte)Common.Enums.ProductStatus.Active,
+                QuantityInStock = 10,
+                SellingPrice = 20,
+                Sku = "Sku",
+                ThumbnailPhoto = new Photo()
+                {
+                    Name = nameof(Properties.Resources.TestProduct),
+                    Filename = $"{Properties.Resources.TestProduct}.bmp",
+                    PhotoBytes = Properties.Resources.TestProduct,
+                }
+            };
+            Store store = new Store()
+            {
+                Name = $"AT Store: {nameof(Test_CreateStoreCustomerOrderAsync)}",
+                OwnerId = user.Id,
+                Product =
+                {
+                    product
+                }
+            };
+            await ctx.Store.AddAsync(store);
+            await ctx.SaveChangesAsync();
+            IStoreCustomerService storeCustomerService = await GetStoreCustomerServiceAsync();
+            StoreCustomer storeCustomer = new StoreCustomer()
+            {
+                EmailAddress = "t@t.t",
+                Name = "AT Firstname",
+                FirstSurname = "AT Lastname",
+                StoreId = store.StoreId,
+                PhoneNumber = "1234567890",
+                SecondSurname = "AT Surname"
+            };
+            await ctx.StoreCustomer.AddAsync(storeCustomer);
+            await ctx.SaveChangesAsync();
+            CreateStoreCustomerOrderModel createStoreCustomerOrderModel = new()
+            {
+                StoreCustomerId = storeCustomer.StoreCustomerId,
+                CreateStoreCustomerOrderDetailModel =
+                new List<Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModel>()
+                {
+                    new Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModel()
+                    {
+                        ProductId = product.ProductId,
+                        Quantity=12,
+                        UnitPrice=product.SellingPrice
+                    }
+                }
+            };
+            IStoreCustomerOrderService storeCustomerOrderService =
+                await GetStoreCustomerOrderServiceAsync();
+            await storeCustomerOrderService.CreateStoreCustomerOrderAsync(createStoreCustomerOrderModel,
+                CancellationToken.None);
+            var result = await storeCustomerOrderService.GetStoreCustomerOrderListAsync(
+                store.StoreId, CancellationToken.None);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Count());
+            Assert.AreEqual(createStoreCustomerOrderModel.OrderTotal, result[0].OrderTotal);
         }
     }
 }

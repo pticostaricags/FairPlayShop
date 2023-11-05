@@ -17,7 +17,7 @@ namespace FairPlayShop.ServerSideServices
         {
             TranslationRequest translationRequest = new TranslationRequest()
             {
-                Text = textToTranslate,
+                OriginalText = textToTranslate,
                 SourceLocale = sourceLocale,
                 DestLocale = destLocale
             };
@@ -27,7 +27,7 @@ namespace FairPlayShop.ServerSideServices
                 {
                     new ChatMessage(ChatRole.System, "You are an expert translator. Your jobs is to translate the text I give you." +
                     "My requests will be in json format with the following properties:" +
-                    $"{nameof(TranslationRequest.Text)}, {nameof(TranslationRequest.SourceLocale)}, {nameof(TranslationRequest.DestLocale)}" +
+                    $"{nameof(TranslationRequest.OriginalText)}, {nameof(TranslationRequest.SourceLocale)}, {nameof(TranslationRequest.DestLocale)}" +
                     "Your responses must be in json format with the following properties:" +
                     $"{nameof(TranslationResponse.SourceLocale)}, {nameof(TranslationResponse.DestLocale)}, {nameof(TranslationResponse.TranslatedText)}"),
                     new ChatMessage(ChatRole.User, JsonSerializer.Serialize(translationRequest))
@@ -51,9 +51,9 @@ namespace FairPlayShop.ServerSideServices
                 {
                     new ChatMessage(ChatRole.System, "You are an expert translator. Your jobs is to translate the text I give you." +
                     "My requests will be in json format with the following properties:" +
-                    $"{nameof(TranslationRequest.Text)}, {nameof(TranslationRequest.SourceLocale)}, {nameof(TranslationRequest.DestLocale)}" +
+                    $"{nameof(TranslationRequest.OriginalText)}, {nameof(TranslationRequest.SourceLocale)}, {nameof(TranslationRequest.DestLocale)}" +
                     "Your responses must be in json format with the following properties:" +
-                    $"{nameof(TranslationResponse.Text)}, {nameof(TranslationResponse.SourceLocale)}, {nameof(TranslationResponse.DestLocale)}, {nameof(TranslationResponse.TranslatedText)}"),
+                    $"{nameof(TranslationResponse.OriginalText)}, {nameof(TranslationResponse.SourceLocale)}, {nameof(TranslationResponse.DestLocale)}, {nameof(TranslationResponse.TranslatedText)}"),
                     new ChatMessage(ChatRole.User, JsonSerializer.Serialize(textsToTranslate))
                 }
             };

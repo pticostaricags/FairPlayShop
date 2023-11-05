@@ -11,5 +11,6 @@ namespace FairPlayShop.Interfaces.Services
     {
         Task CreateStoreCustomerOrderAsync(CreateStoreCustomerOrderModel createStoreCustomerOrderModel,
             CancellationToken cancellationToken);
+        Task<CustomerOrderModel[]?> GetStoreCustomerOrderListAsync(long storeId, CancellationToken cancellationToken);
     }
 }

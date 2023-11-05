@@ -8,7 +8,7 @@ namespace FairPlayShop.Models.AzureOpenAI
 {
     public class TranslationRequest
     {
-        public string? Text { get; set; }
+        public string? OriginalText { get; set; }
         public string? SourceLocale { get; set; }
         public string? DestLocale { get; set; }
     }
