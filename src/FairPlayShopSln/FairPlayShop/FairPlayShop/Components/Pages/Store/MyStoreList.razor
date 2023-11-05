@@ -80,17 +80,19 @@
     private GridItemsProvider<StoreModel>? ItemsProvider;
     protected override void OnInitialized()
     {
-        this.IsBusy = true;
-        ItemsProvider = async req =>
+        ItemsProvider ??= async req =>
         {
+            this.IsBusy = true;
+            StateHasChanged();
             var paginationResult = await this.StoreService!.GetMyStoreListAsync(req.StartIndex, this.CancellationTokenSource.Token);
             paginationResult.Items = req.ApplySorting(paginationResult!.Items!.AsQueryable()).ToArray();
             var result = GridItemsProviderResult.From(
             items: paginationResult.Items!,
             totalItemCount: paginationResult!.TotalItems);
+            this.IsBusy = false;
+            StateHasChanged();
             return result;
         };
-        this.IsBusy = false;
     }
 
     public async ValueTask DisposeAsync()
