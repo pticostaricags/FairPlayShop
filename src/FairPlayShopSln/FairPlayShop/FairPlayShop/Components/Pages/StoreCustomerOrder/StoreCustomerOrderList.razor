@@ -1,0 +1,65 @@
+﻿@using FairPlayShop.Common.CustomAttributes
+@using FairPlayShop.Interfaces.Services
+@using FairPlayShop.Models.Product
+@using FairPlayShop.Models.StoreCustomerOrder
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using Microsoft.Extensions.Localization
+@attribute [Route($"{Common.Constants.ApiRoutes.StoreCustomerOrderList}/Store/{{StoreId:long}}")]
+@attribute [Authorize]
+@rendermode RenderMode.InteractiveServer
+
+<FairPlayShop.Components.Spinners.LoadingIndicator ShowSpinners="@this.IsBusy"></FairPlayShop.Components.Spinners.LoadingIndicator>
+
+<PageTitle>
+    @Localizer![StoreCustomerOrderListTextKey]
+</PageTitle>
+<h3>
+    @Localizer![StoreCustomerOrderListTextKey]
+</h3>
+
+@if (this.Orders != null)
+{
+    <QuickGrid Items="this.Orders">
+        <PropertyColumn Title="@Localizer![OrderDateTimeTextKey]" Property="@( p => p.OrderDateTime)" Sortable="true" IsDefaultSortColumn="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![OrderSubTotalTextKey]" Property="@( p => p.OrderSubTotal)" Format="c" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![OrderTotalTextKey]" Property="@( p => p.OrderTotal)" Format="c" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![StoreCustomerNameTextKey]" Property="@( p => p.StoreCustomerName)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![StoreCustomerFirstSurnameTextKey]" Property="@( p => p.StoreCustomerFirstSurname)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![StoreCustomerSecondSurnameTextKey]" Property="@( p => p.StoreCustomerSecondSurname)" Sortable="true"></PropertyColumn>
+    </QuickGrid>
+}
+
+@code {
+    [Parameter]
+    public long StoreId { get; set; }
+    [Inject]
+    private IStoreCustomerOrderService? StoreCustomerOrderService { get; set; }
+    [Inject]
+    private NavigationManager? NavigationManager { get; set; }
+    [Inject]
+    private IStringLocalizer<StoreCustomerOrderList>? Localizer { get; set; }
+    private bool IsBusy { get; set; }
+    private IQueryable<StoreCustomerOrderModel>? Orders { get; set; }
+    private CancellationTokenSource CancellationTokenSource { get; set; } = new();
+    protected override async Task OnInitializedAsync()
+    {
+        this.Orders = (await this.StoreCustomerOrderService!
+            .GetStoreCustomerOrderListAsync(this.StoreId, CancellationTokenSource.Token))?.AsQueryable();
+    }
+
+    [ResourceKey(defaultValue: "Store Customer Order List")]
+    public const string StoreCustomerOrderListTextKey = "StoreCustomerOrderListText";
+    [ResourceKey(defaultValue: "Order DateTime")]
+    public const string OrderDateTimeTextKey = "OrderDateTimeText";
+    [ResourceKey(defaultValue: "Order SubTotal")]
+    public const string OrderSubTotalTextKey = "OrderSubTotalText";
+    [ResourceKey(defaultValue: "Order Total")]
+    public const string OrderTotalTextKey = "OrderTotalText";
+    [ResourceKey(defaultValue: "Name")]
+    public const string StoreCustomerNameTextKey = "StoreCustomerNameText";
+    [ResourceKey(defaultValue: "First Surname")]
+    public const string StoreCustomerFirstSurnameTextKey = "StoreCustomerFirstSurnameTextKey";
+    [ResourceKey(defaultValue: "Second Surname")]
+    public const string StoreCustomerSecondSurnameTextKey = "StoreCustomerSecondSurnameText";
+}

@@ -11,6 +11,7 @@
             public const string CreateMyStoreCustomer = $"/StoreCustomer/{nameof(CreateMyStoreCustomer)}";
             public const string MyStoreCustomerList = $"/StoreCustomer/{nameof(MyStoreCustomerList)}";
             public const string CreateStoreCustomerOrder = $"/StoreCustomerOrder/{nameof(CreateStoreCustomerOrder)}";
+            public const string StoreCustomerOrderList = $"/StoreCustomerOrder/{nameof(StoreCustomerOrderList)}";
         }
     }
 }

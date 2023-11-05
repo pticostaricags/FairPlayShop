@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FairPlayShop.Models.StoreCustomerOrder
 {
-    public class CustomerOrderModel
+    public class StoreCustomerOrderModel
     {
         public decimal OrderSubTotal { get; set; }
         public decimal OrderTotal { get; set; }

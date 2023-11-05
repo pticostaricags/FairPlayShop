@@ -44,7 +44,7 @@ namespace FairPlayShop.ServerSideServices
             await fairPlayShopDatabaseContext.SaveChangesAsync(cancellationToken: cancellationToken);
         }
 
-        public async Task<CustomerOrderModel[]?> GetStoreCustomerOrderListAsync(long storeId, CancellationToken cancellationToken)
+        public async Task<StoreCustomerOrderModel[]?> GetStoreCustomerOrderListAsync(long storeId, CancellationToken cancellationToken)
         {
             var userId = userProviderService.GetCurrentUserId();
             using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken: cancellationToken);
@@ -55,7 +55,7 @@ namespace FairPlayShop.ServerSideServices
             var result = await dbContext.StoreCustomerOrder.Include(p => p.StoreCustomer)
                 .ThenInclude(p => p.Store)
                 .Where(p => p.StoreCustomer.StoreId == storeId)
-                .Select(p=>new CustomerOrderModel() 
+                .Select(p=>new StoreCustomerOrderModel() 
                 {
                     OrderSubTotal = p.OrderSubTotal,
                     OrderTotal = p.OrderTotal,

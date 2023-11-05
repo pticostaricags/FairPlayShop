@@ -57,6 +57,12 @@
                 <i class="bi bi-bag-fill"></i>
             </a>
         </TemplateColumn>
+        <TemplateColumn>
+            <a href="@($"{Common.Constants.ApiRoutes.StoreCustomerOrderList}/Store/{context.StoreId}")"
+               data-toggle="tooltip" data-placement="top" title="@Localizer![StoreCustomerOrderListTextKey]">
+                <i class="bi bi-bag-fill"></i>
+            </a>
+        </TemplateColumn>
     </QuickGrid>
 }
 
@@ -101,4 +107,6 @@
     public const string NameTextKey = "NameText";
     [ResourceKey(defaultValue: "Customer Count")]
     public const string CustomerCountTextKey = "CustomerCountText";
+    [ResourceKey(defaultValue: "Order List")]
+    public const string StoreCustomerOrderListTextKey = "StoreCustomerOrderListText";
 }
