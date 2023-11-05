@@ -58,6 +58,7 @@ namespace FairPlayShop.ServerSideServices
                 .Select(p=>new StoreCustomerOrderModel() 
                 {
                     OrderSubTotal = p.OrderSubTotal,
+                    TaxTotal = p.TaxTotal,
                     OrderTotal = p.OrderTotal,
                     OrderDateTime = p.OrderDateTime,
                     StoreCustomerName= p.StoreCustomer.Name,

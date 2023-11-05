@@ -14,5 +14,6 @@ namespace FairPlayShop.Models.StoreCustomerOrder
         public string? StoreCustomerName { get; set; }
         public string? StoreCustomerFirstSurname { get; set; }
         public string? StoreCustomerSecondSurname { get; set; }
+        public decimal TaxTotal { get; set; }
     }
 }

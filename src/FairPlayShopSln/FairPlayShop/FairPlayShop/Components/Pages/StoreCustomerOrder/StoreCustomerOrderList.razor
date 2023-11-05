@@ -23,6 +23,7 @@
     <QuickGrid Items="this.Orders">
         <PropertyColumn Title="@Localizer![OrderDateTimeTextKey]" Property="@( p => p.OrderDateTime)" Sortable="true" IsDefaultSortColumn="true"></PropertyColumn>
         <PropertyColumn Title="@Localizer![OrderSubTotalTextKey]" Property="@( p => p.OrderSubTotal)" Format="c" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![TaxTotalTextKey]" Property="@( p => p.TaxTotal)" Format="c" Sortable="true"></PropertyColumn>
         <PropertyColumn Title="@Localizer![OrderTotalTextKey]" Property="@( p => p.OrderTotal)" Format="c" Sortable="true"></PropertyColumn>
         <PropertyColumn Title="@Localizer![StoreCustomerNameTextKey]" Property="@( p => p.StoreCustomerName)" Sortable="true"></PropertyColumn>
         <PropertyColumn Title="@Localizer![StoreCustomerFirstSurnameTextKey]" Property="@( p => p.StoreCustomerFirstSurname)" Sortable="true"></PropertyColumn>
@@ -54,6 +55,8 @@
     public const string OrderDateTimeTextKey = "OrderDateTimeText";
     [ResourceKey(defaultValue: "Order SubTotal")]
     public const string OrderSubTotalTextKey = "OrderSubTotalText";
+    [ResourceKey(defaultValue: "Tax Total")]
+    public const string TaxTotalTextKey = "TaxTotalText";
     [ResourceKey(defaultValue: "Order Total")]
     public const string OrderTotalTextKey = "OrderTotalText";
     [ResourceKey(defaultValue: "Name")]
