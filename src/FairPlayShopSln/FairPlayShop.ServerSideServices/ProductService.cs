@@ -1,8 +1,13 @@
-﻿using FairPlayShop.DataAccess.Data;
+﻿using FairPlayShop.Common;
+using FairPlayShop.DataAccess.Data;
 using FairPlayShop.DataAccess.Models;
 using FairPlayShop.Interfaces.Services;
+using FairPlayShop.Models.Pagination;
 using FairPlayShop.Models.Product;
+using FairPlayShop.Models.Store;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Http.Headers;
+using System.Reflection.Metadata;
 
 namespace FairPlayShop.ServerSideServices
 {
@@ -64,6 +69,33 @@ namespace FairPlayShop.ServerSideServices
             using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken:cancellationToken);
             var result = await fairPlayShopDatabaseContext.Product.AsNoTracking()
                 .Where(p => p.OwnerId == userId && p.StoreId == storeId)
+                .Select(p => new ProductModel()
+                {
+                    ProductId = p.ProductId,
+                    ProductStatus = (Common.Enums.ProductStatus)p.ProductStatusId,
+                    Sku = p.Sku,
+                    QuantityInStock = p.QuantityInStock,
+                    AcquisitionCost = p.AcquisitionCost,
+                    Barcode = p.Barcode,
+                    Description = p.Description,
+                    Name = p.Name,
+                    SellingPrice = p.SellingPrice,
+                    Profit = p.SellingPrice - p.AcquisitionCost
+                }).ToArrayAsync(cancellationToken: cancellationToken);
+            return result;
+        }
+
+        public async Task<PaginationOfT<ProductModel>> GetMyStoreProductListAsync(long storeId, int startIndex, CancellationToken cancellationToken)
+        {
+            PaginationOfT<ProductModel> result = new();
+            var userId = userProviderService.GetCurrentUserId();
+            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken: cancellationToken);
+            var query = fairPlayShopDatabaseContext.Product.AsNoTracking()
+                .Where(p => p.OwnerId == userId && p.StoreId == storeId);
+            result.TotalItems = await query.CountAsync(cancellationToken: cancellationToken);
+            result.PageSize = Constants.Pagination.PageSize;
+            result.TotalPages = (int)Math.Ceiling((decimal)result.TotalItems / result.PageSize);
+            result.Items = await query
                 .Select(p => new ProductModel()
                 {
                     ProductId = p.ProductId,
