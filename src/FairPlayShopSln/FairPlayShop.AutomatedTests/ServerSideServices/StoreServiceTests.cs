@@ -108,7 +108,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             await ctx.Store.AddAsync(store);
             await ctx.SaveChangesAsync();
             IStoreService storeService = await GetStoreServiceAsync();
-            var result = await storeService.GetMyStoreListAsync(0,CancellationToken.None);
+            var result = await storeService.GetPaginatedMyStoreListAsync(0,CancellationToken.None);
             Assert.IsNotNull(result);
             Assert.AreEqual(1, result.TotalItems);
             Assert.AreEqual(store.Name, result.Items![0].Name);

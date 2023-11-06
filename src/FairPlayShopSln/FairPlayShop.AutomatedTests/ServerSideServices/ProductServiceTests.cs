@@ -116,7 +116,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         }
 
         [TestMethod]
-        public async Task Test_GetMyProductListAsync()
+        public async Task Test_GetAllMyStoreProductListAsync()
         {
             var config = await GetFairPlayShopDatabaseContextAsync();
             var ctx = config.dbContext;
@@ -149,6 +149,44 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             var result = await productService.GetAllMyStoreProductListAsync(store.StoreId, CancellationToken.None);
             Assert.IsNotNull(result);
             Assert.AreEqual(1, result.Length);
+        }
+
+        [TestMethod]
+        public async Task Test_GetPaginatedMyStoreProductListAsync()
+        {
+            var config = await GetFairPlayShopDatabaseContextAsync();
+            var ctx = config.dbContext;
+            var userEntity = await CreateTestUserAsync(ctx);
+            ServerSideServicesTestBase.CurrentUserId = userEntity.Id;
+            Store store = new()
+            {
+                Name = $"AT Store: {nameof(Test_CreateMyProductAsync)}",
+                OwnerId = userEntity.Id,
+            };
+            await ctx.Store.AddAsync(store);
+            await ctx.SaveChangesAsync();
+            IProductService productService = await ServerSideServicesTestBase.GetProductServiceAsync();
+            CreateProductModel createProductModel = new()
+            {
+                AcquisitionCost = 55.23M,
+                Barcode = Guid.NewGuid().ToString(),
+                Description = $"Automated Test {nameof(Test_CreateMyProductAsync)}",
+                Name = $"Automated Test {nameof(Test_CreateMyProductAsync)}",
+                QuantityInStock = 34,
+                SellingPrice = 40,
+                Sku = Guid.NewGuid().ToString(),
+                ProductStatus = Common.Enums.ProductStatus.Draft,
+                PhotoName = nameof(Properties.Resources.TestProduct),
+                PhotoFilename = $"{Properties.Resources.TestProduct}.bmp",
+                PhotoBytes = Properties.Resources.TestProduct,
+                StoreId = store.StoreId
+            };
+            await productService.CreateMyProductAsync(createProductModel, CancellationToken.None);
+            var result = await productService
+                .GetPaginatedMyStoreProductListAsync(store.StoreId, 0, CancellationToken.None);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.TotalItems);
+            Assert.AreEqual(createProductModel.Name, result.Items![0].Name);
         }
 
         [TestMethod]

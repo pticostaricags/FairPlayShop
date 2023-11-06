@@ -84,7 +84,7 @@
         {
             this.IsBusy = true;
             StateHasChanged();
-            var paginationResult = await this.StoreService!.GetMyStoreListAsync(req.StartIndex, this.CancellationTokenSource.Token);
+            var paginationResult = await this.StoreService!.GetPaginatedMyStoreListAsync(req.StartIndex, this.CancellationTokenSource.Token);
             paginationResult.Items = req.ApplySorting(paginationResult!.Items!.AsQueryable()).ToArray();
             var result = GridItemsProviderResult.From(
             items: paginationResult.Items!,

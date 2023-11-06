@@ -32,7 +32,7 @@ namespace FairPlayShop.ServerSideServices
             await fairPlayShopDatabaseContext.SaveChangesAsync(cancellationToken: cancellationToken);
         }
 
-        public async Task<PaginationOfT<StoreModel>> GetMyStoreListAsync(int startIndex, CancellationToken cancellationToken)
+        public async Task<PaginationOfT<StoreModel>> GetPaginatedMyStoreListAsync(int startIndex, CancellationToken cancellationToken)
         {
             PaginationOfT<StoreModel> result = new PaginationOfT<StoreModel>();
             var userId = userProviderService.GetCurrentUserId();
