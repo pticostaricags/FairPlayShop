@@ -4,6 +4,7 @@ using FairPlayShop.DataAccess.Models;
 using FairPlayShop.Interfaces.Services;
 using FairPlayShop.Models.StoreCustomerOrder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Azure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,28 +21,48 @@ namespace FairPlayShop.ServerSideServices
     {
         public async Task CreateStoreCustomerOrderAsync(CreateStoreCustomerOrderModel createStoreCustomerOrderModel, CancellationToken cancellationToken)
         {
-            StoreCustomerOrder storeCustomerOrder = new()
-            {
-                StoreCustomerId = createStoreCustomerOrderModel.StoreCustomerId!.Value,
-                OrderDateTime = DateTimeOffset.UtcNow,
-                OrderSubTotal = createStoreCustomerOrderModel.OrderSubTotal,
-                OrderTotal = createStoreCustomerOrderModel.OrderTotal,
-                TaxTotal = createStoreCustomerOrderModel.TaxTotal,
-            };
-            foreach (var singleOrderLine in createStoreCustomerOrderModel.CreateStoreCustomerOrderDetailModel!)
-            {
-                storeCustomerOrder.StoreCustomerOrderDetail.Add(new StoreCustomerOrderDetail()
-                {
-                    LineTotal = singleOrderLine.LineTotal!.Value,
-                    Quantity = singleOrderLine.Quantity!.Value,
-                    ProductId = singleOrderLine.ProductId!.Value,
-                    UnityPrice = singleOrderLine.UnitPrice!.Value
-                });
-            }
             using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken: cancellationToken);
-            await fairPlayShopDatabaseContext.StoreCustomerOrder.AddAsync(
-                storeCustomerOrder, cancellationToken: cancellationToken);
-            await fairPlayShopDatabaseContext.SaveChangesAsync(cancellationToken: cancellationToken);
+            var executionStrategy = fairPlayShopDatabaseContext.Database.CreateExecutionStrategy();
+            await executionStrategy.ExecuteAsync(async () =>
+            {
+                using var transaction = await fairPlayShopDatabaseContext.Database.BeginTransactionAsync(cancellationToken: cancellationToken);
+                try
+                {
+                    StoreCustomerOrder storeCustomerOrder = new()
+                    {
+                        StoreCustomerId = createStoreCustomerOrderModel.StoreCustomerId!.Value,
+                        OrderDateTime = DateTimeOffset.UtcNow,
+                        OrderSubTotal = createStoreCustomerOrderModel.OrderSubTotal,
+                        OrderTotal = createStoreCustomerOrderModel.OrderTotal,
+                        TaxTotal = createStoreCustomerOrderModel.TaxTotal,
+                    };
+                    foreach (var singleOrderLine in createStoreCustomerOrderModel.CreateStoreCustomerOrderDetailModel!)
+                    {
+                        var productEntity = await fairPlayShopDatabaseContext
+                            .Product.SingleAsync(p => p.ProductId == singleOrderLine.ProductId,
+                            cancellationToken: cancellationToken);
+                        if (productEntity.QuantityInStock < singleOrderLine.Quantity)
+                            throw new Exception($"There are not enough items of {productEntity.Name} in stock to complete this order. " +
+                                $"Please try again later");
+                        storeCustomerOrder.StoreCustomerOrderDetail.Add(new StoreCustomerOrderDetail()
+                        {
+                            LineTotal = singleOrderLine.LineTotal!.Value,
+                            Quantity = singleOrderLine.Quantity!.Value,
+                            ProductId = singleOrderLine.ProductId!.Value,
+                            UnityPrice = singleOrderLine.UnitPrice!.Value
+                        });
+                    }
+                    await fairPlayShopDatabaseContext.StoreCustomerOrder.AddAsync(
+                        storeCustomerOrder, cancellationToken: cancellationToken);
+                    await fairPlayShopDatabaseContext.SaveChangesAsync(cancellationToken: cancellationToken);
+                    await transaction.CommitAsync(cancellationToken: cancellationToken);
+                }
+                catch (Exception)
+                {
+                    await transaction.RollbackAsync(cancellationToken: cancellationToken);
+                    throw;
+                }
+            });
         }
 
         public async Task<StoreCustomerOrderModel[]?> GetStoreCustomerOrderListAsync(long storeId, CancellationToken cancellationToken)
@@ -55,13 +76,13 @@ namespace FairPlayShop.ServerSideServices
             var result = await dbContext.StoreCustomerOrder.Include(p => p.StoreCustomer)
                 .ThenInclude(p => p.Store)
                 .Where(p => p.StoreCustomer.StoreId == storeId)
-                .Select(p=>new StoreCustomerOrderModel() 
+                .Select(p => new StoreCustomerOrderModel()
                 {
                     OrderSubTotal = p.OrderSubTotal,
                     TaxTotal = p.TaxTotal,
                     OrderTotal = p.OrderTotal,
                     OrderDateTime = p.OrderDateTime,
-                    StoreCustomerName= p.StoreCustomer.Name,
+                    StoreCustomerName = p.StoreCustomer.Name,
                     StoreCustomerFirstSurname = p.StoreCustomer.FirstSurname,
                     StoreCustomerSecondSurname = p.StoreCustomer.SecondSurname
                 })
