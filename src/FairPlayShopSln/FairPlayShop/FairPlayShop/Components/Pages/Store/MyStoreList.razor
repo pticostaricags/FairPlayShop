@@ -78,21 +78,27 @@
             ItemsPerPage = 1
         };
     private GridItemsProvider<StoreModel>? ItemsProvider;
-    protected override void OnInitialized()
+
+    protected override void OnAfterRender(bool firstRender)
     {
-        ItemsProvider ??= async req =>
+        base.OnAfterRender(firstRender);
+        if (firstRender)
         {
-            this.IsBusy = true;
+            ItemsProvider ??= async req =>
+            {
+                this.IsBusy = true;
+                StateHasChanged();
+                var paginationResult = await this.StoreService!.GetPaginatedMyStoreListAsync(req.StartIndex, this.CancellationTokenSource.Token);
+                paginationResult.Items = req.ApplySorting(paginationResult!.Items!.AsQueryable()).ToArray();
+                var result = GridItemsProviderResult.From(
+                items: paginationResult.Items!,
+                totalItemCount: paginationResult!.TotalItems);
+                this.IsBusy = false;
+                StateHasChanged();
+                return result;
+            };
             StateHasChanged();
-            var paginationResult = await this.StoreService!.GetPaginatedMyStoreListAsync(req.StartIndex, this.CancellationTokenSource.Token);
-            paginationResult.Items = req.ApplySorting(paginationResult!.Items!.AsQueryable()).ToArray();
-            var result = GridItemsProviderResult.From(
-            items: paginationResult.Items!,
-            totalItemCount: paginationResult!.TotalItems);
-            this.IsBusy = false;
-            StateHasChanged();
-            return result;
-        };
+        }
     }
 
     public async ValueTask DisposeAsync()
