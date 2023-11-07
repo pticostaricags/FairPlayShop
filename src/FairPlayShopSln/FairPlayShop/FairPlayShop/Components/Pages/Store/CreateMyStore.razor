@@ -1,4 +1,5 @@
 ﻿@using FairPlayShop.Common.CustomAttributes
+@using FairPlayShop.CustomLocalization
 @using FairPlayShop.Interfaces.Services
 @using FairPlayShop.Models.Store
 @using Microsoft.AspNetCore.Authorization
@@ -29,7 +30,7 @@
     </div>
     <div class="mb-3">
         <button class="btn btn-primary" type="submit">
-            @Localizer[SaveTextKey]
+            @CustomLocalization.GlobalKeysLocalizer.SaveText
         </button>
     </div>
 </EditForm>
@@ -55,6 +56,4 @@
     public const string CreateMyStoreTextKey = "CreateMyStoreTextKey";
     [ResourceKey(defaultValue: "Name")]
     public const string NameTextKey = "NamtText";
-    [ResourceKey(defaultValue: "Save")]
-    public const string SaveTextKey = "SaveText";
 }

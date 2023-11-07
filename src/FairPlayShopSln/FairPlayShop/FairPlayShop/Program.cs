@@ -2,6 +2,7 @@ using Azure.AI.OpenAI;
 using Blazored.Toast;
 using FairPlayShop.Client.Pages;
 using FairPlayShop.Components;
+using FairPlayShop.CustomLocalization;
 using FairPlayShop.CustomLocalization.EF;
 using FairPlayShop.Data;
 using FairPlayShop.DataAccess.Data;
@@ -142,6 +143,9 @@ internal partial class Program
             var field = singleLocalizerType.GetProperty("Localizer", BindingFlags.Public | BindingFlags.Static);
             field!.SetValue(null, newLocalizerInstance);
         }
+        var globalKeysLocalizer =
+        localizerFactory.Create(typeof(GlobalKeysLocalizer)) as IStringLocalizer<GlobalKeysLocalizer>;
+        GlobalKeysLocalizer.Localizer = globalKeysLocalizer;
     }
     //TODO: Find a way to automatically generate the partial method using the generator: ConfigureModelsLocalizersIncrementalGenerator
     //[ConfigureModelsLocalizers]

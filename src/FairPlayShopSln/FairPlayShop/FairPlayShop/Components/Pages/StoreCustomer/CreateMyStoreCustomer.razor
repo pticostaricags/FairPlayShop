@@ -143,7 +143,7 @@
         </div>
     }
     <div class="mb-3">
-        <button class="btn btn-primary" type="submit">@Localizer![SaveTextKey]</button>
+        <button class="btn btn-primary" type="submit">@CustomLocalization.GlobalKeysLocalizer.SaveText</button>
     </div>
 </EditForm>
 
@@ -269,6 +269,4 @@
     public const string CityTextKey = "CityText";
     [ResourceKey(defaultValue: "Select a City")]
     public const string SelectCityTextKey = "SelectCityText";
-    [ResourceKey(defaultValue: "Save")]
-    public const string SaveTextKey = "SaveText";
 }
