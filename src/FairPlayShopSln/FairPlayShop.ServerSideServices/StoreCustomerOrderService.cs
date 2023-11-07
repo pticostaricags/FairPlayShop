@@ -44,6 +44,7 @@ namespace FairPlayShop.ServerSideServices
                         if (productEntity.QuantityInStock < singleOrderLine.Quantity)
                             throw new Exception($"There are not enough items of {productEntity.Name} in stock to complete this order. " +
                                 $"Please try again later");
+                        productEntity.QuantityInStock -= (int)singleOrderLine.Quantity!.Value;
                         storeCustomerOrder.StoreCustomerOrderDetail.Add(new StoreCustomerOrderDetail()
                         {
                             LineTotal = singleOrderLine.LineTotal!.Value,
