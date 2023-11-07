@@ -89,6 +89,8 @@ internal partial class Program
         builder.Services.AddTransient<ICultureService, CultureService>();
         builder.Services.AddBlazoredToast();
         builder.Services.AddHostedService<BackgroundTranslationService>();
+        builder.Services.AddHealthChecks()
+            .AddDbContextCheck<FairPlayShopDatabaseContext>();
         var app = builder.Build();
         ConfigureModelsLocalizers(app.Services);
 
@@ -128,6 +130,7 @@ internal partial class Program
         // Add additional endpoints required by the Identity /Account Razor components.
         app.MapAdditionalIdentityEndpoints();
 
+        app.MapHealthChecks("/appHealth");
         app.Run();
     }
 
