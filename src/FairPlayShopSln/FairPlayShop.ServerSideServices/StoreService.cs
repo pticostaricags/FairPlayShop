@@ -6,11 +6,6 @@ using FairPlayShop.Models.Pagination;
 using FairPlayShop.Models.Store;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FairPlayShop.ServerSideServices
 {
@@ -27,7 +22,7 @@ namespace FairPlayShop.ServerSideServices
                 Name = createStoreModel.Name,
                 OwnerId = userId,
             };
-            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken:cancellationToken);
+            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken: cancellationToken);
             await fairPlayShopDatabaseContext.Store.AddAsync(entity, cancellationToken: cancellationToken);
             await fairPlayShopDatabaseContext.SaveChangesAsync(cancellationToken: cancellationToken);
         }
@@ -36,16 +31,16 @@ namespace FairPlayShop.ServerSideServices
         {
             PaginationOfT<StoreModel> result = new PaginationOfT<StoreModel>();
             var userId = userProviderService.GetCurrentUserId();
-            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken:cancellationToken);
+            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken: cancellationToken);
             var query = fairPlayShopDatabaseContext.Store
                 .Where(p => p.OwnerId == userId)
                 .AsNoTracking();
             result.TotalItems = await query.CountAsync(cancellationToken: cancellationToken);
-            result.TotalPages = (int)Math.Ceiling((decimal)result.TotalItems / 
+            result.TotalPages = (int)Math.Ceiling((decimal)result.TotalItems /
                 Constants.Pagination.PageSize);
             result.PageSize = Constants.Pagination.PageSize;
             result.Items = await query.Skip(startIndex).Take(Constants.Pagination.PageSize)
-                .Select(p => new StoreModel() 
+                .Select(p => new StoreModel()
                 {
                     StoreId = p.StoreId,
                     Name = p.Name,

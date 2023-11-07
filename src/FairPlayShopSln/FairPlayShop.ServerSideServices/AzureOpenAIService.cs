@@ -1,12 +1,7 @@
 ﻿using Azure.AI.OpenAI;
 using FairPlayShop.Interfaces.Services;
 using FairPlayShop.Models.AzureOpenAI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace FairPlayShop.ServerSideServices
 {
@@ -35,7 +30,7 @@ namespace FairPlayShop.ServerSideServices
             };
             var response = await openAIClient.GetChatCompletionsAsync("translationschat",
                 chatCompletionsOptions, cancellationToken: cancellationToken);
-            var contentResponse = 
+            var contentResponse =
             response.Value.Choices[0].Message.Content;
             TranslationResponse? translationResponse =
                 JsonSerializer.Deserialize<TranslationResponse>(contentResponse);

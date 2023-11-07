@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FairPlayShop.Models.AzureOpenAI
+﻿namespace FairPlayShop.Models.AzureOpenAI
 {
     public class TranslationResponse
     {

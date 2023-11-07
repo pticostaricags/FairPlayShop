@@ -3,7 +3,6 @@ using CsvHelper.Configuration;
 using FairPlayShop.DataAccess.Data;
 using FairPlayShop.DataAccess.Models;
 using Humanizer;
-using System.Threading;
 
 namespace FairPlayShop.DataImporter
 {
@@ -33,7 +32,7 @@ namespace FairPlayShop.DataImporter
                                         .Select(p => p.country?.Titleize())
                                         .ToArray()
                                         .Distinct()
-                                        .OrderBy(p=>p);
+                                        .OrderBy(p => p);
                                     foreach (var singleCountry in countries)
                                     {
                                         _logger.LogInformation("Processing country {singleCountry}", singleCountry);

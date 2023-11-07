@@ -4,10 +4,7 @@ using FairPlayShop.DataAccess.Models;
 using FairPlayShop.Interfaces.Services;
 using FairPlayShop.Models.Pagination;
 using FairPlayShop.Models.Product;
-using FairPlayShop.Models.Store;
 using Microsoft.EntityFrameworkCore;
-using System.Net.Http.Headers;
-using System.Reflection.Metadata;
 
 namespace FairPlayShop.ServerSideServices
 {

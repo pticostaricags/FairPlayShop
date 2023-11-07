@@ -140,7 +140,7 @@ namespace FairPlayShop.Translations
                     }
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Logger.LogError(ex.Message);
             }

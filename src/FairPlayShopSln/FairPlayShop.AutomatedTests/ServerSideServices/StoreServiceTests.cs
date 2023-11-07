@@ -3,11 +3,6 @@ using FairPlayShop.DataAccess.Models;
 using FairPlayShop.Interfaces.Services;
 using FairPlayShop.Models.Store;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FairPlayShop.AutomatedTests.ServerSideServices
 {
@@ -108,7 +103,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             await ctx.Store.AddAsync(store);
             await ctx.SaveChangesAsync();
             IStoreService storeService = await GetStoreServiceAsync();
-            var result = await storeService.GetPaginatedMyStoreListAsync(0,CancellationToken.None);
+            var result = await storeService.GetPaginatedMyStoreListAsync(0, CancellationToken.None);
             Assert.IsNotNull(result);
             Assert.AreEqual(1, result.TotalItems);
             Assert.AreEqual(store.Name, result.Items![0].Name);

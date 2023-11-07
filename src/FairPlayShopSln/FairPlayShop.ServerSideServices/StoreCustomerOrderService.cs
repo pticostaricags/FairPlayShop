@@ -4,12 +4,6 @@ using FairPlayShop.DataAccess.Models;
 using FairPlayShop.Interfaces.Services;
 using FairPlayShop.Models.StoreCustomerOrder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Azure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FairPlayShop.ServerSideServices
 {

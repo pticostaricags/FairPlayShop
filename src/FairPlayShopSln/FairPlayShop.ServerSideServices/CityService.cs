@@ -2,11 +2,6 @@
 using FairPlayShop.Interfaces.Services;
 using FairPlayShop.Models.City;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FairPlayShop.ServerSideServices
 {
@@ -15,11 +10,11 @@ namespace FairPlayShop.ServerSideServices
     {
         public async Task<CityModel[]?> GetStateOrProvinceCityListAsync(long stateOrProvinceId, CancellationToken cancellationToken)
         {
-            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken:cancellationToken);
+            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken: cancellationToken);
             var result = await fairPlayShopDatabaseContext!.City
                 .Where(p => p.StateOrProvinceId == stateOrProvinceId)
-                .OrderBy(p=>p.Name)
-                .Select(p=>new CityModel()
+                .OrderBy(p => p.Name)
+                .Select(p => new CityModel()
                 {
                     CityId = p.CityId,
                     Name = p.Name

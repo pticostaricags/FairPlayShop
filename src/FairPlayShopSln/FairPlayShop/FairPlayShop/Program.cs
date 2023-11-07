@@ -1,17 +1,12 @@
 using Azure.AI.OpenAI;
 using Blazored.Toast;
 using FairPlayShop.Client.Pages;
-using FairPlayShop.Common.CustomAttributes;
 using FairPlayShop.Components;
 using FairPlayShop.CustomLocalization.EF;
 using FairPlayShop.Data;
 using FairPlayShop.DataAccess.Data;
 using FairPlayShop.Identity;
 using FairPlayShop.Interfaces.Services;
-using FairPlayShop.Models.Product;
-using FairPlayShop.Models.Store;
-using FairPlayShop.Models.StoreCustomer;
-using FairPlayShop.Models.StoreCustomerOrder;
 using FairPlayShop.ServerSideServices;
 using FairPlayShop.Services;
 using FairPlayShop.Translations;
@@ -19,9 +14,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Localization;
-using System.Diagnostics;
 using System.Reflection;
 
 internal partial class Program
@@ -71,10 +64,10 @@ internal partial class Program
         var endpoint = builder.Configuration["AzureOpenAI:Endpoint"] ?? throw new Exception("Can't find config for AzureOpenAI:Endpoint");
         var key = builder.Configuration["AzureOpenAI:Key"] ?? throw new Exception("Can't find config for AzureOpenAI:Key");
 
-        builder.Services.AddTransient<IAzureOpenAIService>(sp => 
+        builder.Services.AddTransient<IAzureOpenAIService>(sp =>
         {
-            OpenAIClient openAIClient = new OpenAIClient(endpoint:new Uri(endpoint),
-                keyCredential:new Azure.AzureKeyCredential(key));
+            OpenAIClient openAIClient = new OpenAIClient(endpoint: new Uri(endpoint),
+                keyCredential: new Azure.AzureKeyCredential(key));
             return new AzureOpenAIService(openAIClient);
         });
         builder.Services.AddSingleton<IEmailSender, NoOpEmailSender>();
@@ -112,7 +105,7 @@ internal partial class Program
         app.UseAntiforgery();
         using var scope = app.Services.CreateScope();
         using var ctx = scope.ServiceProvider.GetRequiredService<FairPlayShopDatabaseContext>();
-        var supportedCultures = ctx.Culture.Select(p=>p.Name).ToArray();
+        var supportedCultures = ctx.Culture.Select(p => p.Name).ToArray();
         var localizationOptions = new RequestLocalizationOptions()
             .SetDefaultCulture(supportedCultures[0])
             .AddSupportedCultures(supportedCultures)
@@ -143,7 +136,7 @@ internal partial class Program
             modelsAssembly.GetTypes().Where(p => p.CustomAttributes.Any(x => x.AttributeType.Name.Contains("LocalizerOfTAttribute")))
             .ToList();
         var localizerFactory = services.GetRequiredService<IStringLocalizerFactory>();
-        foreach (var singleLocalizerType in typesWithLocalizerAttribute) 
+        foreach (var singleLocalizerType in typesWithLocalizerAttribute)
         {
             var newLocalizerInstance = localizerFactory.Create(singleLocalizerType);
             var field = singleLocalizerType.GetProperty("Localizer", BindingFlags.Public | BindingFlags.Static);

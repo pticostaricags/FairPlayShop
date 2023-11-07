@@ -2,14 +2,8 @@
 using FairPlayShop.Interfaces.Services;
 using FairPlayShop.ServerSideServices;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Testcontainers.MsSql;
 
 namespace FairPlayShop.AutomatedTests.ServerSideServices

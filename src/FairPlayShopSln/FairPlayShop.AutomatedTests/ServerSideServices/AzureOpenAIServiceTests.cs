@@ -1,11 +1,6 @@
 ﻿using Azure.AI.OpenAI;
 using FairPlayShop.ServerSideServices;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FairPlayShop.AutomatedTests.ServerSideServices
 {

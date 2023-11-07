@@ -2,7 +2,6 @@
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using System.Collections.Immutable;
-using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace FairPlaySocial.Services.Generators

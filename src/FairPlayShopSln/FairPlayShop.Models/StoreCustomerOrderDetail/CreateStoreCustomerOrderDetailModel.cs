@@ -1,11 +1,5 @@
 ﻿using FairPlayShop.Common.CustomAttributes;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FairPlayShop.Models.StoreCustomerOrderDetail
 {
@@ -20,7 +14,7 @@ namespace FairPlayShop.Models.StoreCustomerOrderDetail
         [Required(ErrorMessageResourceType = typeof(CreateStoreCustomerOrderDetailModelLocalizer),
             ErrorMessageResourceName = nameof(CreateStoreCustomerOrderDetailModelLocalizer.Quantity_Required))]
         [Range(1, 100, ErrorMessageResourceType = typeof(CreateStoreCustomerOrderDetailModelLocalizer),
-            ErrorMessageResourceName =nameof(CreateStoreCustomerOrderDetailModelLocalizer.Quantity_Range))]
+            ErrorMessageResourceName = nameof(CreateStoreCustomerOrderDetailModelLocalizer.Quantity_Range))]
         public decimal? Quantity { get; set; }
         public decimal? LineTotal => UnitPrice.GetValueOrDefault() * Quantity.GetValueOrDefault(0);
     }

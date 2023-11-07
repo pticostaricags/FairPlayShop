@@ -1,12 +1,6 @@
 ﻿using FairPlayShop.AutomatedTests.ServerSideServices;
 using FairPlayShop.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Testcontainers.MsSql;
 
 namespace FairPlayShop.AutomatedTests.DataAccess
 {
