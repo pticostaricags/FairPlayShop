@@ -138,7 +138,7 @@
         this.IsBusy = true;
         this.MyStoreCustomerList = await this.StoreCustomerService!
         .GetMyStoreCustomerListAsync(this.StoreId, CancellationTokenSource.Token);
-        this.MyStoreProducts = await this.ProductService!.GetAllMyStoreProductListAsync(this.StoreId,
+        this.MyStoreProducts = await this.ProductService!.GetAllMyStoreProductListInStockAsync(this.StoreId,
         CancellationTokenSource.Token);
         this.IsBusy = false;
     }

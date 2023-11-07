@@ -36,7 +36,7 @@ namespace FairPlayShop.ServerSideServices
                 },
                 StoreId = createProductModel.StoreId!.Value
             };
-            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken:cancellationToken);
+            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken: cancellationToken);
             await fairPlayShopDatabaseContext.Product.AddAsync(entity, cancellationToken: cancellationToken);
             await fairPlayShopDatabaseContext.SaveChangesAsync(cancellationToken: cancellationToken);
         }
@@ -44,7 +44,7 @@ namespace FairPlayShop.ServerSideServices
         public async Task<ProductModel> GetMyProductByIdAsync(long productId, CancellationToken cancellationToken)
         {
             var userId = userProviderService.GetCurrentUserId();
-            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken:cancellationToken);
+            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken: cancellationToken);
             var result = await fairPlayShopDatabaseContext.Product.AsNoTracking()
                 .Where(p => p.OwnerId == userId && p.ProductId == productId)
                 .Select(p => new ProductModel()
@@ -66,7 +66,7 @@ namespace FairPlayShop.ServerSideServices
         public async Task<ProductModel[]> GetAllMyStoreProductListAsync(long storeId, CancellationToken cancellationToken)
         {
             var userId = userProviderService.GetCurrentUserId();
-            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken:cancellationToken);
+            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken: cancellationToken);
             var result = await fairPlayShopDatabaseContext.Product.AsNoTracking()
                 .Where(p => p.OwnerId == userId && p.StoreId == storeId)
                 .Select(p => new ProductModel()
@@ -96,6 +96,29 @@ namespace FairPlayShop.ServerSideServices
             result.PageSize = Constants.Pagination.PageSize;
             result.TotalPages = (int)Math.Ceiling((decimal)result.TotalItems / result.PageSize);
             result.Items = await query
+                .Select(p => new ProductModel()
+                {
+                    ProductId = p.ProductId,
+                    ProductStatus = (Common.Enums.ProductStatus)p.ProductStatusId,
+                    Sku = p.Sku,
+                    QuantityInStock = p.QuantityInStock,
+                    AcquisitionCost = p.AcquisitionCost,
+                    Barcode = p.Barcode,
+                    Description = p.Description,
+                    Name = p.Name,
+                    SellingPrice = p.SellingPrice,
+                    Profit = p.SellingPrice - p.AcquisitionCost
+                }).ToArrayAsync(cancellationToken: cancellationToken);
+            return result;
+        }
+
+        public async Task<ProductModel[]> GetAllMyStoreProductListInStockAsync(long storeId, CancellationToken cancellationToken)
+        {
+            var userId = userProviderService.GetCurrentUserId();
+            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken: cancellationToken);
+            var result = await fairPlayShopDatabaseContext.Product.AsNoTracking()
+                .Where(p => p.OwnerId == userId && p.StoreId == storeId &&
+                p.QuantityInStock > 0)
                 .Select(p => new ProductModel()
                 {
                     ProductId = p.ProductId,

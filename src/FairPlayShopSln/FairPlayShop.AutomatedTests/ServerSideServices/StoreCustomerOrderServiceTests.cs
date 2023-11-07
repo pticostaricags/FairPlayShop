@@ -151,7 +151,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                     new Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModel()
                     {
                         ProductId = product.ProductId,
-                        Quantity=12,
+                        Quantity=1,
                         UnitPrice=product.SellingPrice
                     }
                 }
@@ -180,7 +180,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                 Name = "Name",
                 OwnerId = user.Id,
                 ProductStatusId = (byte)Common.Enums.ProductStatus.Active,
-                QuantityInStock = 10,
+                QuantityInStock = 1,
                 SellingPrice = 20,
                 Sku = "Sku",
                 ThumbnailPhoto = new Photo()
@@ -192,7 +192,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             };
             Store store = new Store()
             {
-                Name = $"AT Store: {nameof(Test_CreateStoreCustomerOrderAsync)}",
+                Name = $"AT Store 2",
                 OwnerId = user.Id,
                 Product =
                 {
@@ -222,7 +222,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                     new Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModel()
                     {
                         ProductId = product.ProductId,
-                        Quantity=12,
+                        Quantity=1,
                         UnitPrice=product.SellingPrice
                     }
                 }

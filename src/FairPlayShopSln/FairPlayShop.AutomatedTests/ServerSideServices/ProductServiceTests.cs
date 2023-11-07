@@ -124,7 +124,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             ServerSideServicesTestBase.CurrentUserId = userEntity.Id;
             Store store = new()
             {
-                Name = $"AT Store: {nameof(Test_CreateMyProductAsync)}",
+                Name = $"AT Store: {nameof(Test_GetAllMyStoreProductListAsync)}",
                 OwnerId = userEntity.Id,
             };
             await ctx.Store.AddAsync(store);
@@ -149,6 +149,59 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             var result = await productService.GetAllMyStoreProductListAsync(store.StoreId, CancellationToken.None);
             Assert.IsNotNull(result);
             Assert.AreEqual(1, result.Length);
+        }
+
+        [TestMethod]
+        public async Task Test_GetAllMyStoreProductListInStockAsync()
+        {
+            var config = await GetFairPlayShopDatabaseContextAsync();
+            var ctx = config.dbContext;
+            var userEntity = await CreateTestUserAsync(ctx);
+            ServerSideServicesTestBase.CurrentUserId = userEntity.Id;
+            Store store = new()
+            {
+                Name = $"AT Store 1",
+                OwnerId = userEntity.Id,
+            };
+            await ctx.Store.AddAsync(store);
+            await ctx.SaveChangesAsync();
+            IProductService productService = await ServerSideServicesTestBase.GetProductServiceAsync();
+            CreateProductModel outOfStockProduct = new()
+            {
+                AcquisitionCost = 55.23M,
+                Barcode = Guid.NewGuid().ToString(),
+                Description = "AT No Stock",
+                Name = "AT No Stock",
+                QuantityInStock = 0,
+                SellingPrice = 40,
+                Sku = Guid.NewGuid().ToString(),
+                ProductStatus = Common.Enums.ProductStatus.Draft,
+                PhotoName = nameof(Properties.Resources.TestProduct),
+                PhotoFilename = $"{Properties.Resources.TestProduct}.bmp",
+                PhotoBytes = Properties.Resources.TestProduct,
+                StoreId = store.StoreId
+            };
+            await productService.CreateMyProductAsync(outOfStockProduct, CancellationToken.None);
+            CreateProductModel inStockProduct = new()
+            {
+                AcquisitionCost = 55.23M,
+                Barcode = Guid.NewGuid().ToString(),
+                Description = "AT In Stock",
+                Name = "AT In Stock",
+                QuantityInStock = 34,
+                SellingPrice = 40,
+                Sku = Guid.NewGuid().ToString(),
+                ProductStatus = Common.Enums.ProductStatus.Draft,
+                PhotoName = nameof(Properties.Resources.TestProduct),
+                PhotoFilename = $"{Properties.Resources.TestProduct}.bmp",
+                PhotoBytes = Properties.Resources.TestProduct,
+                StoreId = store.StoreId
+            };
+            await productService.CreateMyProductAsync(inStockProduct, CancellationToken.None);
+            var result = await productService.GetAllMyStoreProductListInStockAsync(store.StoreId, CancellationToken.None);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Length);
+            Assert.AreEqual(inStockProduct.QuantityInStock, result[0].QuantityInStock);
         }
 
         [TestMethod]
