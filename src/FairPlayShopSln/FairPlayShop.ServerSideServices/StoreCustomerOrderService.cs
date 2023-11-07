@@ -42,8 +42,7 @@ namespace FairPlayShop.ServerSideServices
                             .Product.SingleAsync(p => p.ProductId == singleOrderLine.ProductId,
                             cancellationToken: cancellationToken);
                         if (productEntity.QuantityInStock < singleOrderLine.Quantity)
-                            throw new Exception($"There are not enough items of {productEntity.Name} in stock to complete this order. " +
-                                $"Please try again later");
+                            throw new Exception($"There are only {productEntity.QuantityInStock} items of {productEntity.Name} left in stock. Please modify your order or try again later. ");
                         productEntity.QuantityInStock -= (int)singleOrderLine.Quantity!.Value;
                         storeCustomerOrder.StoreCustomerOrderDetail.Add(new StoreCustomerOrderDetail()
                         {
