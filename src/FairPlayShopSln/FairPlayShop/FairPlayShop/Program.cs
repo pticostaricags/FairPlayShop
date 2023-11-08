@@ -17,14 +17,17 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("FairPlayShop.AutomatedTests")]
 internal partial class Program
 {
+    private static WebApplication? AppInstance;
     private static void Main(string[] args)
     {
-        var builder = WebApplication.CreateBuilder(args);
-
-        builder.Services.AddTransient<IStringLocalizerFactory, EFStringLocalizerFactory>();
+        WebApplicationBuilder? builder=null;
+        builder = WebApplication.CreateBuilder();
+        builder!.Services.AddTransient<IStringLocalizerFactory, EFStringLocalizerFactory>();
         builder.Services.AddTransient<IStringLocalizer, EFStringLocalizer>();
         builder.Services.AddLocalization();
 
@@ -42,7 +45,10 @@ internal partial class Program
         builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
             .AddIdentityCookies();
 
-        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+        var connectionString =
+            Environment.GetEnvironmentVariable("DefaultConnection") ??
+            builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(connectionString));
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -62,8 +68,11 @@ internal partial class Program
             });
         });
 
-        var endpoint = builder.Configuration["AzureOpenAI:Endpoint"] ?? throw new Exception("Can't find config for AzureOpenAI:Endpoint");
-        var key = builder.Configuration["AzureOpenAI:Key"] ?? throw new Exception("Can't find config for AzureOpenAI:Key");
+        var endpoint =
+            Environment.GetEnvironmentVariable("AzureOpenAI:Endpoint") ??
+            builder.Configuration["AzureOpenAI:Endpoint"] ?? throw new Exception("Can't find config for AzureOpenAI:Endpoint");
+        var key = Environment.GetEnvironmentVariable("AzureOpenAI:Key") ??
+            builder.Configuration["AzureOpenAI:Key"] ?? throw new Exception("Can't find config for AzureOpenAI:Key");
 
         builder.Services.AddTransient<IAzureOpenAIService>(sp =>
         {
@@ -106,6 +115,11 @@ internal partial class Program
         app.UseAntiforgery();
         using var scope = app.Services.CreateScope();
         using var ctx = scope.ServiceProvider.GetRequiredService<FairPlayShopDatabaseContext>();
+        if (args.Length == 4 && args[0] == "persistInstance")
+        {
+            ctx.Database.EnsureCreated();
+            ctx.Database.ExecuteSqlRaw(args[1]);
+        }
         var supportedCultures = ctx.Culture.Select(p => p.Name).ToArray();
         var localizationOptions = new RequestLocalizationOptions()
             .SetDefaultCulture(supportedCultures[0])
@@ -125,7 +139,14 @@ internal partial class Program
         app.MapAdditionalIdentityEndpoints();
 
         app.MapHealthChecks("/appHealth");
-        app.Run();
+        if (args.Length == 4 && args[0] == "persistInstance")
+        {
+            AppInstance = app;
+        }
+        else
+        {
+            app.Run();
+        }
     }
 
     static void ConfigureModelsLocalizers(IServiceProvider services)
