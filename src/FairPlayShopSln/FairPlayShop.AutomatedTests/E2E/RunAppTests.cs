@@ -33,9 +33,7 @@ namespace FairPlayShop.AutomatedTests.E2E
             Environment.SetEnvironmentVariable("DefaultConnection", _msSqlContainer.GetConnectionString());
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
             MainCaller(null, new string[] { "persistInstance",
-            Properties.Resources.SeedData,
-            "C:\\Projects\\pticostaricags\\FairPlayShop\\src\\FairPlayShopSln\\FairPlayShop\\FairPlayShop",
-            "C:\\Projects\\pticostaricags\\FairPlayShop\\src\\FairPlayShopSln\\FairPlayShop\\FairPlayShop\\wwwroot"
+            Properties.Resources.SeedData
             });
             AppInstance = AppInstanceGetter(null);
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed

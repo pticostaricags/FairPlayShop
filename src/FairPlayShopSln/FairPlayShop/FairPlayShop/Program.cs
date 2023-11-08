@@ -115,7 +115,7 @@ internal partial class Program
         app.UseAntiforgery();
         using var scope = app.Services.CreateScope();
         using var ctx = scope.ServiceProvider.GetRequiredService<FairPlayShopDatabaseContext>();
-        if (args.Length == 4 && args[0] == "persistInstance")
+        if (args.Length == 2 && args[0] == "persistInstance")
         {
             ctx.Database.EnsureCreated();
             ctx.Database.ExecuteSqlRaw(args[1]);
@@ -139,7 +139,7 @@ internal partial class Program
         app.MapAdditionalIdentityEndpoints();
 
         app.MapHealthChecks("/appHealth");
-        if (args.Length == 4 && args[0] == "persistInstance")
+        if (args.Length == 2 && args[0] == "persistInstance")
         {
             AppInstance = app;
         }
