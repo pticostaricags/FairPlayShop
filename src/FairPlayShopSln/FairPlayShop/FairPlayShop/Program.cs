@@ -42,7 +42,10 @@ internal partial class Program
         builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
             .AddIdentityCookies();
 
-        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+        var connectionString = 
+            Environment.GetEnvironmentVariable("DefaultConnection") ??
+            builder.Configuration.GetConnectionString("DefaultConnection") ?? 
+            throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(connectionString));
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -62,8 +65,10 @@ internal partial class Program
             });
         });
 
-        var endpoint = builder.Configuration["AzureOpenAI:Endpoint"] ?? throw new Exception("Can't find config for AzureOpenAI:Endpoint");
-        var key = builder.Configuration["AzureOpenAI:Key"] ?? throw new Exception("Can't find config for AzureOpenAI:Key");
+        var endpoint = Environment.GetEnvironmentVariable("AzureOpenAI:Endpoint") ??
+            builder.Configuration["AzureOpenAI:Endpoint"] ?? throw new Exception("Can't find config for AzureOpenAI:Endpoint");
+        var key = Environment.GetEnvironmentVariable("AzureOpenAI:Key") ??
+            builder.Configuration["AzureOpenAI:Key"] ?? throw new Exception("Can't find config for AzureOpenAI:Key");
 
         builder.Services.AddTransient<IAzureOpenAIService>(sp =>
         {

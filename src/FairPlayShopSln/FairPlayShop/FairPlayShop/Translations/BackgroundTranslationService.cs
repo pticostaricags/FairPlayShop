@@ -47,6 +47,8 @@ namespace FairPlayShop.Translations
         private async Task Process(CancellationToken stoppingToken)
         {
             using var scope = this.ServiceScopeFactory.CreateScope();
+            var conf = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+            var skipTranslations = Convert.ToBoolean(conf["skipTranslations"]);
             FairPlayShopDatabaseContext fairplayshopDatabaseContext =
                 scope.ServiceProvider.GetRequiredService<FairPlayShopDatabaseContext>();
             var modelsAssembly = typeof(Models.City.CityModel).Assembly;
@@ -96,6 +98,11 @@ namespace FairPlayShop.Translations
             }
             if (fairplayshopDatabaseContext.ChangeTracker.HasChanges())
                 await fairplayshopDatabaseContext.SaveChangesAsync(stoppingToken);
+            if (skipTranslations)
+            {
+                Logger.LogInformation("Skipping Translation");
+                return;
+            }
             var allEnglishUSKeys =
                 await fairplayshopDatabaseContext.Resource
                 .Include(p => p.Culture)

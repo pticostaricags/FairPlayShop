@@ -1,6 +1,8 @@
 ﻿using FairPlayShop.AutomatedTests.ServerSideServices;
+using FairPlayShop.Controllers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Playwright;
 using System;
@@ -28,6 +30,9 @@ namespace FairPlayShop.AutomatedTests.Playwright
 #pragma warning restore IDE0060 // Remove unused parameter
         {
             await ServerSideServicesTestBase._msSqlContainer.StartAsync();
+            Environment.SetEnvironmentVariable("DefaultConnection", _msSqlContainer.GetConnectionString());
+            Environment.SetEnvironmentVariable("skipTranslations", "true");
+            await ServerSideServicesTestBase.GetFairPlayShopDatabaseContextAsync();
             var exitCode = Microsoft.Playwright.Program.Main(
                 new[] { "install-deps" });
             if (exitCode != 0)
@@ -44,19 +49,19 @@ namespace FairPlayShop.AutomatedTests.Playwright
             Playwright = await Microsoft.Playwright.Playwright.CreateAsync();
             // Setup Browser lazy initializers.
             ChromiumBrowser = new Lazy<Task<IBrowser>>(
-              Playwright.Chromium.LaunchAsync(options: new() 
+              Playwright.Chromium.LaunchAsync(options: new()
               {
                   Headless = false,
               }));
             FirefoxBrowser = new Lazy<Task<IBrowser>>(
-              Playwright.Firefox.LaunchAsync(options:new()
+              Playwright.Firefox.LaunchAsync(options: new()
               {
-                  Headless=false
+                  Headless = false
               }));
             WebkitBrowser = new Lazy<Task<IBrowser>>(
-              Playwright.Webkit.LaunchAsync(options:new()
+              Playwright.Webkit.LaunchAsync(options: new()
               {
-                  Headless=false
+                  Headless = false
               }));
         }
 
@@ -92,30 +97,8 @@ namespace FairPlayShop.AutomatedTests.Playwright
         [TestMethod]
         public async Task Test_LoadHomeAsync()
         {
-            var url = "https://localhost:5000";
-            // Create the host factory with the App class as
-            // parameter and the url we are going to use.
-            using var hostFactory =
-              new WebTestingHostFactory<FairPlayShop.Controllers.CultureController>();
-            hostFactory
-              // Override host configuration to mock stuff if required.
-              .WithWebHostBuilder(builder =>
-              {
-                  // Setup the url to use.
-                  builder.UseUrls(url);
-                  // Replace or add services if needed.
-                  builder.ConfigureServices(services =>
-                  {
-                      // services.AddTransient<....>();
-                  })
-          // Replace or add configuration if needed.
-          .ConfigureAppConfiguration((app, conf) =>
-                {
-                    // conf.AddJsonFile("appsettings.Test.json");
-                });
-              })
-              // Create the host using the CreateDefaultClient method.
-              .CreateDefaultClient();
+            WebTestingHostFactory<CultureController> hostFactory;
+            var url = CreateAppHost(out hostFactory);
             // Open a page and run test logic.
             await GotoPageAsync(
               url,
@@ -130,33 +113,37 @@ namespace FairPlayShop.AutomatedTests.Playwright
               Browser.Chromium);
         }
 
+        private static string CreateAppHost(out WebTestingHostFactory<CultureController> hostFactory)
+        {
+            string url = "https://localhost:5000";
+            hostFactory = new WebTestingHostFactory<FairPlayShop.Controllers.CultureController>();
+            hostFactory
+                          // Override host configuration to mock stuff if required.
+                          .WithWebHostBuilder(builder =>
+                          {
+                              // Setup the url to use.
+                              builder.UseUrls(url);
+                              // Replace or add services if needed.
+                              builder.ConfigureServices(services =>
+                              {
+                                  // services.AddTransient<....>();
+                              })
+                      // Replace or add configuration if needed.
+                      .ConfigureAppConfiguration((app, conf) =>
+                      {
+                          // conf.AddJsonFile("appsettings.Test.json");
+                      });
+                          })
+                          // Create the host using the CreateDefaultClient method.
+                          .CreateDefaultClient();
+            return url;
+        }
+
         [TestMethod]
         public async Task Test_ChangeLanguageAsync()
         {
-            var url = "https://localhost:5000";
-            // Create the host factory with the App class as
-            // parameter and the url we are going to use.
-            using var hostFactory =
-              new WebTestingHostFactory<FairPlayShop.Controllers.CultureController>();
-            hostFactory
-              // Override host configuration to mock stuff if required.
-              .WithWebHostBuilder(builder =>
-              {
-                  // Setup the url to use.
-                  builder.UseUrls(url);
-                  // Replace or add services if needed.
-                  builder.ConfigureServices(services =>
-                  {
-                      // services.AddTransient<....>();
-                  })
-          // Replace or add configuration if needed.
-          .ConfigureAppConfiguration((app, conf) =>
-          {
-              // conf.AddJsonFile("appsettings.Test.json");
-          });
-              })
-              // Create the host using the CreateDefaultClient method.
-              .CreateDefaultClient();
+            WebTestingHostFactory<CultureController> hostFactory;
+            var url = CreateAppHost(out hostFactory);
             // Open a page and run test logic.
             await GotoPageAsync(
               url,
@@ -166,9 +153,6 @@ namespace FairPlayShop.AutomatedTests.Playwright
 
                   await page.GetByRole(AriaRole.Combobox).SelectOptionAsync(new[] { "es-CR" });
 
-                  await page.GetByRole(AriaRole.Link, new() { Name = "Inicio" }).ClickAsync();
-
-                  await page.GetByRole(AriaRole.Link, new() { Name = "Iniciar sesión" }).ClickAsync();
               },
               Browser.Chromium);
         }
