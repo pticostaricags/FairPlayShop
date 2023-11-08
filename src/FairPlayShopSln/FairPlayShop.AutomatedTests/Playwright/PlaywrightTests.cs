@@ -90,7 +90,7 @@ namespace FairPlayShop.AutomatedTests.Playwright
         }
 
         [TestMethod]
-        public async Task MyFirstTest()
+        public async Task Test_LoadHomeAsync()
         {
             var url = "https://localhost:5000";
             // Create the host factory with the App class as
@@ -126,6 +126,49 @@ namespace FairPlayShop.AutomatedTests.Playwright
                   await page.GetByRole(AriaRole.Main).ClickAsync();
 
                   await page.GetByRole(AriaRole.Heading, new() { Name = "Hello, world!" }).ClickAsync();
+              },
+              Browser.Chromium);
+        }
+
+        [TestMethod]
+        public async Task Test_ChangeLanguageAsync()
+        {
+            var url = "https://localhost:5000";
+            // Create the host factory with the App class as
+            // parameter and the url we are going to use.
+            using var hostFactory =
+              new WebTestingHostFactory<FairPlayShop.Controllers.CultureController>();
+            hostFactory
+              // Override host configuration to mock stuff if required.
+              .WithWebHostBuilder(builder =>
+              {
+                  // Setup the url to use.
+                  builder.UseUrls(url);
+                  // Replace or add services if needed.
+                  builder.ConfigureServices(services =>
+                  {
+                      // services.AddTransient<....>();
+                  })
+          // Replace or add configuration if needed.
+          .ConfigureAppConfiguration((app, conf) =>
+          {
+              // conf.AddJsonFile("appsettings.Test.json");
+          });
+              })
+              // Create the host using the CreateDefaultClient method.
+              .CreateDefaultClient();
+            // Open a page and run test logic.
+            await GotoPageAsync(
+              url,
+              async (page) =>
+              {
+                  await page.GetByRole(AriaRole.Main).ClickAsync();
+
+                  await page.GetByRole(AriaRole.Combobox).SelectOptionAsync(new[] { "es-CR" });
+
+                  await page.GetByRole(AriaRole.Link, new() { Name = "Inicio" }).ClickAsync();
+
+                  await page.GetByRole(AriaRole.Link, new() { Name = "Iniciar sesión" }).ClickAsync();
               },
               Browser.Chromium);
         }
