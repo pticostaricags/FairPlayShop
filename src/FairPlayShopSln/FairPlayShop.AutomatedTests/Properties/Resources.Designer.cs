@@ -87,5 +87,19 @@ namespace FairPlayShop.AutomatedTests.Properties {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ResourceId,Type,Key,Value,CultureId
+        ///5791,FairPlayShop.Models.Store.CreateStoreModelLocalizer,Name_RequiredText,{0} is required,1
+        ///5792,FairPlayShop.Models.Store.CreateStoreModelLocalizer,NameStringLengthText,{0} cannot have more than {1} characters,1
+        ///5793,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,StoreId_RequiredText,{0} is required,1
+        ///5794,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,Name_RequiredText,{0} is required,1
+        ///5795,FairPlayShop.Models.StoreCustom [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string Translations {
+            get {
+                return ResourceManager.GetString("Translations", resourceCulture);
+            }
+        }
     }
 }

@@ -1,0 +1,485 @@
+﻿ResourceId,Type,Key,Value,CultureId
+5791,FairPlayShop.Models.Store.CreateStoreModelLocalizer,Name_RequiredText,{0} is required,1
+5792,FairPlayShop.Models.Store.CreateStoreModelLocalizer,NameStringLengthText,{0} cannot have more than {1} characters,1
+5793,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,StoreId_RequiredText,{0} is required,1
+5794,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,Name_RequiredText,{0} is required,1
+5795,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,NameStringLengthText,{0} cannot have more than {1} characters,1
+5796,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,FirstSurname_RequiredText,{0} is required,1
+5797,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,FirstSurnameStringLengthText,{0} cannot have more than {1} characters,1
+5798,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,SecondSurname_RequiredText,{0} is required,1
+5799,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,SecondSurnameStringLengthText,{0} cannot have more than {1} characters,1
+5800,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,EmailAddress_RequiredText,{0} is required,1
+5801,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,EmailAddressStringLengthText,{0} cannot have more than {1} characters,1
+5802,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,EmailAddressEmailAddressText,{0} must have a valid Email Address format,1
+5803,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,PhoneNumber_RequiredText,{0} is required,1
+5804,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,PhoneNumberStringLengthText,{0} cannot have more than {1} characters,1
+5805,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,PhoneNumberPhoneText,{0} must have a valid Phone format,1
+5806,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,CreateStoreCustomerAddressModel_RequiredText,{0} is required,1
+5807,FairPlayShop.Models.StoreCustomerOrder.CreateStoreCustomerOrderModelLocalizer,StoreCustomerId_RequiredText,{0} is required,1
+5808,FairPlayShop.Models.StoreCustomerOrder.CreateStoreCustomerOrderModelLocalizer,CreateStoreCustomerOrderDetailModel_RequiredText,{0} is required,1
+5809,FairPlayShop.Models.StoreCustomerOrder.CreateStoreCustomerOrderModelLocalizer,CreateStoreCustomerOrderDetailModelLengthText,{0} must have between {1} and {2} items,1
+5810,FairPlayShop.Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModelLocalizer,ProductId_RequiredText,{0} is required,1
+5811,FairPlayShop.Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModelLocalizer,UnitPrice_RequiredText,{0} is required,1
+5812,FairPlayShop.Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModelLocalizer,Quantity_RequiredText,{0} is required,1
+5813,FairPlayShop.Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModelLocalizer,QuantityRangeText,{0} must have a value between {1} and {2},1
+5814,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,Name_RequiredText,{0} is required,1
+5815,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,NameStringLengthText,{0} cannot have more than {1} characters,1
+5816,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,FirstSurname_RequiredText,{0} is required,1
+5817,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,FirstSurnameStringLengthText,{0} cannot have more than {1} characters,1
+5818,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,SecondSurname_RequiredText,{0} is required,1
+5819,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,SecondSurnameStringLengthText,{0} cannot have more than {1} characters,1
+5820,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,CompanyStringLengthText,{0} cannot have more than {1} characters,1
+5821,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,AddressLine1_RequiredText,{0} is required,1
+5822,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,AddressLine1StringLengthText,{0} cannot have more than {1} characters,1
+5823,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,AddressLine2_RequiredText,{0} is required,1
+5824,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,AddressLine2StringLengthText,{0} cannot have more than {1} characters,1
+5825,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,CityId_RequiredText,{0} is required,1
+5826,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,PostalCode_RequiredText,{0} is required,1
+5827,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,PostalCodeStringLengthText,{0} cannot have more than {1} characters,1
+5828,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,PhoneNumber_RequiredText,{0} is required,1
+5829,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,PhoneNumberStringLengthText,{0} cannot have more than {1} characters,1
+5830,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,PhoneNumberPhoneText,{0} must have a valid Phone format,1
+5831,FairPlayShop.Models.Product.CreateProductModelLocalizer,Name_RequiredText,{0} is required,1
+5832,FairPlayShop.Models.Product.CreateProductModelLocalizer,NameStringLengthText,{0} cannot have more than {1} characters,1
+5833,FairPlayShop.Models.Product.CreateProductModelLocalizer,Description_RequiredText,{0} is required,1
+5834,FairPlayShop.Models.Product.CreateProductModelLocalizer,DescriptionStringLengthText,{0} cannot have more than {1} characters,1
+5835,FairPlayShop.Models.Product.CreateProductModelLocalizer,QuantityInStock_RequiredText,{0} is required,1
+5836,FairPlayShop.Models.Product.CreateProductModelLocalizer,SellingPrice_RequiredText,{0} is required,1
+5837,FairPlayShop.Models.Product.CreateProductModelLocalizer,AcquisitionCost_RequiredText,{0} is required,1
+5838,FairPlayShop.Models.Product.CreateProductModelLocalizer,Sku_RequiredText,{0} is required,1
+5839,FairPlayShop.Models.Product.CreateProductModelLocalizer,SkuStringLengthText,{0} cannot have more than {1} characters,1
+5840,FairPlayShop.Models.Product.CreateProductModelLocalizer,BarcodeStringLengthText,{0} cannot have more than {1} characters,1
+5841,FairPlayShop.Models.Product.CreateProductModelLocalizer,ProductStatus_RequiredText,{0} is required,1
+5842,FairPlayShop.Components.Pages.Store.CreateMyStore,CreateMyStoreTextKey,Create My Store,1
+5843,FairPlayShop.Components.Pages.Store.CreateMyStore,NamtText,Name,1
+5844,FairPlayShop.Components.Pages.Store.MyStoreList,MyStoreListText,My Store List,1
+5845,FairPlayShop.Components.Pages.Store.MyStoreList,AddProductsText,Add Products,1
+5846,FairPlayShop.Components.Pages.Store.MyStoreList,ListProductsText,List Products,1
+5847,FairPlayShop.Components.Pages.Store.MyStoreList,AddCustomerText,Add Customer,1
+5848,FairPlayShop.Components.Pages.Store.MyStoreList,ListCustomersText,List Customers,1
+5849,FairPlayShop.Components.Pages.Store.MyStoreList,CreateCustomerOrderText,Create Customer Order,1
+5850,FairPlayShop.Components.Pages.Store.MyStoreList,StoreIdText,Store Id,1
+5851,FairPlayShop.Components.Pages.Store.MyStoreList,NameText,Name,1
+5852,FairPlayShop.Components.Pages.Store.MyStoreList,CustomerCountText,Customer Count,1
+5853,FairPlayShop.Components.Pages.Store.MyStoreList,StoreCustomerOrderListText,Order List,1
+5854,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,CreateMyStoreCustomerText,Create My Store Customer,1
+5855,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,NameTextKey,Name,1
+5856,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,FirstSurnameText,First Surname,1
+5857,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,SecondSurnameText,Second Surname,1
+5858,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,EmailAddressText,Email Address,1
+5859,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,PhoneNumberText,Phone Number,1
+5860,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,CompanyText,Company,1
+5861,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,AddressLine1Text,Address Line 1,1
+5862,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,AddressLine2Text,Address Line 2,1
+5863,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,PostalCodeText,Postal Code,1
+5864,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,CountryText,Country,1
+5865,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,SelectCountryText,Select a Country,1
+5866,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,StateOrProvinceText,State Or Province,1
+5867,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,SelectStateOrProvinceText,Select a State Or Province,1
+5868,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,CityText,City,1
+5869,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,SelectCityText,Select a City,1
+5870,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,MyStoreCustomerListText,My Store Customer List,1
+5871,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,StoreCustomerIdText,Store Customer Id,1
+5872,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,NameText,Name,1
+5873,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,FirstSurnameText,First Surname,1
+5874,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,SecondSurnameText,Second Surname,1
+5875,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,EmailAddressText,Email Address,1
+5876,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,PhoneNumberText,Phone Number,1
+5877,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,DeleteText,Delete,1
+5878,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,StoreCustomerOrderListText,Store Customer Order List,1
+5879,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,OrderDateTimeText,Order DateTime,1
+5880,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,OrderSubTotalText,Order SubTotal,1
+5881,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,TaxTotalText,Tax Total,1
+5882,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,OrderTotalText,Order Total,1
+5883,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,StoreCustomerNameText,Name,1
+5884,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,StoreCustomerFirstSurnameTextKey,First Surname,1
+5885,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,StoreCustomerSecondSurnameText,Second Surname,1
+5886,FairPlayShop.Components.Pages.Product.CreateMyProduct,CreateMyProductText,"Create My Product ",1
+5887,FairPlayShop.Components.Pages.Product.CreateMyProduct,NameText,Name,1
+5888,FairPlayShop.Components.Pages.Product.CreateMyProduct,DescriptionText,Description,1
+5889,FairPlayShop.Components.Pages.Product.CreateMyProduct,SkuText,Sku,1
+5890,FairPlayShop.Components.Pages.Product.CreateMyProduct,BarcodeText,Barcode,1
+5891,FairPlayShop.Components.Pages.Product.CreateMyProduct,SellingPriceText,Selling Price,1
+5892,FairPlayShop.Components.Pages.Product.CreateMyProduct,AcquisitionCostText,Acquisition Cost,1
+5893,FairPlayShop.Components.Pages.Product.CreateMyProduct,QuantityInStockText,Quantity In Stock,1
+5894,FairPlayShop.Components.Pages.Product.CreateMyProduct,ProductStatusText,Product Status,1
+5895,FairPlayShop.Components.Pages.Product.CreateMyProduct,SelectProductStatusText,Select a Product Status,1
+5896,FairPlayShop.Components.Pages.Product.CreateMyProduct,ThumbnailImageText,Thumbnail Image,1
+5897,FairPlayShop.Components.Pages.Product.CreateMyProduct,ProductSavedText,Your product has been saved,1
+5898,FairPlayShop.Components.Pages.Product.MyProductList,MyProductListText,My Product List,1
+5899,FairPlayShop.Components.Pages.Product.MyProductList,ProductIdText,Product Id,1
+5900,FairPlayShop.Components.Pages.Product.MyProductList,ProductNameText,Product Name,1
+5901,FairPlayShop.Components.Pages.Product.MyProductList,QuantityInStockText,Quantity In Stock,1
+5902,FairPlayShop.Components.Pages.Product.MyProductList,SellingPriceText,Selling Price,1
+5903,FairPlayShop.Components.Pages.Product.MyProductList,AcquisitionCostText,Acquisition Cost,1
+5904,FairPlayShop.Components.Pages.Product.MyProductList,ProfitText,Profit,1
+5905,FairPlayShop.Components.Layout.NavMenu,HomeTextKey,Home,1
+5906,FairPlayShop.Components.Layout.NavMenu,LogoutText,Logout,1
+5907,FairPlayShop.Components.Layout.NavMenu,RegisterText,Register,1
+5908,FairPlayShop.Components.Layout.NavMenu,LoginText,Login,1
+5909,FairPlayShop.Components.Layout.NavMenu,CreateMyStore,Create My Store,1
+5910,FairPlayShop.Components.Layout.NavMenu,MyStoreListText,My Store List,1
+5911,FairPlayShop.CustomLocalization.GlobalKeysLocalizer,SaveText,Save,1
+5912,FairPlayShop.Models.Store.CreateStoreModelLocalizer,Name_RequiredText,{0} es requerido,2
+5913,FairPlayShop.Models.Store.CreateStoreModelLocalizer,Name_RequiredText,{0} est obligatoire,3
+5914,FairPlayShop.Models.Store.CreateStoreModelLocalizer,Name_RequiredText,{0} è richiesto,4
+5915,FairPlayShop.Models.Store.CreateStoreModelLocalizer,NameStringLengthText,{0} no puede tener más de {1} caracteres,2
+5916,FairPlayShop.Models.Store.CreateStoreModelLocalizer,NameStringLengthText,{0} ne peut pas avoir plus de {1} caractères,3
+5917,FairPlayShop.Models.Store.CreateStoreModelLocalizer,NameStringLengthText,{0} non può avere più di {1} caratteri,4
+5918,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,StoreId_RequiredText,Se requiere {0},2
+5919,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,StoreId_RequiredText,{0} est requis,3
+5920,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,StoreId_RequiredText,{0} è obbligatorio,4
+5921,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,Name_RequiredText,{0} es requerido,2
+5922,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,Name_RequiredText,{0} est requis,3
+5923,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,Name_RequiredText,{0} è richiesto,4
+5924,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,NameStringLengthText,{0} no puede tener más de {1} caracteres,2
+5925,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,NameStringLengthText,{0} ne peut pas contenir plus de {1} caractères,3
+5926,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,NameStringLengthText,{0} non può avere più di {1} caratteri,4
+5927,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,FirstSurname_RequiredText,{0} es requerido,2
+5928,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,FirstSurname_RequiredText,{0} est requis,3
+5929,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,FirstSurname_RequiredText,{0} è richiesto,4
+5930,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,FirstSurnameStringLengthText,{0} no puede tener más de {1} caracteres,2
+5931,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,FirstSurnameStringLengthText,{0} ne peut pas contenir plus de {1} caractères,3
+5932,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,FirstSurnameStringLengthText,{0} non può avere più di {1} caratteri,4
+5933,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,SecondSurname_RequiredText,{0} es requerido,2
+5934,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,SecondSurname_RequiredText,{0} est requis,3
+5935,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,SecondSurname_RequiredText,{0} è richiesto,4
+5936,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,SecondSurnameStringLengthText,{0} no puede tener más de {1} caracteres,2
+5937,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,SecondSurnameStringLengthText,{0} ne peut pas contenir plus de {1} caractères,3
+5938,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,SecondSurnameStringLengthText,{0} non può avere più di {1} caratteri,4
+5939,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,EmailAddress_RequiredText,Se requiere {0},2
+5940,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,EmailAddress_RequiredText,{0} est requis,3
+5941,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,EmailAddress_RequiredText,{0} è richiesto,4
+5942,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,EmailAddressStringLengthText,{0} no puede tener más de {1} caracteres,2
+5943,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,EmailAddressStringLengthText,{0} ne peut pas contenir plus de {1} caractères,3
+5944,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,EmailAddressStringLengthText,{0} non può avere più di {1} caratteri,4
+5945,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,EmailAddressEmailAddressText,{0} debe tener un formato de dirección de correo electrónico válido,2
+5946,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,EmailAddressEmailAddressText,{0} doit avoir un format d'adresse e-mail valide,3
+5947,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,EmailAddressEmailAddressText,{0} deve avere un formato di indirizzo email valido,4
+5948,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,PhoneNumber_RequiredText,Se requiere {0},2
+5949,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,PhoneNumber_RequiredText,{0} est obligatoire,3
+5950,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,PhoneNumber_RequiredText,{0} è obbligatorio,4
+5951,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,PhoneNumberStringLengthText,{0} no puede tener más de {1} caracteres,2
+5952,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,PhoneNumberStringLengthText,{0} ne peut pas avoir plus de {1} caractères,3
+5953,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,PhoneNumberStringLengthText,{0} non può avere più di {1} caratteri,4
+5954,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,PhoneNumberPhoneText,{0} debe tener un formato de teléfono válido,2
+5955,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,PhoneNumberPhoneText,{0} doit avoir un format de téléphone valide,3
+5956,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,PhoneNumberPhoneText,{0} deve avere un formato di telefono valido,4
+5957,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,CreateStoreCustomerAddressModel_RequiredText,{0} es requerido,2
+5958,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,CreateStoreCustomerAddressModel_RequiredText,{0} est requis,3
+5959,FairPlayShop.Models.StoreCustomer.CreateStoreCustomerModelLocalizer,CreateStoreCustomerAddressModel_RequiredText,{0} è richiesto,4
+5960,FairPlayShop.Models.StoreCustomerOrder.CreateStoreCustomerOrderModelLocalizer,StoreCustomerId_RequiredText,{0} es requerido,2
+5961,FairPlayShop.Models.StoreCustomerOrder.CreateStoreCustomerOrderModelLocalizer,StoreCustomerId_RequiredText,{0} est requis,3
+5962,FairPlayShop.Models.StoreCustomerOrder.CreateStoreCustomerOrderModelLocalizer,StoreCustomerId_RequiredText,{0} è richiesto,4
+5963,FairPlayShop.Models.StoreCustomerOrder.CreateStoreCustomerOrderModelLocalizer,CreateStoreCustomerOrderDetailModel_RequiredText,{0} es requerido,2
+5964,FairPlayShop.Models.StoreCustomerOrder.CreateStoreCustomerOrderModelLocalizer,CreateStoreCustomerOrderDetailModel_RequiredText,{0} est requis,3
+5965,FairPlayShop.Models.StoreCustomerOrder.CreateStoreCustomerOrderModelLocalizer,CreateStoreCustomerOrderDetailModel_RequiredText,{0} è richiesto,4
+5966,FairPlayShop.Models.StoreCustomerOrder.CreateStoreCustomerOrderModelLocalizer,CreateStoreCustomerOrderDetailModelLengthText,{0} debe tener entre {1} y {2} elementos,2
+5967,FairPlayShop.Models.StoreCustomerOrder.CreateStoreCustomerOrderModelLocalizer,CreateStoreCustomerOrderDetailModelLengthText,{0} doit avoir entre {1} et {2} articles,3
+5968,FairPlayShop.Models.StoreCustomerOrder.CreateStoreCustomerOrderModelLocalizer,CreateStoreCustomerOrderDetailModelLengthText,{0} deve avere tra {1} e {2} elementi,4
+5969,FairPlayShop.Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModelLocalizer,ProductId_RequiredText,Se requiere {0},2
+5970,FairPlayShop.Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModelLocalizer,ProductId_RequiredText,{0} est requis,3
+5971,FairPlayShop.Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModelLocalizer,ProductId_RequiredText,{0} è richiesto,4
+5972,FairPlayShop.Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModelLocalizer,UnitPrice_RequiredText,Se requiere {0},2
+5973,FairPlayShop.Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModelLocalizer,UnitPrice_RequiredText,{0} est requis,3
+5974,FairPlayShop.Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModelLocalizer,UnitPrice_RequiredText,{0} è richiesto,4
+5975,FairPlayShop.Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModelLocalizer,Quantity_RequiredText,{0} es requerido,2
+5976,FairPlayShop.Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModelLocalizer,Quantity_RequiredText,{0} est requis,3
+5977,FairPlayShop.Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModelLocalizer,Quantity_RequiredText,{0} è richiesto,4
+5978,FairPlayShop.Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModelLocalizer,QuantityRangeText,{0} debe tener un valor entre {1} y {2},2
+5979,FairPlayShop.Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModelLocalizer,QuantityRangeText,{0} doit avoir une valeur entre {1} et {2},3
+5980,FairPlayShop.Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModelLocalizer,QuantityRangeText,{0} deve avere un valore compreso tra {1} e {2},4
+5981,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,Name_RequiredText,Se requiere {0},2
+5982,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,Name_RequiredText,{0} est obligatoire,3
+5983,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,Name_RequiredText,{0} è richiesto,4
+5984,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,NameStringLengthText,{0} no puede tener más de {1} caracteres,2
+5985,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,NameStringLengthText,{0} ne peut pas contenir plus de {1} caractères,3
+5986,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,NameStringLengthText,{0} non può avere più di {1} caratteri,4
+5987,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,FirstSurname_RequiredText,{0} es requerido,2
+5988,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,FirstSurname_RequiredText,{0} est requis,3
+5989,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,FirstSurname_RequiredText,{0} è richiesto,4
+5990,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,FirstSurnameStringLengthText,{0} no puede tener más de {1} caracteres,2
+5991,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,FirstSurnameStringLengthText,{0} ne peut pas avoir plus de {1} caractères,3
+5992,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,FirstSurnameStringLengthText,{0} non può avere più di {1} caratteri,4
+5993,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,SecondSurname_RequiredText,{0} es requerido,2
+5994,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,SecondSurname_RequiredText,{0} est requis,3
+5995,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,SecondSurname_RequiredText,{0} è obbligatorio,4
+5996,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,SecondSurnameStringLengthText,{0} no puede tener más de {1} caracteres,2
+5997,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,SecondSurnameStringLengthText,{0} ne peut pas avoir plus de {1} caractères,3
+5998,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,SecondSurnameStringLengthText,{0} non può avere più di {1} caratteri,4
+5999,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,CompanyStringLengthText,{0} no puede tener más de {1} caracteres,2
+6000,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,CompanyStringLengthText,{0} ne peut pas avoir plus de {1} caractères,3
+6001,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,CompanyStringLengthText,{0} non può avere più di {1} caratteri,4
+6002,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,AddressLine1_RequiredText,{0} es obligatorio,2
+6003,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,AddressLine1_RequiredText,{0} est requis,3
+6004,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,AddressLine1_RequiredText,{0} è richiesto,4
+6005,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,AddressLine1StringLengthText,{0} no puede tener más de {1} caracteres,2
+6006,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,AddressLine1StringLengthText,{0} ne peut pas avoir plus de {1} caractères,3
+6007,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,AddressLine1StringLengthText,{0} non può avere più di {1} caratteri,4
+6008,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,AddressLine2_RequiredText,{0} es requerido,2
+6009,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,AddressLine2_RequiredText,{0} est requis,3
+6010,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,AddressLine2_RequiredText,{0} è richiesto,4
+6011,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,AddressLine2StringLengthText,{0} no puede tener más de {1} caracteres,2
+6012,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,AddressLine2StringLengthText,{0} ne peut pas avoir plus de {1} caractères,3
+6013,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,AddressLine2StringLengthText,{0} non può avere più di {1} caratteri,4
+6014,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,CityId_RequiredText,Se requiere {0},2
+6015,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,CityId_RequiredText,{0} est requis,3
+6016,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,CityId_RequiredText,{0} è richiesto,4
+6017,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,PostalCode_RequiredText,{0} es requerido,2
+6018,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,PostalCode_RequiredText,{0} est requis,3
+6019,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,PostalCode_RequiredText,{0} è richiesto,4
+6020,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,PostalCodeStringLengthText,{0} no puede tener más de {1} caracteres,2
+6021,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,PostalCodeStringLengthText,{0} ne peut pas avoir plus de {1} caractères,3
+6022,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,PostalCodeStringLengthText,{0} non può avere più di {1} caratteri,4
+6023,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,PhoneNumber_RequiredText,Se requiere {0},2
+6024,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,PhoneNumber_RequiredText,{0} est requis,3
+6025,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,PhoneNumber_RequiredText,{0} è richiesto,4
+6026,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,PhoneNumberStringLengthText,{0} no puede tener más de {1} caracteres,2
+6027,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,PhoneNumberStringLengthText,{0} ne peut pas dépasser {1} caractères,3
+6028,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,PhoneNumberStringLengthText,{0} non può avere più di {1} caratteri,4
+6029,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,PhoneNumberPhoneText,{0} debe tener un formato de teléfono válido,2
+6030,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,PhoneNumberPhoneText,{0} doit avoir un format de téléphone valide,3
+6031,FairPlayShop.Models.StoreCustomerAddress.CreateStoreCustomerAddressModelLocalizer,PhoneNumberPhoneText,{0} deve avere un formato di telefono valido,4
+6032,FairPlayShop.Models.Product.CreateProductModelLocalizer,Name_RequiredText,Se requiere {0},2
+6033,FairPlayShop.Models.Product.CreateProductModelLocalizer,Name_RequiredText,{0} est requis,3
+6034,FairPlayShop.Models.Product.CreateProductModelLocalizer,Name_RequiredText,{0} è obbligatorio,4
+6035,FairPlayShop.Models.Product.CreateProductModelLocalizer,NameStringLengthText,{0} no puede tener más de {1} caracteres,2
+6036,FairPlayShop.Models.Product.CreateProductModelLocalizer,NameStringLengthText,{0} ne peut pas contenir plus de {1} caractères,3
+6037,FairPlayShop.Models.Product.CreateProductModelLocalizer,NameStringLengthText,{0} non può avere più di {1} caratteri,4
+6038,FairPlayShop.Models.Product.CreateProductModelLocalizer,Description_RequiredText,{0} es requerido,2
+6039,FairPlayShop.Models.Product.CreateProductModelLocalizer,Description_RequiredText,{0} est requis,3
+6040,FairPlayShop.Models.Product.CreateProductModelLocalizer,Description_RequiredText,{0} è richiesto,4
+6041,FairPlayShop.Models.Product.CreateProductModelLocalizer,DescriptionStringLengthText,{0} no puede tener más de {1} caracteres,2
+6042,FairPlayShop.Models.Product.CreateProductModelLocalizer,DescriptionStringLengthText,{0} ne peut pas contenir plus de {1} caractères,3
+6043,FairPlayShop.Models.Product.CreateProductModelLocalizer,DescriptionStringLengthText,{0} non può avere più di {1} caratteri,4
+6044,FairPlayShop.Models.Product.CreateProductModelLocalizer,QuantityInStock_RequiredText,{0} es requerido,2
+6045,FairPlayShop.Models.Product.CreateProductModelLocalizer,QuantityInStock_RequiredText,{0} est obligatoire,3
+6046,FairPlayShop.Models.Product.CreateProductModelLocalizer,QuantityInStock_RequiredText,{0} è richiesto,4
+6047,FairPlayShop.Models.Product.CreateProductModelLocalizer,SellingPrice_RequiredText,{0} es requerido,2
+6048,FairPlayShop.Models.Product.CreateProductModelLocalizer,SellingPrice_RequiredText,{0} est requis,3
+6049,FairPlayShop.Models.Product.CreateProductModelLocalizer,SellingPrice_RequiredText,{0} è richiesto,4
+6050,FairPlayShop.Models.Product.CreateProductModelLocalizer,AcquisitionCost_RequiredText,{0} es requerido,2
+6051,FairPlayShop.Models.Product.CreateProductModelLocalizer,AcquisitionCost_RequiredText,{0} est obligatoire,3
+6052,FairPlayShop.Models.Product.CreateProductModelLocalizer,AcquisitionCost_RequiredText,È richiesto {0},4
+6053,FairPlayShop.Models.Product.CreateProductModelLocalizer,Sku_RequiredText,{0} es requerido,2
+6054,FairPlayShop.Models.Product.CreateProductModelLocalizer,Sku_RequiredText,{0} est requis,3
+6055,FairPlayShop.Models.Product.CreateProductModelLocalizer,Sku_RequiredText,{0} è richiesto,4
+6056,FairPlayShop.Models.Product.CreateProductModelLocalizer,SkuStringLengthText,{0} no puede tener más de {1} caracteres,2
+6057,FairPlayShop.Models.Product.CreateProductModelLocalizer,SkuStringLengthText,{0} ne peut pas avoir plus de {1} caractères,3
+6058,FairPlayShop.Models.Product.CreateProductModelLocalizer,SkuStringLengthText,{0} non può avere più di {1} caratteri,4
+6059,FairPlayShop.Models.Product.CreateProductModelLocalizer,BarcodeStringLengthText,{0} no puede tener más de {1} caracteres,2
+6060,FairPlayShop.Models.Product.CreateProductModelLocalizer,BarcodeStringLengthText,{0} ne peut pas avoir plus de {1} caractères,3
+6061,FairPlayShop.Models.Product.CreateProductModelLocalizer,BarcodeStringLengthText,{0} non può avere più di {1} caratteri,4
+6062,FairPlayShop.Models.Product.CreateProductModelLocalizer,ProductStatus_RequiredText,Se requiere {0},2
+6063,FairPlayShop.Models.Product.CreateProductModelLocalizer,ProductStatus_RequiredText,{0} est requis,3
+6064,FairPlayShop.Models.Product.CreateProductModelLocalizer,ProductStatus_RequiredText,{0} è richiesto,4
+6065,FairPlayShop.Components.Pages.Store.CreateMyStore,CreateMyStoreTextKey,Crear Mi Tienda,2
+6066,FairPlayShop.Components.Pages.Store.CreateMyStore,CreateMyStoreTextKey,Créer mon magasin,3
+6067,FairPlayShop.Components.Pages.Store.CreateMyStore,CreateMyStoreTextKey,Crea il mio negozio,4
+6068,FairPlayShop.Components.Pages.Store.CreateMyStore,NamtText,Nombre,2
+6069,FairPlayShop.Components.Pages.Store.CreateMyStore,NamtText,Nom,3
+6070,FairPlayShop.Components.Pages.Store.CreateMyStore,NamtText,Nome,4
+6071,FairPlayShop.Components.Pages.Store.MyStoreList,MyStoreListText,Mi Lista de Tiendas,2
+6072,FairPlayShop.Components.Pages.Store.MyStoreList,MyStoreListText,Ma liste de magasins,3
+6073,FairPlayShop.Components.Pages.Store.MyStoreList,MyStoreListText,La mia lista di negozi,4
+6074,FairPlayShop.Components.Pages.Store.MyStoreList,AddProductsText,Agregar productos,2
+6075,FairPlayShop.Components.Pages.Store.MyStoreList,AddProductsText,Ajouter des produits,3
+6076,FairPlayShop.Components.Pages.Store.MyStoreList,AddProductsText,Aggiungi Prodotti,4
+6077,FairPlayShop.Components.Pages.Store.MyStoreList,ListProductsText,Listar Productos,2
+6078,FairPlayShop.Components.Pages.Store.MyStoreList,ListProductsText,Liste des produits,3
+6079,FairPlayShop.Components.Pages.Store.MyStoreList,ListProductsText,Elencare i prodotti,4
+6080,FairPlayShop.Components.Pages.Store.MyStoreList,AddCustomerText,Agregar Cliente,2
+6081,FairPlayShop.Components.Pages.Store.MyStoreList,AddCustomerText,Ajouter un client,3
+6082,FairPlayShop.Components.Pages.Store.MyStoreList,AddCustomerText,Aggiungi Cliente,4
+6083,FairPlayShop.Components.Pages.Store.MyStoreList,ListCustomersText,Listar Clientes,2
+6084,FairPlayShop.Components.Pages.Store.MyStoreList,ListCustomersText,Liste des clients,3
+6085,FairPlayShop.Components.Pages.Store.MyStoreList,ListCustomersText,Elenco clienti,4
+6086,FairPlayShop.Components.Pages.Store.MyStoreList,CreateCustomerOrderText,Crear orden de cliente,2
+6087,FairPlayShop.Components.Pages.Store.MyStoreList,CreateCustomerOrderText,Créer une commande client,3
+6088,FairPlayShop.Components.Pages.Store.MyStoreList,CreateCustomerOrderText,Creare Ordine Cliente,4
+6089,FairPlayShop.Components.Pages.Store.MyStoreList,StoreIdText,Id de la tienda,2
+6090,FairPlayShop.Components.Pages.Store.MyStoreList,StoreIdText,Identifiant du magasin,3
+6091,FairPlayShop.Components.Pages.Store.MyStoreList,StoreIdText,ID Negozio,4
+6092,FairPlayShop.Components.Pages.Store.MyStoreList,NameText,Nombre,2
+6093,FairPlayShop.Components.Pages.Store.MyStoreList,NameText,Nom,3
+6094,FairPlayShop.Components.Pages.Store.MyStoreList,NameText,Nome,4
+6095,FairPlayShop.Components.Pages.Store.MyStoreList,CustomerCountText,Cantidad de clientes,2
+6096,FairPlayShop.Components.Pages.Store.MyStoreList,CustomerCountText,Nombre de clients,3
+6097,FairPlayShop.Components.Pages.Store.MyStoreList,CustomerCountText,Numero di clienti,4
+6098,FairPlayShop.Components.Pages.Store.MyStoreList,StoreCustomerOrderListText,Lista de pedidos,2
+6099,FairPlayShop.Components.Pages.Store.MyStoreList,StoreCustomerOrderListText,Liste des commandes,3
+6100,FairPlayShop.Components.Pages.Store.MyStoreList,StoreCustomerOrderListText,Lista Ordini,4
+6101,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,CreateMyStoreCustomerText,Crear Mi Tienda Cliente,2
+6102,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,CreateMyStoreCustomerText,Créer mon magasin client,3
+6103,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,CreateMyStoreCustomerText,Creare il mio negozio cliente,4
+6104,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,NameTextKey,Nombre,2
+6105,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,NameTextKey,Nom,3
+6106,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,NameTextKey,Nome,4
+6107,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,FirstSurnameText,Primer Apellido,2
+6108,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,FirstSurnameText,Premier Nom de famille,3
+6109,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,FirstSurnameText,Primo Cognome,4
+6110,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,SecondSurnameText,Segundo Apellido,2
+6111,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,SecondSurnameText,Deuxième nom de famille,3
+6112,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,SecondSurnameText,Secondo Cognome,4
+6113,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,EmailAddressText,Dirección de correo electrónico,2
+6114,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,EmailAddressText,Adresse e-mail,3
+6115,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,EmailAddressText,Indirizzo Email,4
+6116,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,PhoneNumberText,Número de teléfono,2
+6117,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,PhoneNumberText,Numéro de téléphone,3
+6118,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,PhoneNumberText,Numero di telefono,4
+6119,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,CompanyText,Empresa,2
+6120,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,CompanyText,Entreprise,3
+6121,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,CompanyText,Azienda,4
+6122,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,AddressLine1Text,Línea de Dirección 1,2
+6123,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,AddressLine1Text,Adresse Ligne 1,3
+6124,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,AddressLine1Text,Indirizzo linea 1,4
+6125,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,AddressLine2Text,Línea de Dirección 2,2
+6126,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,AddressLine2Text,Adresse ligne 2,3
+6127,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,AddressLine2Text,Indirizzo linea 2,4
+6128,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,PostalCodeText,Código Postal,2
+6129,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,PostalCodeText,Code postal,3
+6130,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,PostalCodeText,Codice postale,4
+6131,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,CountryText,País,2
+6132,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,CountryText,Pays,3
+6133,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,CountryText,Paese,4
+6134,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,SelectCountryText,Seleccione un país,2
+6135,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,SelectCountryText,Sélectionnez un pays,3
+6136,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,SelectCountryText,Seleziona un Paese,4
+6137,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,StateOrProvinceText,Estado o Provincia,2
+6138,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,StateOrProvinceText,État ou province,3
+6139,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,StateOrProvinceText,Stato o Provincia,4
+6140,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,SelectStateOrProvinceText,Seleccione un Estado o Provincia,2
+6141,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,SelectStateOrProvinceText,Sélectionnez un État ou une Province,3
+6142,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,SelectStateOrProvinceText,Seleziona uno Stato o Provincia,4
+6143,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,CityText,Ciudad,2
+6144,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,CityText,Ville,3
+6145,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,CityText,Città,4
+6146,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,SelectCityText,Seleccione una ciudad,2
+6147,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,SelectCityText,Sélectionnez une ville,3
+6148,FairPlayShop.Components.Pages.StoreCustomer.CreateMyStoreCustomer,SelectCityText,Seleziona una città,4
+6149,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,MyStoreCustomerListText,Lista de clientes de mi tienda,2
+6150,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,MyStoreCustomerListText,Liste de clients de mon magasin,3
+6151,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,MyStoreCustomerListText,Elenco clienti del mio negozio,4
+6152,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,StoreCustomerIdText,Identificación del cliente de la tienda,2
+6153,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,StoreCustomerIdText,Identifiant du client du magasin,3
+6154,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,StoreCustomerIdText,ID cliente del negozio,4
+6155,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,NameText,Nombre,2
+6156,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,NameText,Nom,3
+6157,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,NameText,Nome,4
+6158,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,FirstSurnameText,Primer Apellido,2
+6159,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,FirstSurnameText,Premier Nom de famille,3
+6160,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,FirstSurnameText,Primo Cognome,4
+6161,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,SecondSurnameText,Segundo Apellido,2
+6162,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,SecondSurnameText,Deuxième nom de famille,3
+6163,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,SecondSurnameText,Secondo Cognome,4
+6164,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,EmailAddressText,Dirección de correo electrónico,2
+6165,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,EmailAddressText,Adresse e-mail,3
+6166,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,EmailAddressText,Indirizzo email,4
+6167,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,PhoneNumberText,Número de teléfono,2
+6168,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,PhoneNumberText,Numéro de téléphone,3
+6169,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,PhoneNumberText,Numero di telefono,4
+6170,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,DeleteText,Eliminar,2
+6171,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,DeleteText,Supprimer,3
+6172,FairPlayShop.Components.Pages.StoreCustomer.MyStoreCustomerList,DeleteText,Elimina,4
+6173,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,StoreCustomerOrderListText,Lista de Pedidos de Clientes en la Tienda,2
+6174,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,StoreCustomerOrderListText,Liste des commandes des clients du magasin,3
+6175,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,StoreCustomerOrderListText,Elenco degli ordini dei clienti del negozio,4
+6176,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,OrderDateTimeText,Fecha y hora de orden,2
+6177,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,OrderDateTimeText,Date et heure de la commande,3
+6178,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,OrderDateTimeText,Data e ora dell'ordine,4
+6179,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,OrderSubTotalText,Subtotal del pedido,2
+6180,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,OrderSubTotalText,Sous-total de la commande,3
+6181,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,OrderSubTotalText,Totale parziale ordine,4
+6182,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,TaxTotalText,Total de impuestos,2
+6183,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,TaxTotalText,Total des taxes,3
+6184,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,TaxTotalText,Totale tasse,4
+6185,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,OrderTotalText,Total del Pedido,2
+6186,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,OrderTotalText,Total de la commande,3
+6187,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,OrderTotalText,Totale ordine,4
+6188,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,StoreCustomerNameText,Nombre,2
+6189,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,StoreCustomerNameText,Nom,3
+6190,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,StoreCustomerNameText,Nome,4
+6191,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,StoreCustomerFirstSurnameTextKey,Primer Apellido,2
+6192,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,StoreCustomerFirstSurnameTextKey,Premier Nom de famille,3
+6193,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,StoreCustomerFirstSurnameTextKey,Primo Cognome,4
+6194,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,StoreCustomerSecondSurnameText,Segundo Apellido,2
+6195,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,StoreCustomerSecondSurnameText,Deuxième nom de famille,3
+6196,FairPlayShop.Components.Pages.StoreCustomerOrder.StoreCustomerOrderList,StoreCustomerSecondSurnameText,Secondo Cognome,4
+6197,FairPlayShop.Components.Pages.Product.CreateMyProduct,CreateMyProductText,Crear mi producto,2
+6198,FairPlayShop.Components.Pages.Product.CreateMyProduct,CreateMyProductText,Créer mon produit,3
+6199,FairPlayShop.Components.Pages.Product.CreateMyProduct,CreateMyProductText,Creare il mio prodotto,4
+6200,FairPlayShop.Components.Pages.Product.CreateMyProduct,NameText,Nombre,2
+6201,FairPlayShop.Components.Pages.Product.CreateMyProduct,NameText,Nom,3
+6202,FairPlayShop.Components.Pages.Product.CreateMyProduct,NameText,Nome,4
+6203,FairPlayShop.Components.Pages.Product.CreateMyProduct,DescriptionText,Descripción,2
+6204,FairPlayShop.Components.Pages.Product.CreateMyProduct,DescriptionText,Description,3
+6205,FairPlayShop.Components.Pages.Product.CreateMyProduct,DescriptionText,Descrizione,4
+6206,FairPlayShop.Components.Pages.Product.CreateMyProduct,SkuText,Sku,2
+6207,FairPlayShop.Components.Pages.Product.CreateMyProduct,SkuText,Sku,3
+6208,FairPlayShop.Components.Pages.Product.CreateMyProduct,SkuText,Sku,4
+6209,FairPlayShop.Components.Pages.Product.CreateMyProduct,BarcodeText,Código de barras,2
+6210,FairPlayShop.Components.Pages.Product.CreateMyProduct,BarcodeText,Code-barres,3
+6211,FairPlayShop.Components.Pages.Product.CreateMyProduct,BarcodeText,Codice a barre,4
+6212,FairPlayShop.Components.Pages.Product.CreateMyProduct,SellingPriceText,Precio de venta,2
+6213,FairPlayShop.Components.Pages.Product.CreateMyProduct,SellingPriceText,Prix de vente,3
+6214,FairPlayShop.Components.Pages.Product.CreateMyProduct,SellingPriceText,Prezzo di vendita,4
+6215,FairPlayShop.Components.Pages.Product.CreateMyProduct,AcquisitionCostText,Costo de adquisición,2
+6216,FairPlayShop.Components.Pages.Product.CreateMyProduct,AcquisitionCostText,Coût d'acquisition,3
+6217,FairPlayShop.Components.Pages.Product.CreateMyProduct,AcquisitionCostText,Costo di Acquisizione,4
+6218,FairPlayShop.Components.Pages.Product.CreateMyProduct,QuantityInStockText,Cantidad en Stock,2
+6219,FairPlayShop.Components.Pages.Product.CreateMyProduct,QuantityInStockText,Quantité en stock,3
+6220,FairPlayShop.Components.Pages.Product.CreateMyProduct,QuantityInStockText,Quantità in magazzino,4
+6221,FairPlayShop.Components.Pages.Product.CreateMyProduct,ProductStatusText,Estado del producto,2
+6222,FairPlayShop.Components.Pages.Product.CreateMyProduct,ProductStatusText,Statut du produit,3
+6223,FairPlayShop.Components.Pages.Product.CreateMyProduct,ProductStatusText,Stato del prodotto,4
+6224,FairPlayShop.Components.Pages.Product.CreateMyProduct,SelectProductStatusText,Seleccionar un estado del producto,2
+6225,FairPlayShop.Components.Pages.Product.CreateMyProduct,SelectProductStatusText,Sélectionnez un statut du produit,3
+6226,FairPlayShop.Components.Pages.Product.CreateMyProduct,SelectProductStatusText,Seleziona uno stato del prodotto,4
+6227,FairPlayShop.Components.Pages.Product.CreateMyProduct,ThumbnailImageText,Imagen en miniatura,2
+6228,FairPlayShop.Components.Pages.Product.CreateMyProduct,ThumbnailImageText,Image miniature,3
+6229,FairPlayShop.Components.Pages.Product.CreateMyProduct,ThumbnailImageText,Immagine in miniatura,4
+6230,FairPlayShop.Components.Pages.Product.CreateMyProduct,ProductSavedText,Su producto ha sido guardado,2
+6231,FairPlayShop.Components.Pages.Product.CreateMyProduct,ProductSavedText,Votre produit a été enregistré,3
+6232,FairPlayShop.Components.Pages.Product.CreateMyProduct,ProductSavedText,Il tuo prodotto è stato salvato,4
+6233,FairPlayShop.Components.Pages.Product.MyProductList,MyProductListText,Mi Lista de Productos,2
+6234,FairPlayShop.Components.Pages.Product.MyProductList,MyProductListText,Ma liste de produits,3
+6235,FairPlayShop.Components.Pages.Product.MyProductList,MyProductListText,La mia lista di prodotti,4
+6236,FairPlayShop.Components.Pages.Product.MyProductList,ProductIdText,Identificación del producto,2
+6237,FairPlayShop.Components.Pages.Product.MyProductList,ProductIdText,Identifiant de produit,3
+6238,FairPlayShop.Components.Pages.Product.MyProductList,ProductIdText,ID prodotto,4
+6239,FairPlayShop.Components.Pages.Product.MyProductList,ProductNameText,Nombre del producto,2
+6240,FairPlayShop.Components.Pages.Product.MyProductList,ProductNameText,Nom du produit,3
+6241,FairPlayShop.Components.Pages.Product.MyProductList,ProductNameText,Nome prodotto,4
+6242,FairPlayShop.Components.Pages.Product.MyProductList,QuantityInStockText,Cantidad en stock,2
+6243,FairPlayShop.Components.Pages.Product.MyProductList,QuantityInStockText,Quantité en stock,3
+6244,FairPlayShop.Components.Pages.Product.MyProductList,QuantityInStockText,Quantità in magazzino,4
+6245,FairPlayShop.Components.Pages.Product.MyProductList,SellingPriceText,Precio de venta,2
+6246,FairPlayShop.Components.Pages.Product.MyProductList,SellingPriceText,Prix de vente,3
+6247,FairPlayShop.Components.Pages.Product.MyProductList,SellingPriceText,Prezzo di vendita,4
+6248,FairPlayShop.Components.Pages.Product.MyProductList,AcquisitionCostText,Costo de adquisición,2
+6249,FairPlayShop.Components.Pages.Product.MyProductList,AcquisitionCostText,Coût d'acquisition,3
+6250,FairPlayShop.Components.Pages.Product.MyProductList,AcquisitionCostText,Costo di acquisizione,4
+6251,FairPlayShop.Components.Pages.Product.MyProductList,ProfitText,Beneficio,2
+6252,FairPlayShop.Components.Pages.Product.MyProductList,ProfitText,Profit,3
+6253,FairPlayShop.Components.Pages.Product.MyProductList,ProfitText,Profitto,4
+6254,FairPlayShop.Components.Layout.NavMenu,HomeTextKey,Inicio,2
+6255,FairPlayShop.Components.Layout.NavMenu,HomeTextKey,Accueil,3
+6256,FairPlayShop.Components.Layout.NavMenu,HomeTextKey,Casa,4
+6257,FairPlayShop.Components.Layout.NavMenu,LogoutText,Cerrar sesión,2
+6258,FairPlayShop.Components.Layout.NavMenu,LogoutText,Déconnexion,3
+6259,FairPlayShop.Components.Layout.NavMenu,LogoutText,Esci,4
+6260,FairPlayShop.Components.Layout.NavMenu,RegisterText,Registrar,2
+6261,FairPlayShop.Components.Layout.NavMenu,RegisterText,Inscription,3
+6262,FairPlayShop.Components.Layout.NavMenu,RegisterText,Registrarsi,4
+6263,FairPlayShop.Components.Layout.NavMenu,LoginText,Iniciar sesión,2
+6264,FairPlayShop.Components.Layout.NavMenu,LoginText,Connexion,3
+6265,FairPlayShop.Components.Layout.NavMenu,LoginText,Accesso,4
+6266,FairPlayShop.Components.Layout.NavMenu,CreateMyStore,Crear Mi Tienda,2
+6267,FairPlayShop.Components.Layout.NavMenu,CreateMyStore,Créer mon magasin,3
+6268,FairPlayShop.Components.Layout.NavMenu,CreateMyStore,Crea il mio negozio,4
+6269,FairPlayShop.Components.Layout.NavMenu,MyStoreListText,Mi Lista de Tiendas,2
+6270,FairPlayShop.Components.Layout.NavMenu,MyStoreListText,Ma liste de magasins,3
+6271,FairPlayShop.Components.Layout.NavMenu,MyStoreListText,La mia lista di negozi,4
+6272,FairPlayShop.CustomLocalization.GlobalKeysLocalizer,SaveText,Guardar,2
+6273,FairPlayShop.CustomLocalization.GlobalKeysLocalizer,SaveText,Enregistrer,3
+6274,FairPlayShop.CustomLocalization.GlobalKeysLocalizer,SaveText,Salva,4

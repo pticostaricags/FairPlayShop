@@ -1,9 +1,15 @@
-﻿using FairPlayShop.DataAccess.Data;
+﻿using CsvHelper;
+using CsvHelper.Configuration;
+using FairPlayShop.DataAccess.Data;
+using FairPlayShop.DataAccess.Models;
 using FairPlayShop.Interfaces.Services;
 using FairPlayShop.ServerSideServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.Globalization;
+using System.IO;
+using System.Threading;
 using Testcontainers.MsSql;
 
 namespace FairPlayShop.AutomatedTests.ServerSideServices
@@ -34,6 +40,30 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                 dbContextFactory.CreateDbContext();
             await fairPlayShopDatabaseContext.Database.EnsureCreatedAsync();
             await fairPlayShopDatabaseContext.Database.ExecuteSqlRawAsync(Properties.Resources.SeedData);
+            if (fairPlayShopDatabaseContext.Resource.Count() == 0)
+            {
+                using var reader = new StringReader(Properties.Resources.Translations);
+                using CsvParser csvParser = new(reader, configuration:
+                        new CsvConfiguration(System.Globalization.CultureInfo.CurrentCulture)
+                        {
+                            Delimiter = ",",
+                            ShouldQuote = ((ShouldQuoteArgs args) => { return false; })
+                        });
+                using CsvReader csvReader = new(csvParser);
+                var records = csvReader.GetRecords<TestResourcModel>().ToArray();
+                records.AsParallel().ForAll(p => p.ResourceId = 0);
+                foreach (var singleRecord in records)
+                {
+                    await fairPlayShopDatabaseContext.Resource.AddAsync(new Resource() 
+                    {
+                        CultureId = singleRecord.CultureId,
+                        Key = singleRecord.Key,
+                        Type = singleRecord.Type,
+                        Value = singleRecord.Value
+                    });
+                }
+                await fairPlayShopDatabaseContext.SaveChangesAsync();
+            }
             return (fairPlayShopDatabaseContext, dbContextFactory);
         }
 
