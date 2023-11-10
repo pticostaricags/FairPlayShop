@@ -1,5 +1,6 @@
 ﻿using FairPlayShop.Common.CustomAttributes;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
 
 namespace FairPlayShop.Models.StoreCustomerAddress
 {
@@ -58,6 +59,7 @@ namespace FairPlayShop.Models.StoreCustomerAddress
         public string? PhoneNumber { get; set; }
     }
 
+    [CompilerGenerated]
     [LocalizerOfT<CreateStoreCustomerAddressModel>]
     public partial class CreateStoreCustomerAddressModelLocalizer
     {

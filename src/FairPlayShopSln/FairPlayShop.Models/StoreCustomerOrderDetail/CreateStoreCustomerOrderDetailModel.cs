@@ -1,5 +1,6 @@
 ﻿using FairPlayShop.Common.CustomAttributes;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
 
 namespace FairPlayShop.Models.StoreCustomerOrderDetail
 {
@@ -19,6 +20,7 @@ namespace FairPlayShop.Models.StoreCustomerOrderDetail
         public decimal? LineTotal => UnitPrice.GetValueOrDefault() * Quantity.GetValueOrDefault(0);
     }
 
+    [CompilerGenerated]
     [LocalizerOfT<CreateStoreCustomerOrderDetailModel>]
     public partial class CreateStoreCustomerOrderDetailModelLocalizer
     {

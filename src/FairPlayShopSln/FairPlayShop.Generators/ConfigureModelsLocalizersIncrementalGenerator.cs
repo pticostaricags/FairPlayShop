@@ -75,9 +75,8 @@ namespace FairPlaySocial.Services.Generators
                     var t = modelsReference!.GetType();
                     var metadata = compilation.GetTypeByMetadataName(t.Name);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-
                 }
             }
 

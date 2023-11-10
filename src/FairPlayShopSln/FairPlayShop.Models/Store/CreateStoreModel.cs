@@ -1,5 +1,6 @@
 ﻿using FairPlayShop.Common.CustomAttributes;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
 
 namespace FairPlayShop.Models.Store
 {
@@ -12,6 +13,7 @@ namespace FairPlayShop.Models.Store
         public string? Name { get; set; }
     }
 
+    [CompilerGenerated]
     [LocalizerOfT<CreateStoreModel>]
     public partial class CreateStoreModelLocalizer
     {

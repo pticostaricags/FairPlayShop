@@ -47,9 +47,12 @@ namespace FairPlaySocial.Services.Generators
                     foreach (var singleAttribute in singleAttributeList.Attributes)
                     {
                         var identifierNameSyntax = (singleAttribute.Name) as GenericNameSyntax;
-                        string identifierText = identifierNameSyntax!.Identifier.Text;
-                        if (identifierText == "LocalizerOfT")
-                            return true;
+                        if (identifierNameSyntax != null)
+                        {
+                            string identifierText = identifierNameSyntax!.Identifier.Text;
+                            if (identifierText == "LocalizerOfT")
+                                return true;
+                        }
                     }
                 }
             }
@@ -70,70 +73,73 @@ namespace FairPlaySocial.Services.Generators
                     foreach (var singleAttribute in singleAttributeList.Attributes)
                     {
                         var identifierNameSyntax = (singleAttribute.Name) as GenericNameSyntax;
-                        string identifierText = identifierNameSyntax!.Identifier.Text;
-                        if (identifierText == "LocalizerOfT")
+                        if (identifierNameSyntax != null)
                         {
-                            var typeArgument = identifierNameSyntax!.TypeArgumentList;
-                            var typeArgumentIdentifier = typeArgument!.Arguments[0] as IdentifierNameSyntax;
-                            var typeArgumentName = typeArgumentIdentifier!.Identifier!.ValueText;
-                            var newClassName = $"{typeArgumentName}Localizer";
-                            var indexOfLastModel = typeArgumentName.LastIndexOf("Model");
-                            var entityName = typeArgumentName.Substring(6, indexOfLastModel - 6);
-                            string namespaceValue = $"FairPlayShop.Models.{entityName}";
-                            var fullyQualifiedMetadataName = $"{namespaceValue}.{typeArgumentName}";
-                            var typedSymbol = compilation.GetTypeByMetadataName(fullyQualifiedMetadataName);
-                            var properties = typedSymbol!.GetMembers().Where(p => p.Kind == SymbolKind.Property);
-                            StringBuilder stringBuilder = new();
-                            stringBuilder.AppendLine("using Microsoft.Extensions.Localization;");
-                            stringBuilder.AppendLine("using FairPlayShop.Common.CustomAttributes;");
-                            stringBuilder.AppendLine($"namespace {namespaceValue};");
-                            stringBuilder.AppendLine($"public partial class {newClassName}");
-                            stringBuilder.AppendLine("{");
-                            stringBuilder.AppendLine($"public static IStringLocalizer<{newClassName}> Localizer {{ get; set; }}");
-                            foreach (var singleProperty in properties)
+                            string identifierText = identifierNameSyntax!.Identifier.Text;
+                            if (identifierText == "LocalizerOfT")
                             {
-                                var propertyAttributes = singleProperty.GetAttributes();
-                                foreach (var singlePropertyAttribute in propertyAttributes)
+                                var typeArgument = identifierNameSyntax!.TypeArgumentList;
+                                var typeArgumentIdentifier = typeArgument!.Arguments[0] as IdentifierNameSyntax;
+                                var typeArgumentName = typeArgumentIdentifier!.Identifier!.ValueText;
+                                var newClassName = $"{typeArgumentName}Localizer";
+                                var indexOfLastModel = typeArgumentName.LastIndexOf("Model");
+                                var entityName = typeArgumentName.Substring(6, indexOfLastModel - 6);
+                                string namespaceValue = $"FairPlayShop.Models.{entityName}";
+                                var fullyQualifiedMetadataName = $"{namespaceValue}.{typeArgumentName}";
+                                var typedSymbol = compilation.GetTypeByMetadataName(fullyQualifiedMetadataName);
+                                var properties = typedSymbol!.GetMembers().Where(p => p.Kind == SymbolKind.Property);
+                                StringBuilder stringBuilder = new();
+                                stringBuilder.AppendLine("using Microsoft.Extensions.Localization;");
+                                stringBuilder.AppendLine("using FairPlayShop.Common.CustomAttributes;");
+                                stringBuilder.AppendLine($"namespace {namespaceValue};");
+                                stringBuilder.AppendLine($"public partial class {newClassName}");
+                                stringBuilder.AppendLine("{");
+                                stringBuilder.AppendLine($"public static IStringLocalizer<{newClassName}> Localizer {{ get; set; }}");
+                                foreach (var singleProperty in properties)
                                 {
-                                    var singlePropertyMetadataName = singlePropertyAttribute!.AttributeClass!.MetadataName;
-                                    switch (singlePropertyMetadataName)
+                                    var propertyAttributes = singleProperty.GetAttributes();
+                                    foreach (var singlePropertyAttribute in propertyAttributes)
                                     {
-                                        case "RequiredAttribute":
-                                            stringBuilder.AppendLine("[ResourceKey(defaultValue: \"{0} is required\")]");
-                                            stringBuilder.AppendLine($"public const string {singleProperty.Name}_RequiredTextKey = \"{singleProperty.Name}_RequiredText\";");
-                                            stringBuilder.AppendLine($"public static string {singleProperty.Name}_Required => Localizer[{singleProperty.Name}_RequiredTextKey];");
-                                            break;
-                                        case "StringLengthAttribute":
-                                            stringBuilder.AppendLine("[ResourceKey(defaultValue: \"{0} cannot have more than {1} characters\")]");
-                                            stringBuilder.AppendLine($"public const string {singleProperty.Name}StringLengthTextKey = \"{singleProperty.Name}StringLengthText\";");
-                                            stringBuilder.AppendLine($"public static string {singleProperty.Name}_StringLength => Localizer[{singleProperty.Name}StringLengthTextKey];");
-                                            break;
-                                        case "EmailAddressAttribute":
-                                            stringBuilder.AppendLine("[ResourceKey(defaultValue: \"{0} must have a valid Email Address format\")]");
-                                            stringBuilder.AppendLine($"public const string {singleProperty.Name}EmailAddressTextKey = \"{singleProperty.Name}EmailAddressText\";");
-                                            stringBuilder.AppendLine($"public static string {singleProperty.Name}_EmailAddress => Localizer[{singleProperty.Name}EmailAddressTextKey];");
-                                            break;
-                                        case "PhoneAttribute":
-                                            stringBuilder.AppendLine("[ResourceKey(defaultValue: \"{0} must have a valid Phone format\")]");
-                                            stringBuilder.AppendLine($"public const string {singleProperty.Name}PhoneTextKey = \"{singleProperty.Name}PhoneText\";");
-                                            stringBuilder.AppendLine($"public static string {singleProperty.Name}_Phone => Localizer[{singleProperty.Name}PhoneTextKey];");
-                                            break;
-                                        case "LengthAttribute":
-                                            stringBuilder.AppendLine("[ResourceKey(defaultValue: \"{0} must have between {1} and {2} items\")]");
-                                            stringBuilder.AppendLine($"public const string {singleProperty.Name}LengthTextKey = \"{singleProperty.Name}LengthText\";");
-                                            stringBuilder.AppendLine($"public static string {singleProperty.Name}_Length => Localizer[{singleProperty.Name}LengthTextKey];");
-                                            break;
-                                        case "RangeAttribute":
-                                            stringBuilder.AppendLine("[ResourceKey(defaultValue: \"{0} must have a value between {1} and {2}\")]");
-                                            stringBuilder.AppendLine($"public const string {singleProperty.Name}RangeTextKey = \"{singleProperty.Name}RangeText\";");
-                                            stringBuilder.AppendLine($"public static string {singleProperty.Name}_Range => Localizer[{singleProperty.Name}RangeTextKey];");
-                                            break;
+                                        var singlePropertyMetadataName = singlePropertyAttribute!.AttributeClass!.MetadataName;
+                                        switch (singlePropertyMetadataName)
+                                        {
+                                            case "RequiredAttribute":
+                                                stringBuilder.AppendLine("[ResourceKey(defaultValue: \"{0} is required\")]");
+                                                stringBuilder.AppendLine($"public const string {singleProperty.Name}_RequiredTextKey = \"{singleProperty.Name}_RequiredText\";");
+                                                stringBuilder.AppendLine($"public static string {singleProperty.Name}_Required => Localizer[{singleProperty.Name}_RequiredTextKey];");
+                                                break;
+                                            case "StringLengthAttribute":
+                                                stringBuilder.AppendLine("[ResourceKey(defaultValue: \"{0} cannot have more than {1} characters\")]");
+                                                stringBuilder.AppendLine($"public const string {singleProperty.Name}StringLengthTextKey = \"{singleProperty.Name}StringLengthText\";");
+                                                stringBuilder.AppendLine($"public static string {singleProperty.Name}_StringLength => Localizer[{singleProperty.Name}StringLengthTextKey];");
+                                                break;
+                                            case "EmailAddressAttribute":
+                                                stringBuilder.AppendLine("[ResourceKey(defaultValue: \"{0} must have a valid Email Address format\")]");
+                                                stringBuilder.AppendLine($"public const string {singleProperty.Name}EmailAddressTextKey = \"{singleProperty.Name}EmailAddressText\";");
+                                                stringBuilder.AppendLine($"public static string {singleProperty.Name}_EmailAddress => Localizer[{singleProperty.Name}EmailAddressTextKey];");
+                                                break;
+                                            case "PhoneAttribute":
+                                                stringBuilder.AppendLine("[ResourceKey(defaultValue: \"{0} must have a valid Phone format\")]");
+                                                stringBuilder.AppendLine($"public const string {singleProperty.Name}PhoneTextKey = \"{singleProperty.Name}PhoneText\";");
+                                                stringBuilder.AppendLine($"public static string {singleProperty.Name}_Phone => Localizer[{singleProperty.Name}PhoneTextKey];");
+                                                break;
+                                            case "LengthAttribute":
+                                                stringBuilder.AppendLine("[ResourceKey(defaultValue: \"{0} must have between {1} and {2} items\")]");
+                                                stringBuilder.AppendLine($"public const string {singleProperty.Name}LengthTextKey = \"{singleProperty.Name}LengthText\";");
+                                                stringBuilder.AppendLine($"public static string {singleProperty.Name}_Length => Localizer[{singleProperty.Name}LengthTextKey];");
+                                                break;
+                                            case "RangeAttribute":
+                                                stringBuilder.AppendLine("[ResourceKey(defaultValue: \"{0} must have a value between {1} and {2}\")]");
+                                                stringBuilder.AppendLine($"public const string {singleProperty.Name}RangeTextKey = \"{singleProperty.Name}RangeText\";");
+                                                stringBuilder.AppendLine($"public static string {singleProperty.Name}_Range => Localizer[{singleProperty.Name}RangeTextKey];");
+                                                break;
+                                        }
                                     }
                                 }
+                                stringBuilder.AppendLine("}");
+                                context.AddSource($"{newClassName}.g.cs",
+                            SourceText.From(stringBuilder.ToString(), Encoding.UTF8));
                             }
-                            stringBuilder.AppendLine("}");
-                            context.AddSource($"{newClassName}.g.cs",
-                        SourceText.From(stringBuilder.ToString(), Encoding.UTF8));
                         }
                     }
                 }

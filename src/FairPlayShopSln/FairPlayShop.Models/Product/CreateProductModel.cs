@@ -1,6 +1,7 @@
 ﻿using FairPlayShop.Common.CustomAttributes;
 using FairPlayShop.Common.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
 
 namespace FairPlayShop.Models.Product
 {
@@ -47,6 +48,7 @@ namespace FairPlayShop.Models.Product
         public long? StoreId { get; set; }
     }
 
+    [CompilerGenerated]
     [LocalizerOfT<CreateProductModel>]
     public partial class CreateProductModelLocalizer
     {

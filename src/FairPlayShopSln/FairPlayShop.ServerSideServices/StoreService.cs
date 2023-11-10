@@ -16,7 +16,7 @@ namespace FairPlayShop.ServerSideServices
     {
         public async Task CreateMyStoreAsync(CreateStoreModel createStoreModel, CancellationToken cancellationToken)
         {
-            logger.LogInformation($"Executing {{{nameof(createStoreModel)}}}", createStoreModel);
+            logger.LogInformation($"Executing {{ {nameof( createStoreModel )} }}", createStoreModel);
             var userId = userProviderService.GetCurrentUserId();
             Store entity = new()
             {

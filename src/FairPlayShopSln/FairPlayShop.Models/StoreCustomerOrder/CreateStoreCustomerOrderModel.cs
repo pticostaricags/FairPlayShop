@@ -1,6 +1,7 @@
 ﻿using FairPlayShop.Common.CustomAttributes;
 using FairPlayShop.Models.StoreCustomerOrderDetail;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
 
 namespace FairPlayShop.Models.StoreCustomerOrder
 {
@@ -21,6 +22,7 @@ namespace FairPlayShop.Models.StoreCustomerOrder
         public List<CreateStoreCustomerOrderDetailModel>? CreateStoreCustomerOrderDetailModel { get; set; }
     }
 
+    [CompilerGenerated]
     [LocalizerOfT<CreateStoreCustomerOrderModel>]
     public partial class CreateStoreCustomerOrderModelLocalizer
     {
