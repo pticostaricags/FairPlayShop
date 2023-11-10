@@ -60,9 +60,9 @@ namespace FairPlayShop.CustomLocalization.EF
         /// <summary>
         /// Gets all of the values
         /// </summary>
-        /// <param name="includeAncestorCultures"></param>
+        /// <param name="includeParentCultures"></param>
         /// <returns></returns>
-        public IEnumerable<LocalizedString> GetAllStrings(bool includeAncestorCultures)
+        public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures)
         {
             var db = dbContextFactory.CreateDbContext();
             var typeFullName = typeof(T).FullName;

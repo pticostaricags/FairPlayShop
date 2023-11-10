@@ -8,18 +8,12 @@ namespace FairPlayShop.CustomLocalization.EF
     /// <summary>
     /// Handles EF-based localization
     /// </summary>
-    public class EFStringLocalizer : IStringLocalizer
+    /// <remarks>
+    /// Initializes <see cref="EFStringLocalizer"/>
+    /// </remarks>
+    /// <param name="dbContextFactory"></param>
+    public class EFStringLocalizer(IDbContextFactory<FairPlayShopDatabaseContext> dbContextFactory) : IStringLocalizer
     {
-        IDbContextFactory<FairPlayShopDatabaseContext> _dbContextFactory;
-
-        /// <summary>
-        /// Initializes <see cref="EFStringLocalizer"/>
-        /// </summary>
-        /// <param name="dbContextFactory"></param>
-        public EFStringLocalizer(IDbContextFactory<FairPlayShopDatabaseContext> dbContextFactory)
-        {
-            _dbContextFactory = dbContextFactory;
-        }
 
         /// <summary>
         /// Returns the value for the given key
@@ -58,19 +52,18 @@ namespace FairPlayShop.CustomLocalization.EF
         /// <returns></returns>
         public IStringLocalizer WithCulture(CultureInfo culture)
         {
-            var db = this._dbContextFactory.CreateDbContext();
             CultureInfo.DefaultThreadCurrentCulture = culture;
-            return new EFStringLocalizer(this._dbContextFactory);
+            return new EFStringLocalizer(dbContextFactory);
         }
 
         /// <summary>
         /// Gets all of the strings
         /// </summary>
-        /// <param name="includeAncestorCultures"></param>
+        /// <param name="includeParentCultures"></param>
         /// <returns></returns>
-        public IEnumerable<LocalizedString> GetAllStrings(bool includeAncestorCultures)
+        public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures)
         {
-            var db = this._dbContextFactory.CreateDbContext();
+            var db = dbContextFactory.CreateDbContext();
             return db.Resource
                 .Include(r => r.Culture)
                 .Where(r => r.Culture.Name == CultureInfo.CurrentCulture.Name)
@@ -79,7 +72,7 @@ namespace FairPlayShop.CustomLocalization.EF
 
         private string? GetString(string name)
         {
-            var db = this._dbContextFactory.CreateDbContext();
+            var db = dbContextFactory.CreateDbContext();
             return db.Resource
                 .Include(r => r.Culture)
                 .Where(r => r.Culture.Name == CultureInfo.CurrentCulture.Name)

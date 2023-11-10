@@ -1,6 +1,7 @@
 using Azure.AI.OpenAI;
 using Blazored.Toast;
 using FairPlayShop.Client.Pages;
+using FairPlayShop.Common.CustomExceptions;
 using FairPlayShop.Components;
 using FairPlayShop.CustomLocalization;
 using FairPlayShop.CustomLocalization.EF;
@@ -17,8 +18,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using System.Reflection;
-
-internal partial class Program
+namespace FairPlayShop;
+internal static partial class Program
 {
     private static void Main(string[] args)
     {
@@ -66,9 +67,9 @@ internal partial class Program
         });
 
         var endpoint = Environment.GetEnvironmentVariable("AzureOpenAI:Endpoint") ??
-            builder.Configuration["AzureOpenAI:Endpoint"] ?? throw new Exception("Can't find config for AzureOpenAI:Endpoint");
+            builder.Configuration["AzureOpenAI:Endpoint"] ?? throw new ConfigurationException("Can't find config for AzureOpenAI:Endpoint");
         var key = Environment.GetEnvironmentVariable("AzureOpenAI:Key") ??
-            builder.Configuration["AzureOpenAI:Key"] ?? throw new Exception("Can't find config for AzureOpenAI:Key");
+            builder.Configuration["AzureOpenAI:Key"] ?? throw new ConfigurationException("Can't find config for AzureOpenAI:Key");
 
         builder.Services.AddTransient<IAzureOpenAIService>(sp =>
         {
@@ -152,7 +153,4 @@ internal partial class Program
         localizerFactory.Create(typeof(GlobalKeysLocalizer)) as IStringLocalizer<GlobalKeysLocalizer>;
         GlobalKeysLocalizer.Localizer = globalKeysLocalizer;
     }
-    //TODO: Find a way to automatically generate the partial method using the generator: ConfigureModelsLocalizersIncrementalGenerator
-    //[ConfigureModelsLocalizers]
-    //static partial void ConfigureModelsLocalizers(IServiceProvider services);
 }
