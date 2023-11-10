@@ -23,6 +23,9 @@ namespace FairPlayShop.AutomatedTests.Playwright
         private static Lazy<Task<IBrowser>>? ChromiumBrowser;
         private static Lazy<Task<IBrowser>>? FirefoxBrowser;
         private static Lazy<Task<IBrowser>>? WebkitBrowser;
+        private static readonly string[] args = ["install-deps"];
+        private static readonly string[] argsArray = ["install"];
+        private static readonly string[] values = ["es-CR"];
 
         [ClassInitialize]
 #pragma warning disable IDE0060 // Remove unused parameter
@@ -34,13 +37,13 @@ namespace FairPlayShop.AutomatedTests.Playwright
             Environment.SetEnvironmentVariable("skipTranslations", "true");
             await ServerSideServicesTestBase.GetFairPlayShopDatabaseContextAsync();
             var exitCode = Microsoft.Playwright.Program.Main(
-                new[] { "install-deps" });
+                args);
             if (exitCode != 0)
             {
                 throw new Exception(
                   $"Playwright exited with code {exitCode} on install-deps");
             }
-            exitCode = Microsoft.Playwright.Program.Main(new[] { "install" });
+            exitCode = Microsoft.Playwright.Program.Main(argsArray);
             if (exitCode != 0)
             {
                 throw new Exception(
@@ -97,8 +100,7 @@ namespace FairPlayShop.AutomatedTests.Playwright
         [TestMethod]
         public async Task Test_LoadHomeAsync()
         {
-            WebTestingHostFactory<CultureController> hostFactory;
-            var url = CreateAppHost(out hostFactory);
+            var url = CreateAppHost(out WebTestingHostFactory<CultureController> hostFactory);
             // Open a page and run test logic.
             await GotoPageAsync(
               url,
@@ -126,12 +128,10 @@ namespace FairPlayShop.AutomatedTests.Playwright
                               // Replace or add services if needed.
                               builder.ConfigureServices(services =>
                               {
-                                  // services.AddTransient<....>();
                               })
                       // Replace or add configuration if needed.
                       .ConfigureAppConfiguration((app, conf) =>
                       {
-                          // conf.AddJsonFile("appsettings.Test.json");
                       });
                           })
                           // Create the host using the CreateDefaultClient method.
@@ -142,8 +142,7 @@ namespace FairPlayShop.AutomatedTests.Playwright
         [TestMethod]
         public async Task Test_ChangeLanguageAsync()
         {
-            WebTestingHostFactory<CultureController> hostFactory;
-            var url = CreateAppHost(out hostFactory);
+            var url = CreateAppHost(out WebTestingHostFactory<CultureController> hostFactory);
             // Open a page and run test logic.
             await GotoPageAsync(
               url,
@@ -151,7 +150,7 @@ namespace FairPlayShop.AutomatedTests.Playwright
               {
                   await page.GetByRole(AriaRole.Main).ClickAsync();
 
-                  await page.GetByRole(AriaRole.Combobox).SelectOptionAsync(new[] { "es-CR" });
+                  await page.GetByRole(AriaRole.Combobox).SelectOptionAsync(values);
 
               },
               Browser.Chromium);
@@ -177,7 +176,7 @@ namespace FairPlayShop.AutomatedTests.Playwright
         /// <param name="browserType">The Browser to use to open the page.
         /// </param>
         /// <returns>The GotoPage task.</returns>
-        public async Task GotoPageAsync(
+        public static async Task GotoPageAsync(
             string url,
             Func<IPage, Task> testHandler,
             Browser browserType)
@@ -222,7 +221,7 @@ namespace FairPlayShop.AutomatedTests.Playwright
         /// </summary>
         /// <param name="browser">The browser to select.</param>
         /// <returns>The selected IBrowser instance.</returns>
-        private Task<IBrowser> SelectBrowserAsync(Browser browser)
+        private static Task<IBrowser> SelectBrowserAsync(Browser browser)
         {
             return browser switch
             {
@@ -259,32 +258,37 @@ namespace FairPlayShop.AutomatedTests.Playwright
     }
 
     // Relay the call to both test host and kestrel host.
-    public class CompositeHost : IHost
+    public class CompositeHost(IHost testHost, IHost kestrelHost) : IHost
     {
-        private readonly IHost testHost;
-        private readonly IHost kestrelHost;
-        public CompositeHost(IHost testHost, IHost kestrelHost)
-        {
-            this.testHost = testHost;
-            this.kestrelHost = kestrelHost;
-        }
-        public IServiceProvider Services => this.testHost.Services;
+        public IServiceProvider Services => testHost.Services;
+
         public void Dispose()
         {
-            this.testHost.Dispose();
-            this.kestrelHost.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            // Cleanup
+            if (disposing)
+            {
+                testHost.Dispose();
+                kestrelHost.Dispose();
+            }
+        }
+
         public async Task StartAsync(
           CancellationToken cancellationToken = default)
         {
-            await this.testHost.StartAsync(cancellationToken);
-            await this.kestrelHost.StartAsync(cancellationToken);
+            await testHost.StartAsync(cancellationToken);
+            await kestrelHost.StartAsync(cancellationToken);
         }
         public async Task StopAsync(
           CancellationToken cancellationToken = default)
         {
-            await this.testHost.StopAsync(cancellationToken);
-            await this.kestrelHost.StopAsync(cancellationToken);
+            await testHost.StopAsync(cancellationToken);
+            await kestrelHost.StopAsync(cancellationToken);
         }
     }
 }

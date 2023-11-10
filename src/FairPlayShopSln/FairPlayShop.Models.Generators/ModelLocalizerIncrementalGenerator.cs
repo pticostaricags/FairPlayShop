@@ -12,7 +12,9 @@ namespace FairPlaySocial.Services.Generators
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
 #if DEBUG
-            //System.Diagnostics.Debugger.Launch();
+
+#pragma warning disable S125 // Sections of code should not be commented out
+                            //System.Diagnostics.Debugger.Launch();
 #endif
             // Do a simple filter for enums
             IncrementalValuesProvider<ClassDeclarationSyntax> classDeclarations =
@@ -21,6 +23,7 @@ namespace FairPlaySocial.Services.Generators
                     predicate: static (s, _) => IsSyntaxTargetForGeneration(s), // select enums with attributes
                     transform: static (ctx, _) => GetSemanticTargetForGeneration(ctx)) // sect the enum with the [EnumExtensions] attribute
                 .Where(static m => m is not null)!; // filter out attributed enums that we don't care about
+#pragma warning restore S125 // Sections of code should not be commented out
 
             // Combine the selected interfaces with the `Compilation`
             IncrementalValueProvider<(Compilation, ImmutableArray<ClassDeclarationSyntax>)>
@@ -46,8 +49,7 @@ namespace FairPlaySocial.Services.Generators
                 {
                     foreach (var singleAttribute in singleAttributeList.Attributes)
                     {
-                        var identifierNameSyntax = (singleAttribute.Name) as GenericNameSyntax;
-                        if (identifierNameSyntax != null)
+                        if ((singleAttribute.Name) is GenericNameSyntax identifierNameSyntax)
                         {
                             string identifierText = identifierNameSyntax!.Identifier.Text;
                             if (identifierText == "LocalizerOfT")
@@ -62,18 +64,13 @@ namespace FairPlaySocial.Services.Generators
         static void Execute(Compilation compilation,
             ImmutableArray<ClassDeclarationSyntax> classesDeclarationSyntax, SourceProductionContext context)
         {
-            string assemblyName = compilation.AssemblyName!;
-            string[] splittedAssemblyName = assemblyName.Split('.');
-            string assemblyNameFirstPart = splittedAssemblyName[0];
             foreach (var singleClassDeclarationSyntax in classesDeclarationSyntax)
             {
-                var serviceName = singleClassDeclarationSyntax.Identifier.Text;
                 foreach (var singleAttributeList in singleClassDeclarationSyntax.AttributeLists)
                 {
                     foreach (var singleAttribute in singleAttributeList.Attributes)
                     {
-                        var identifierNameSyntax = (singleAttribute.Name) as GenericNameSyntax;
-                        if (identifierNameSyntax != null)
+                        if ((singleAttribute.Name) is GenericNameSyntax identifierNameSyntax)
                         {
                             string identifierText = identifierNameSyntax!.Identifier.Text;
                             if (identifierText == "LocalizerOfT")

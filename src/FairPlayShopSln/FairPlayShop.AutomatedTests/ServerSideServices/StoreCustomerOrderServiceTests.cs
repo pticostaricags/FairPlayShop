@@ -29,8 +29,8 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestCleanup]
         public async Task TestCleanupAsync()
         {
-            var config = await GetFairPlayShopDatabaseContextAsync();
-            var ctx = config.dbContext;
+            var (dbContext, _) = await GetFairPlayShopDatabaseContextAsync();
+            var ctx = dbContext;
             foreach (var singleCustomerOrderDetail in ctx.StoreCustomerOrderDetail)
             {
                 ctx.StoreCustomerOrderDetail.Remove(singleCustomerOrderDetail);
@@ -97,11 +97,11 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestMethod]
         public async Task Test_CreateStoreCustomerOrderAsync()
         {
-            var config = await GetFairPlayShopDatabaseContextAsync();
-            var ctx = config.dbContext;
+            var (dbContext, _) = await GetFairPlayShopDatabaseContextAsync();
+            var ctx = dbContext;
             var user = await CreateTestUserAsync(ctx);
             ServerSideServicesTestBase.CurrentUserId = user.Id;
-            Product product = new Product()
+            Product product = new()
             {
                 AcquisitionCost = 12,
                 Barcode = "Barcode",
@@ -119,7 +119,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                     PhotoBytes = Properties.Resources.TestProduct,
                 }
             };
-            Store store = new Store()
+            Store store = new()
             {
                 Name = $"AT Store: {nameof(Test_CreateStoreCustomerOrderAsync)}",
                 OwnerId = user.Id,
@@ -130,8 +130,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             };
             await ctx.Store.AddAsync(store);
             await ctx.SaveChangesAsync();
-            IStoreCustomerService storeCustomerService = await GetStoreCustomerServiceAsync();
-            StoreCustomer storeCustomer = new StoreCustomer()
+            StoreCustomer storeCustomer = new()
             {
                 EmailAddress = "t@t.t",
                 Name = "AT Firstname",
@@ -146,15 +145,14 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             {
                 StoreCustomerId = storeCustomer.StoreCustomerId,
                 CreateStoreCustomerOrderDetailModel =
-                new List<Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModel>()
-                {
-                    new Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModel()
+                [
+                    new()
                     {
                         ProductId = product.ProductId,
                         Quantity=1,
                         UnitPrice=product.SellingPrice
                     }
-                }
+                ]
             };
             IStoreCustomerOrderService storeCustomerOrderService =
                 await GetStoreCustomerOrderServiceAsync();
@@ -168,11 +166,11 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestMethod]
         public async Task Test_GetStoreCustomerOrderListAsync()
         {
-            var config = await GetFairPlayShopDatabaseContextAsync();
-            var ctx = config.dbContext;
+            var (dbContext, _) = await GetFairPlayShopDatabaseContextAsync();
+            var ctx = dbContext;
             var user = await CreateTestUserAsync(ctx);
             ServerSideServicesTestBase.CurrentUserId = user.Id;
-            Product product = new Product()
+            Product product = new()
             {
                 AcquisitionCost = 12,
                 Barcode = "Barcode",
@@ -190,7 +188,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                     PhotoBytes = Properties.Resources.TestProduct,
                 }
             };
-            Store store = new Store()
+            Store store = new()
             {
                 Name = $"AT Store 2",
                 OwnerId = user.Id,
@@ -201,8 +199,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             };
             await ctx.Store.AddAsync(store);
             await ctx.SaveChangesAsync();
-            IStoreCustomerService storeCustomerService = await GetStoreCustomerServiceAsync();
-            StoreCustomer storeCustomer = new StoreCustomer()
+            StoreCustomer storeCustomer = new()
             {
                 EmailAddress = "t@t.t",
                 Name = "AT Firstname",
@@ -217,15 +214,14 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             {
                 StoreCustomerId = storeCustomer.StoreCustomerId,
                 CreateStoreCustomerOrderDetailModel =
-                new List<Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModel>()
-                {
+                [
                     new Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModel()
                     {
                         ProductId = product.ProductId,
                         Quantity=1,
                         UnitPrice=product.SellingPrice
                     }
-                }
+                ]
             };
             IStoreCustomerOrderService storeCustomerOrderService =
                 await GetStoreCustomerOrderServiceAsync();
@@ -234,7 +230,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             var result = await storeCustomerOrderService.GetStoreCustomerOrderListAsync(
                 store.StoreId, CancellationToken.None);
             Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Count());
+            Assert.AreEqual(1, result.Length);
             Assert.AreEqual(createStoreCustomerOrderModel.OrderTotal, result[0].OrderTotal);
         }
     }

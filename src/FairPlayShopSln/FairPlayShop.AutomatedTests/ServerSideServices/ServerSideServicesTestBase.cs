@@ -7,6 +7,7 @@ using FairPlayShop.ServerSideServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Org.BouncyCastle.Pqc.Crypto.Falcon;
 using System.Globalization;
 using System.IO;
 using System.Threading;
@@ -22,7 +23,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         protected static async Task<(FairPlayShopDatabaseContext dbContext,
             IDbContextFactory<FairPlayShopDatabaseContext> dbContextFactory)> GetFairPlayShopDatabaseContextAsync()
         {
-            ServiceCollection services = new ServiceCollection();
+            ServiceCollection services = new();
             services.AddDbContextFactory<FairPlayShopDatabaseContext>(options =>
             {
                 options.UseSqlServer(_msSqlContainer.GetConnectionString(),
@@ -40,7 +41,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                 dbContextFactory.CreateDbContext();
             await fairPlayShopDatabaseContext.Database.EnsureCreatedAsync();
             await fairPlayShopDatabaseContext.Database.ExecuteSqlRawAsync(Properties.Resources.SeedData);
-            if (fairPlayShopDatabaseContext.Resource.Count() == 0)
+            if (!fairPlayShopDatabaseContext.Resource.Any())
             {
                 using var reader = new StringReader(Properties.Resources.Translations);
                 using CsvParser csvParser = new(reader, configuration:
@@ -75,14 +76,14 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         internal static async Task<IProductService> GetProductServiceAsync()
         {
             IUserProviderService userProviderService = GetUserProviderService();
-            var (fairPlayShopDatabaseContext, dbFactory) = await GetFairPlayShopDatabaseContextAsync();
+            var (_, dbFactory) = await GetFairPlayShopDatabaseContextAsync();
             return new ProductService(userProviderService, dbFactory);
         }
 
         internal static async Task<IStoreService> GetStoreServiceAsync()
         {
             IUserProviderService userProviderService = GetUserProviderService();
-            var (fairPlayShopDatabaseContext, dbFactory) = await GetFairPlayShopDatabaseContextAsync();
+            var (_, dbFactory) = await GetFairPlayShopDatabaseContextAsync();
             var loggerFactory = LoggerFactory.Create(p => p.AddConsole());
             var logger =
             loggerFactory.CreateLogger<StoreService>();
@@ -92,33 +93,33 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         internal static async Task<IStoreCustomerService> GetStoreCustomerServiceAsync()
         {
             IUserProviderService userProviderService = GetUserProviderService();
-            var (fairPlayShopDatabaseContext, dbFactory) = await GetFairPlayShopDatabaseContextAsync();
+            var (_, dbFactory) = await GetFairPlayShopDatabaseContextAsync();
             return new StoreCustomerService(userProviderService, dbFactory);
         }
 
         internal static async Task<ICountryService> GetCountryServiceAsync()
         {
-            var config = await GetFairPlayShopDatabaseContextAsync();
-            return new CountryService(config.dbContextFactory);
+            var (_, dbContextFactory) = await GetFairPlayShopDatabaseContextAsync();
+            return new CountryService(dbContextFactory);
         }
 
         internal static async Task<IStateOrProvinceService> GetStateOrProvinceServiceAsync()
         {
-            var config = await GetFairPlayShopDatabaseContextAsync();
-            return new StateOrProvinceService(config.dbContextFactory);
+            var (_, dbContextFactory) = await GetFairPlayShopDatabaseContextAsync();
+            return new StateOrProvinceService(dbContextFactory);
         }
 
         internal static async Task<ICityService> GetCityServiceAsync()
         {
-            var config = await GetFairPlayShopDatabaseContextAsync();
-            return new CityService(config.dbContextFactory);
+            var (_, dbContextFactory) = await GetFairPlayShopDatabaseContextAsync();
+            return new CityService(dbContextFactory);
         }
 
         internal static async Task<IStoreCustomerOrderService> GetStoreCustomerOrderServiceAsync()
         {
             IUserProviderService userProviderService = GetUserProviderService();
-            var config = await GetFairPlayShopDatabaseContextAsync();
-            return new StoreCustomerOrderService(userProviderService, config.dbContextFactory);
+            var (_, dbContextFactory) = await GetFairPlayShopDatabaseContextAsync();
+            return new StoreCustomerOrderService(userProviderService, dbContextFactory);
         }
     }
 }

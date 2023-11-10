@@ -12,7 +12,9 @@ namespace FairPlaySocial.Services.Generators
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
 #if DEBUG
-            //System.Diagnostics.Debugger.Launch();
+
+#pragma warning disable S125 // Sections of code should not be commented out
+                            //System.Diagnostics.Debugger.Launch();
 #endif
             // Do a simple filter for enums
             IncrementalValuesProvider<MethodDeclarationSyntax> classDeclarations =
@@ -21,6 +23,7 @@ namespace FairPlaySocial.Services.Generators
                     predicate: static (s, _) => IsSyntaxTargetForGeneration(s), // select enums with attributes
                     transform: static (ctx, _) => GetSemanticTargetForGeneration(ctx)) // sect the enum with the [EnumExtensions] attribute
                 .Where(static m => m is not null)!; // filter out attributed enums that we don't care about
+#pragma warning restore S125 // Sections of code should not be commented out
 
             // Combine the selected interfaces with the `Compilation`
             IncrementalValueProvider<(Compilation, ImmutableArray<MethodDeclarationSyntax>)>
@@ -59,26 +62,13 @@ namespace FairPlaySocial.Services.Generators
         static void Execute(Compilation compilation,
             ImmutableArray<MethodDeclarationSyntax> classesDeclarationSyntax, SourceProductionContext context)
         {
+            if (compilation is null)
+            {
+                throw new ArgumentNullException(nameof(compilation));
+            }
+
             if (classesDeclarationSyntax.Length == 0)
                 return;
-            string assemblyName = compilation.AssemblyName!;
-            string[] splittedAssemblyName = assemblyName.Split('.');
-            string assemblyNameFirstPart = splittedAssemblyName[0];
-            foreach (var singleClassDeclarationSyntax in classesDeclarationSyntax)
-            {
-                try
-                {
-                    var methodName = singleClassDeclarationSyntax.Identifier.Text;
-                    var modelsReference = compilation.ExternalReferences
-                        .SingleOrDefault(p => !String.IsNullOrWhiteSpace(p.Display) &&
-                        p.Display!.EndsWith("FairPlayShop.Models.dll"));
-                    var t = modelsReference!.GetType();
-                    var metadata = compilation.GetTypeByMetadataName(t.Name);
-                }
-                catch (Exception)
-                {
-                }
-            }
 
             StringBuilder sb = new();
             sb.AppendLine("partial class Program");
