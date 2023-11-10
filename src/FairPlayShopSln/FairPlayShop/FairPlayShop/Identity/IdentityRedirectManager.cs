@@ -9,7 +9,7 @@ namespace FairPlayShop.Identity
     {
         public const string StatusCookieName = "Identity.StatusMessage";
 
-        private static readonly CookieBuilder _statusCookieBuilder = new CookieBuilder
+        private static readonly CookieBuilder _statusCookieBuilder = new()
         {
             SameSite = SameSiteMode.Strict,
             HttpOnly = true,

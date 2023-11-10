@@ -5,6 +5,7 @@
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using Microsoft.Extensions.Localization
+@using FairPlayShop.Models.Pagination
 @attribute [Route(Common.Constants.ApiRoutes.MyStoreList)]
 @attribute [Authorize]
 @rendermode RenderMode.InteractiveServer
@@ -88,7 +89,21 @@
             {
                 this.IsBusy = true;
                 StateHasChanged();
-                var paginationResult = await this.StoreService!.GetPaginatedMyStoreListAsync(req.StartIndex, this.CancellationTokenSource.Token);
+                PaginationRequest paginationRequest = new PaginationRequest()
+                {
+                    StartIndex = req.StartIndex,
+                    SortingItems = req.GetSortByProperties()
+                    .Select(p => new SortingItem()
+                    {
+                        PropertyName = p.PropertyName,
+                        SortType = (p.Direction == SortDirection.Ascending) ?
+                        SortType.Ascending
+                        :
+                        SortType.Descending
+                    }).ToArray()
+            };
+                var paginationResult = await this.StoreService!.GetPaginatedMyStoreListAsync(
+                    paginationRequest, this.CancellationTokenSource.Token);
                 paginationResult.Items = req.ApplySorting(paginationResult!.Items!.AsQueryable()).ToArray();
                 var result = GridItemsProviderResult.From(
                 items: paginationResult.Items!,

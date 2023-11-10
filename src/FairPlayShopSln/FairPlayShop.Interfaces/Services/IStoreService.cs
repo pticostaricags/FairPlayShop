@@ -6,6 +6,6 @@ namespace FairPlayShop.Interfaces.Services
     public interface IStoreService
     {
         Task CreateMyStoreAsync(CreateStoreModel createStoreModel, CancellationToken cancellationToken);
-        Task<PaginationOfT<StoreModel>> GetPaginatedMyStoreListAsync(int startIndex, CancellationToken cancellationToken);
+        Task<PaginationOfT<StoreModel>> GetPaginatedMyStoreListAsync(PaginationRequest paginationRequest, CancellationToken cancellationToken);
     }
 }

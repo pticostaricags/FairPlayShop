@@ -72,7 +72,7 @@ internal partial class Program
 
         builder.Services.AddTransient<IAzureOpenAIService>(sp =>
         {
-            OpenAIClient openAIClient = new OpenAIClient(endpoint: new Uri(endpoint),
+            OpenAIClient openAIClient = new(endpoint: new Uri(endpoint),
                 keyCredential: new Azure.AzureKeyCredential(key));
             return new AzureOpenAIService(openAIClient);
         });
