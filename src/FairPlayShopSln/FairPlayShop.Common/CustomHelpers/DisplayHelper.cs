@@ -18,10 +18,11 @@ namespace FairPlayShop.Common.CustomHelpers
                 _ => expression.Body as MemberExpression,
             };
             PropertyInfo propertyBeingAccessed = (PropertyInfo)memberExpression!.Member;
-            StringLengthAttribute stringLengthAttribute = propertyBeingAccessed!.GetCustomAttribute<StringLengthAttribute>()!;
-            if (stringLengthAttribute is null)
+            StringLengthAttribute stringLengthAttribute = 
+                propertyBeingAccessed!.GetCustomAttribute<StringLengthAttribute>() ?? 
                 throw new RuleException($"Property '{propertyBeingAccessed.Name}' of type " +
-                    $"'{expression.Parameters[0].Type.FullName}' does not have a {nameof(StringLengthAttribute)}");
+                    $"'{expression.Parameters[0].Type.FullName}' does not have a " +
+                    $"{nameof(StringLengthAttribute)}");
             var maxLength = stringLengthAttribute.MaximumLength;
             return maxLength.ToString();
         }
@@ -35,10 +36,11 @@ namespace FairPlayShop.Common.CustomHelpers
                 _ => expression.Body as MemberExpression,
             };
             PropertyInfo propertyBeingAccessed = (PropertyInfo)memberExpression!.Member;
-            DisplayAttribute displayAttribute = propertyBeingAccessed!.GetCustomAttribute<DisplayAttribute>()!;
-            if (displayAttribute is null)
+            DisplayAttribute displayAttribute = 
+                propertyBeingAccessed!.GetCustomAttribute<DisplayAttribute>() ?? 
                 throw new RuleException($"Property '{propertyBeingAccessed.Name}' of type " +
-                    $"'{expression.Parameters[0].Type.FullName}' does not have a {nameof(DisplayAttribute)}");
+                    $"'{expression.Parameters[0].Type.FullName}' does not have a " +
+                    $"{nameof(DisplayAttribute)}");
             var displayName = displayAttribute.GetName()!;
             return displayName;
         }
@@ -58,10 +60,11 @@ namespace FairPlayShop.Common.CustomHelpers
                 var enumType = typeof(TModel);
                 var memberInfo = enumType.GetMember(memberExpression!.Value!.ToString()!)
                     .Single();
-                DisplayAttribute displayAttribute = memberInfo!.GetCustomAttribute<DisplayAttribute>()!;
-                if (displayAttribute is null)
+                DisplayAttribute displayAttribute = 
+                    memberInfo!.GetCustomAttribute<DisplayAttribute>() ?? 
                     throw new RuleException($"Enum value '{memberExpression.Value}' of type " +
-                        $"'{expression.Parameters[0].Type.FullName}' does not have a {nameof(DisplayAttribute)}");
+                        $"'{expression.Parameters[0].Type.FullName}' does not have a " +
+                        $"{nameof(DisplayAttribute)}");
                 var displayName = displayAttribute.GetName()!;
                 return displayName;
             }
