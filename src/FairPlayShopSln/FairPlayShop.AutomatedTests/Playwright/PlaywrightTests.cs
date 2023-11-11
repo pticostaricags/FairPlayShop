@@ -29,6 +29,7 @@ namespace FairPlayShop.AutomatedTests.Playwright
         private static readonly string[] argsArray = ["install"];
         private static readonly string[] values = ["es-CR"];
 
+        #region Initialization
         [ClassInitialize]
 #pragma warning disable IDE0060 // Remove unused parameter
         public static async Task ClassInitializeAsync(TestContext testContext)
@@ -69,7 +70,9 @@ namespace FairPlayShop.AutomatedTests.Playwright
                   Headless = false
               }));
         }
+        #endregion Initialization
 
+        #region Cleanup
         [ClassCleanup()]
         public static async Task ClassCleanupAsync()
         {
@@ -118,6 +121,110 @@ namespace FairPlayShop.AutomatedTests.Playwright
             }
             await ctx.SaveChangesAsync();
         }
+        #endregion Cleanup
+
+        #region Helpers
+        private static WebTestingHostFactory<CultureController> CreateAppHost(out string url)
+        {
+            url = "https://localhost:5000";
+            var tmpUrl = url;
+            WebTestingHostFactory<CultureController> hostFactory = new();
+            hostFactory
+                          // Override host configuration to mock stuff if required.
+                          .WithWebHostBuilder(builder =>
+                          {
+                              // Setup the url to use.
+                              builder.UseUrls(tmpUrl);
+                              // Replace or add services if needed.
+                              builder.ConfigureServices(services =>
+                              {
+                              })
+                      // Replace or add configuration if needed.
+                      .ConfigureAppConfiguration((app, conf) =>
+                      {
+                      });
+                          })
+                          // Create the host using the CreateDefaultClient method.
+                          .CreateDefaultClient();
+            return hostFactory;
+        }
+
+        /// <summary>
+        /// Browser types we can use in the PlaywrightFixture.
+        /// </summary>
+        public enum Browser
+        {
+            Chromium,
+            Firefox,
+            Webkit,
+        }
+
+        /// <summary>
+        /// Open a Browser page and navigate to the given URL before
+        /// applying the given test handler.
+        /// </summary>
+        /// <param name="url">URL to navigate to.</param>
+        /// <param name="testHandler">Test handler to apply on the page.
+        /// </param>
+        /// <param name="browserType">The Browser to use to open the page.
+        /// </param>
+        /// <returns>The GotoPage task.</returns>
+        public static async Task GotoPageAsync(
+            string url,
+            Func<IPage, Task> testHandler,
+            Browser browserType)
+        {
+            // select and launch the browser.
+            var browser = await SelectBrowserAsync(browserType);
+            // Create a new context with an option to ignore HTTPS errors.
+            await using var context = await browser
+              .NewContextAsync(
+                new BrowserNewContextOptions
+                {
+                    IgnoreHTTPSErrors = true
+                });
+            // Open a new page.
+            var page = await context.NewPageAsync();
+            Assert.IsNotNull(page);
+            try
+            {
+                // Navigate to the given URL and wait until loading
+                // network activity is done.
+                var gotoResult = await page.GotoAsync(
+                  url,
+                  new PageGotoOptions
+                  {
+                      WaitUntil = WaitUntilState.NetworkIdle
+                  });
+                Assert.IsNotNull(gotoResult);
+                await gotoResult.FinishedAsync();
+                Assert.IsTrue(gotoResult.Ok);
+                // Run the actual test logic.
+                await testHandler(page);
+            }
+            finally
+            {
+                // Make sure the page is closed 
+                await page.CloseAsync();
+            }
+        }
+        /// <summary>
+        /// Select the IBrowser instance depending on the given browser
+        /// enumeration value.
+        /// </summary>
+        /// <param name="browser">The browser to select.</param>
+        /// <returns>The selected IBrowser instance.</returns>
+        private static Task<IBrowser> SelectBrowserAsync(Browser browser)
+        {
+            return browser switch
+            {
+                Browser.Chromium => ChromiumBrowser!.Value,
+                Browser.Firefox => FirefoxBrowser!.Value,
+                Browser.Webkit => WebkitBrowser!.Value,
+                _ => throw new NotImplementedException(),
+            };
+        }
+        #endregion Helpers
 
         [TestMethod]
         public async Task Test_RegisterNewUserAsync()
@@ -252,31 +359,6 @@ namespace FairPlayShop.AutomatedTests.Playwright
               Browser.Chromium);
         }
 
-        private static WebTestingHostFactory<CultureController> CreateAppHost(out string url)
-        {
-            url = "https://localhost:5000";
-            var tmpUrl = url;
-            WebTestingHostFactory<CultureController> hostFactory = new();
-            hostFactory
-                          // Override host configuration to mock stuff if required.
-                          .WithWebHostBuilder(builder =>
-                          {
-                              // Setup the url to use.
-                              builder.UseUrls(tmpUrl);
-                              // Replace or add services if needed.
-                              builder.ConfigureServices(services =>
-                              {
-                              })
-                      // Replace or add configuration if needed.
-                      .ConfigureAppConfiguration((app, conf) =>
-                      {
-                      });
-                          })
-                          // Create the host using the CreateDefaultClient method.
-                          .CreateDefaultClient();
-            return hostFactory;
-        }
-
         [TestMethod]
         public async Task Test_ChangeLanguageAsync()
         {
@@ -292,82 +374,6 @@ namespace FairPlayShop.AutomatedTests.Playwright
 
               },
               Browser.Chromium);
-        }
-
-        /// <summary>
-        /// Browser types we can use in the PlaywrightFixture.
-        /// </summary>
-        public enum Browser
-        {
-            Chromium,
-            Firefox,
-            Webkit,
-        }
-
-        /// <summary>
-        /// Open a Browser page and navigate to the given URL before
-        /// applying the given test handler.
-        /// </summary>
-        /// <param name="url">URL to navigate to.</param>
-        /// <param name="testHandler">Test handler to apply on the page.
-        /// </param>
-        /// <param name="browserType">The Browser to use to open the page.
-        /// </param>
-        /// <returns>The GotoPage task.</returns>
-        public static async Task GotoPageAsync(
-            string url,
-            Func<IPage, Task> testHandler,
-            Browser browserType)
-        {
-            // select and launch the browser.
-            var browser = await SelectBrowserAsync(browserType);
-            // Create a new context with an option to ignore HTTPS errors.
-            await using var context = await browser
-              .NewContextAsync(
-                new BrowserNewContextOptions
-                {
-                    IgnoreHTTPSErrors = true
-                });
-            // Open a new page.
-            var page = await context.NewPageAsync();
-            Assert.IsNotNull(page);
-            try
-            {
-                // Navigate to the given URL and wait until loading
-                // network activity is done.
-                var gotoResult = await page.GotoAsync(
-                  url,
-                  new PageGotoOptions
-                  {
-                      WaitUntil = WaitUntilState.NetworkIdle
-                  });
-                Assert.IsNotNull(gotoResult);
-                await gotoResult.FinishedAsync();
-                Assert.IsTrue(gotoResult.Ok);
-                // Run the actual test logic.
-                await testHandler(page);
-            }
-            finally
-            {
-                // Make sure the page is closed 
-                await page.CloseAsync();
-            }
-        }
-        /// <summary>
-        /// Select the IBrowser instance depending on the given browser
-        /// enumeration value.
-        /// </summary>
-        /// <param name="browser">The browser to select.</param>
-        /// <returns>The selected IBrowser instance.</returns>
-        private static Task<IBrowser> SelectBrowserAsync(Browser browser)
-        {
-            return browser switch
-            {
-                Browser.Chromium => ChromiumBrowser!.Value,
-                Browser.Firefox => FirefoxBrowser!.Value,
-                Browser.Webkit => WebkitBrowser!.Value,
-                _ => throw new NotImplementedException(),
-            };
         }
 
     }
