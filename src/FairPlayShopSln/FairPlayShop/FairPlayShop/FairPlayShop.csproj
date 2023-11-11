@@ -20,7 +20,7 @@
     <ProjectReference Include="..\..\FairPlayShop.ServerSideServices\FairPlayShop.ServerSideServices.csproj" />
     <ProjectReference Include="..\FairPlayShop.Client\FairPlayShop.Client.csproj" />
     <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="7.0.0" />
-    <PackageReference Include="Azure.AI.OpenAI" Version="1.0.0-beta.8" />
+    <PackageReference Include="Azure.AI.OpenAI" Version="1.0.0-beta.9" />
     <PackageReference Include="Blazored.Toast" Version="4.1.0" />
     <PackageReference Include="Humanizer" Version="2.14.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="8.0.0-rc.2.23480.2" />

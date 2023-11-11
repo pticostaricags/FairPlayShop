@@ -18,6 +18,7 @@ namespace FairPlayShop.ServerSideServices
             };
             ChatCompletionsOptions chatCompletionsOptions = new()
             {
+                DeploymentName= "translationschat",
                 Messages =
                 {
                     new ChatMessage(ChatRole.System, "You are an expert translator. Your jobs is to translate the text I give you." +
@@ -28,7 +29,7 @@ namespace FairPlayShop.ServerSideServices
                     new ChatMessage(ChatRole.User, JsonSerializer.Serialize(translationRequest))
                 }
             };
-            var response = await openAIClient.GetChatCompletionsAsync("translationschat",
+            var response = await openAIClient.GetChatCompletionsAsync(
                 chatCompletionsOptions, cancellationToken: cancellationToken);
             var contentResponse =
             response.Value.Choices[0].Message.Content;
@@ -42,6 +43,7 @@ namespace FairPlayShop.ServerSideServices
         {
             ChatCompletionsOptions chatCompletionsOptions = new()
             {
+                DeploymentName = "translationschat",
                 Messages =
                 {
                     new ChatMessage(ChatRole.System, "You are an expert translator. Your jobs is to translate the text I give you." +
@@ -52,7 +54,7 @@ namespace FairPlayShop.ServerSideServices
                     new ChatMessage(ChatRole.User, JsonSerializer.Serialize(textsToTranslate))
                 }
             };
-            var response = await openAIClient.GetChatCompletionsAsync("translationschat",
+            var response = await openAIClient.GetChatCompletionsAsync(
                 chatCompletionsOptions, cancellationToken: cancellationToken);
             var contentResponse =
             response.Value.Choices[0].Message.Content;
