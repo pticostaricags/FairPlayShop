@@ -1,11 +1,13 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
+using FairPlayShop.CustomLocalization.EF;
 using FairPlayShop.DataAccess.Data;
 using FairPlayShop.DataAccess.Models;
 using FairPlayShop.Interfaces.Services;
 using FairPlayShop.ServerSideServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Testcontainers.MsSql;
 
@@ -83,7 +85,9 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             var loggerFactory = LoggerFactory.Create(p => p.AddConsole());
             var logger =
             loggerFactory.CreateLogger<StoreService>();
-            return new StoreService(userProviderService, dbFactory, logger);
+            IStringLocalizer<StoreService> localizer =
+                new EFStringLocalizer<StoreService>(dbFactory);
+            return new StoreService(userProviderService, dbFactory, logger, localizer);
         }
 
         internal static async Task<IStoreCustomerService> GetStoreCustomerServiceAsync()

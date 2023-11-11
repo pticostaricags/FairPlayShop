@@ -22,7 +22,8 @@ namespace FairPlayShop.ServerSideServices
         {
             logger.LogInformation($"Executing {{ {nameof(createStoreModel)} }}", createStoreModel);
             using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken: cancellationToken);
-            if (await fairPlayShopDatabaseContext.Store.AnyAsync(p => p.Name == createStoreModel.Name))
+            if (await fairPlayShopDatabaseContext.Store.AnyAsync(p => p.Name == createStoreModel.Name,
+                cancellationToken:cancellationToken))
             {
                 string message =
                     String.Format(
