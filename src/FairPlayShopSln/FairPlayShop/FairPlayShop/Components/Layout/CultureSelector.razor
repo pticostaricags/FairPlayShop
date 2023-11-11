@@ -20,7 +20,8 @@
 
 @code
 {
-
+    [Parameter]
+    public string? RedirectUri { get; set; }
     private CancellationTokenSource CancellationTokenSource = new();
     [Inject]
     private ICultureService? CultureService { get; set; }
@@ -43,7 +44,7 @@
         {
             if (CultureInfo.CurrentCulture != value)
             {
-                var uri = new Uri(Navigation.Uri)
+                var uri = new Uri(RedirectUri!)
                     .GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
                 var cultureEscaped = Uri.EscapeDataString(value.Name);
                 var uriEscaped = Uri.EscapeDataString(uri);

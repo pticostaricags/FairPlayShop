@@ -9,7 +9,8 @@
 
     <main>
         <div class="top-row px-4">
-            <CultureSelector @rendermode="@RenderMode.InteractiveServer" />
+            <CultureSelector @rendermode="@RenderMode.InteractiveServer" 
+            RedirectUri="@this.Nav!.Uri" />
         </div>
 
         <article class="content px-4">
@@ -23,8 +24,12 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
-<BlazoredToasts SuccessIcon="fa fa-thumbs-up" 
-Position="@Blazored.Toast.Configuration.ToastPosition.TopRight" 
-@rendermode="@RenderMode.InteractiveServer"
+<BlazoredToasts SuccessIcon="fa fa-thumbs-up"
+                Position="@Blazored.Toast.Configuration.ToastPosition.TopRight"
+                @rendermode="@RenderMode.InteractiveServer" />
 
-/>
+@code
+{
+    [Inject]
+    private NavigationManager? Nav { get; set; }
+}
