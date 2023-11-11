@@ -19,6 +19,8 @@ namespace FairPlayShop.AutomatedTests.Playwright
     [TestClass]
     public class PlaywrightTests : ServerSideServicesTestBase
     {
+        private const string TEST_USER_USERNAME = "test@test.test";
+        private const string TEST_USER_PASSWORD = "Test12345!";
         private static IPlaywright? Playwright;
         private static Lazy<Task<IBrowser>>? ChromiumBrowser;
         private static Lazy<Task<IBrowser>>? FirefoxBrowser;
@@ -95,6 +97,77 @@ namespace FairPlayShop.AutomatedTests.Playwright
                 Playwright.Dispose();
                 Playwright = null;
             }
+        }
+
+        [TestCleanup]
+        public async Task TestCleanupAsync()
+        {
+            var (dbContext, _) = await GetFairPlayShopDatabaseContextAsync();
+            var ctx = dbContext;
+            foreach (var singleProduct in ctx.Product)
+            {
+                ctx.Product.Remove(singleProduct);
+            }
+            foreach (var singleStore in ctx.Store)
+            {
+                ctx.Store.Remove(singleStore);
+            }
+            foreach (var singleUser in ctx.AspNetUsers)
+            {
+                ctx.AspNetUsers.Remove(singleUser);
+            }
+            await ctx.SaveChangesAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_RegisterNewUserAsync()
+        {
+            var url = CreateAppHost(out WebTestingHostFactory<CultureController> hostFactory);
+            // Open a page and run test logic.
+            await GotoPageAsync(
+              url,
+              async (page) =>
+              {
+                  await page.GotoAsync(url);
+
+                  await page.GetByRole(AriaRole.Link, new() { Name = "Register" }).ClickAsync();
+
+                  await page.GetByPlaceholder("name@example.com").ClickAsync();
+
+                  await page.GetByPlaceholder("name@example.com").FillAsync("test@test.test");
+
+                  await page.GetByLabel("Password", new() { Exact = true }).ClickAsync();
+
+                  await page.GetByLabel("Password", new() { Exact = true }).FillAsync(TEST_USER_PASSWORD);
+
+                  await page.GetByLabel("Password", new() { Exact = true }).PressAsync("Tab");
+
+                  await page.GetByLabel("Confirm Password").FillAsync("Test12345!");
+
+                  await page.GetByRole(AriaRole.Button, new() { Name = "Register" }).ClickAsync();
+
+                  await page.GetByRole(AriaRole.Link, new() { Name = "Click here to confirm your account" }).ClickAsync();
+
+                  await page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
+
+                  await page.GetByPlaceholder("name@example.com").ClickAsync();
+
+                  await page.GetByPlaceholder("name@example.com").FillAsync(TEST_USER_USERNAME);
+
+                  await page.GetByPlaceholder("name@example.com").PressAsync("Tab");
+
+                  await page.GetByPlaceholder("password").FillAsync("Test12345!");
+
+                  await page.GetByPlaceholder("password").PressAsync("Tab");
+
+                  await page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
+
+                  await page.GetByRole(AriaRole.Heading, new() { Name = "Hello, world!" }).ClickAsync();
+
+                  await page.GetByRole(AriaRole.Link, new() { Name = "test@test.test" }).ClickAsync();
+
+              },
+              Browser.Chromium);
         }
 
         [TestMethod]
