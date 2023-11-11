@@ -8,14 +8,23 @@ using System.Reflection;
 
 namespace FairPlayShop.Translations
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="serviceScopeFactory"></param>
-    /// <param name="logger"></param>
-    public class BackgroundTranslationService(IServiceScopeFactory serviceScopeFactory,
-        ILogger<BackgroundTranslationService> logger) : BackgroundService
+    public class BackgroundTranslationService : BackgroundService
     {
+        private readonly IServiceScopeFactory ServiceScopeFactory;
+
+        private ILogger<BackgroundTranslationService> Logger { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="serviceScopeFactory"></param>
+        /// <param name="logger"></param>
+        public BackgroundTranslationService(IServiceScopeFactory serviceScopeFactory,
+            ILogger<BackgroundTranslationService> logger)
+        {
+            this.ServiceScopeFactory = serviceScopeFactory;
+            this.Logger = logger;
+        }
 
 
         /// <summary>
@@ -31,13 +40,13 @@ namespace FairPlayShop.Translations
             }
             catch (Exception ex)
             {
-                logger?.LogError(exception: ex, message: "{Message}", ex.Message);
+                this.Logger?.LogError(exception: ex, message: ex.Message);
             }
         }
 
         private async Task Process(CancellationToken stoppingToken)
         {
-            using var scope = serviceScopeFactory.CreateScope();
+            using var scope = this.ServiceScopeFactory.CreateScope();
             var conf = scope.ServiceProvider.GetRequiredService<IConfiguration>();
             var skipTranslations = Convert.ToBoolean(conf["skipTranslations"]);
             FairPlayShopDatabaseContext fairplayshopDatabaseContext =
@@ -47,7 +56,9 @@ namespace FairPlayShop.Translations
 
             var serverAssembly = typeof(Program).Assembly;
             var serverTypes = serverAssembly.GetTypes();
-            List<Type> typesToCheck = [.. modelsTypes, .. serverTypes];
+            List<Type> typesToCheck = new();
+            typesToCheck.AddRange(modelsTypes);
+            typesToCheck.AddRange(serverTypes);
 
             foreach (var singleTypeToCheck in typesToCheck)
             {
@@ -88,7 +99,7 @@ namespace FairPlayShop.Translations
                 await fairplayshopDatabaseContext.SaveChangesAsync(stoppingToken);
             if (skipTranslations)
             {
-                logger.LogInformation("Skipping Translation");
+                Logger.LogInformation("Skipping Translation");
                 return;
             }
             var allEnglishUSKeys =
@@ -104,12 +115,11 @@ namespace FairPlayShop.Translations
                 {
                     foreach (var singleCulture in await fairplayshopDatabaseContext.Culture.ToArrayAsync(cancellationToken: stoppingToken))
                     {
-                        if (await fairplayshopDatabaseContext.Resource
+                        if (!await fairplayshopDatabaseContext.Resource
                             .AnyAsync(p => p.CultureId == singleCulture.CultureId &&
-                            p.Key == resource.Key && p.Type == resource.Type,
-                            cancellationToken:stoppingToken))
+                            p.Key == resource.Key && p.Type == resource.Type))
                         {
-                            logger.LogInformation("Translating: \"{Value}\" to \"{Name}\"", resource.Value, singleCulture.Name);
+                            Logger.LogInformation("Translating: \"{Value}\" to \"{Name}\"", resource.Value, singleCulture.Name);
                             TranslationResponse? translationResponse = await
                                 azureOpenAIService!
                                 .TranslateSimpleTextAsync(resource.Value,
@@ -136,9 +146,9 @@ namespace FairPlayShop.Translations
             }
             catch (Exception ex)
             {
-                logger.LogError(exception: ex, message:"{Message}", ex.Message);
+                Logger.LogError(ex.Message);
             }
-            logger.LogInformation("Process {BackgroundTranslationService} completed", nameof(BackgroundTranslationService));
+            Logger.LogInformation("Process {BackgroundTranslationService} completed", nameof(BackgroundTranslationService));
         }
     }
 }
