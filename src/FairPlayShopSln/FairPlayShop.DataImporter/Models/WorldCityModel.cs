@@ -2,8 +2,8 @@
 {
     internal class WorldCityModel
     {
-        public string? country { get; set; }
-        public string? admin_name { get; set; }
-        public string? city { get; set; }
+        public string? Country { get; set; }
+        public string? Admin_name { get; set; }
+        public string? City { get; set; }
     }
 }

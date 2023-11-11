@@ -10,13 +10,13 @@ namespace FairPlayShop.ServerSideServices
         public async Task<TranslationResponse?> TranslateSimpleTextAsync(string textToTranslate, string sourceLocale, string destLocale,
             CancellationToken cancellationToken)
         {
-            TranslationRequest translationRequest = new TranslationRequest()
+            TranslationRequest translationRequest = new()
             {
                 OriginalText = textToTranslate,
                 SourceLocale = sourceLocale,
                 DestLocale = destLocale
             };
-            ChatCompletionsOptions chatCompletionsOptions = new ChatCompletionsOptions()
+            ChatCompletionsOptions chatCompletionsOptions = new()
             {
                 Messages =
                 {
@@ -40,7 +40,7 @@ namespace FairPlayShop.ServerSideServices
         public async Task<TranslationResponse[]?> TranslateMultipleTextsAsync(
             TranslationRequest[] textsToTranslate, CancellationToken cancellationToken)
         {
-            ChatCompletionsOptions chatCompletionsOptions = new ChatCompletionsOptions()
+            ChatCompletionsOptions chatCompletionsOptions = new()
             {
                 Messages =
                 {

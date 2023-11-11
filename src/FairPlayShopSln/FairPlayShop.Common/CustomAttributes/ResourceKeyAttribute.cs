@@ -1,12 +1,8 @@
 ﻿namespace FairPlayShop.Common.CustomAttributes
 {
     [AttributeUsage(AttributeTargets.Field)]
-    public class ResourceKeyAttribute : Attribute
+    public class ResourceKeyAttribute(string? defaultValue) : Attribute
     {
-        public string DefaultValue { get; }
-        public ResourceKeyAttribute(string defaultValue)
-        {
-            this.DefaultValue = defaultValue;
-        }
+        public string? DefaultValue => defaultValue;
     }
 }

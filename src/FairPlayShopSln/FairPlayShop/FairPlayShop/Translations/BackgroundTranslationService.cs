@@ -8,23 +8,14 @@ using System.Reflection;
 
 namespace FairPlayShop.Translations
 {
-    public class BackgroundTranslationService : BackgroundService
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="serviceScopeFactory"></param>
+    /// <param name="logger"></param>
+    public class BackgroundTranslationService(IServiceScopeFactory serviceScopeFactory,
+        ILogger<BackgroundTranslationService> logger) : BackgroundService
     {
-        private readonly IServiceScopeFactory ServiceScopeFactory;
-
-        private ILogger<BackgroundTranslationService> Logger { get; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="serviceScopeFactory"></param>
-        /// <param name="logger"></param>
-        public BackgroundTranslationService(IServiceScopeFactory serviceScopeFactory,
-            ILogger<BackgroundTranslationService> logger)
-        {
-            this.ServiceScopeFactory = serviceScopeFactory;
-            this.Logger = logger;
-        }
 
 
         /// <summary>
@@ -40,13 +31,13 @@ namespace FairPlayShop.Translations
             }
             catch (Exception ex)
             {
-                this.Logger?.LogError(exception: ex, message: ex.Message);
+                logger?.LogError(exception: ex, message: "{Message}", ex.Message);
             }
         }
 
         private async Task Process(CancellationToken stoppingToken)
         {
-            using var scope = this.ServiceScopeFactory.CreateScope();
+            using var scope = serviceScopeFactory.CreateScope();
             var conf = scope.ServiceProvider.GetRequiredService<IConfiguration>();
             var skipTranslations = Convert.ToBoolean(conf["skipTranslations"]);
             FairPlayShopDatabaseContext fairplayshopDatabaseContext =
@@ -56,9 +47,7 @@ namespace FairPlayShop.Translations
 
             var serverAssembly = typeof(Program).Assembly;
             var serverTypes = serverAssembly.GetTypes();
-            List<Type> typesToCheck = new();
-            typesToCheck.AddRange(modelsTypes);
-            typesToCheck.AddRange(serverTypes);
+            List<Type> typesToCheck = [.. modelsTypes, .. serverTypes];
 
             foreach (var singleTypeToCheck in typesToCheck)
             {
@@ -99,7 +88,7 @@ namespace FairPlayShop.Translations
                 await fairplayshopDatabaseContext.SaveChangesAsync(stoppingToken);
             if (skipTranslations)
             {
-                Logger.LogInformation("Skipping Translation");
+                logger.LogInformation("Skipping Translation");
                 return;
             }
             var allEnglishUSKeys =
@@ -117,9 +106,9 @@ namespace FairPlayShop.Translations
                     {
                         if (!await fairplayshopDatabaseContext.Resource
                             .AnyAsync(p => p.CultureId == singleCulture.CultureId &&
-                            p.Key == resource.Key && p.Type == resource.Type))
+                            p.Key == resource.Key && p.Type == resource.Type, cancellationToken: stoppingToken))
                         {
-                            Logger.LogInformation("Translating: \"{Value}\" to \"{Name}\"", resource.Value, singleCulture.Name);
+                            logger.LogInformation("Translating: \"{Value}\" to \"{Name}\"", resource.Value, singleCulture.Name);
                             TranslationResponse? translationResponse = await
                                 azureOpenAIService!
                                 .TranslateSimpleTextAsync(resource.Value,
@@ -146,9 +135,9 @@ namespace FairPlayShop.Translations
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex.Message);
+                logger.LogError(ex, "{Message}", ex.Message);
             }
-            Logger.LogInformation("Process {BackgroundTranslationService} completed", nameof(BackgroundTranslationService));
+            logger.LogInformation("Process {BackgroundTranslationService} completed", nameof(BackgroundTranslationService));
         }
     }
 }

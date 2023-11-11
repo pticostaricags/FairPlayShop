@@ -37,14 +37,14 @@ namespace FairPlayShop.DataImporter
             if (records!.Length > 0)
             {
                 var countries = records
-                    .Select(p => p.country?.Titleize())
+                    .Select(p => p.Country?.Titleize())
                     .Distinct()
                     .OrderBy(p => p);
                 foreach (var singleCountry in countries)
                 {
                     _logger.LogInformation("Processing country {singleCountry}", singleCountry);
-                    var stateOrProvinces = records.Where(p => p.country == singleCountry)
-                        .Select(p => p.admin_name)
+                    var stateOrProvinces = records.Where(p => p.Country == singleCountry)
+                        .Select(p => p.Admin_name)
                         .Distinct();
                     Country countryEntity = new()
                     {
@@ -54,8 +54,8 @@ namespace FairPlayShop.DataImporter
                     {
                         _logger.LogInformation("Processing State/Province {singlestateOrProvnce}", singlestateOrProvnce);
                         var cities = records
-                            .Where(p => p.country == singleCountry && p.admin_name == singlestateOrProvnce)
-                            .Select(p => p.city)
+                            .Where(p => p.Country == singleCountry && p.Admin_name == singlestateOrProvnce)
+                            .Select(p => p.City)
                             .Distinct();
                         StateOrProvince stateOrProvinceEntity = new()
                         {

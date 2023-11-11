@@ -10,7 +10,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestMethod]
         public async Task Test_Translate()
         {
-            ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+            ConfigurationBuilder configurationBuilder = new();
             configurationBuilder.AddUserSecrets<AzureOpenAIServiceTests>();
             var config = configurationBuilder.Build();
             var endpoint = config["AzureOpenAI:Endpoint"] ?? throw new Exception("Can't find config for AzureOpenAI:Endpoint");
@@ -18,7 +18,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             OpenAIClient openAIClient = new(new Uri(endpoint),
                 new Azure.AzureKeyCredential(key));
             AzureOpenAIService azureOpenAIService =
-                new AzureOpenAIService(openAIClient);
+                new(openAIClient);
             var sourceText = "Hello";
             var expectedTranslation = "Hola";
             var result = await azureOpenAIService.TranslateSimpleTextAsync(sourceText, "en-US",
@@ -29,7 +29,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestMethod]
         public async Task Test_TranslateMultipleTextsAsync()
         {
-            ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+            ConfigurationBuilder configurationBuilder = new();
             configurationBuilder.AddUserSecrets<AzureOpenAIServiceTests>();
             var config = configurationBuilder.Build();
             var endpoint = config["AzureOpenAI:Endpoint"] ?? throw new Exception("Can't find config for AzureOpenAI:Endpoint");
@@ -37,11 +37,10 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             OpenAIClient openAIClient = new(new Uri(endpoint),
                 new Azure.AzureKeyCredential(key));
             AzureOpenAIService azureOpenAIService =
-                new AzureOpenAIService(openAIClient);
+                new(openAIClient);
             Models.AzureOpenAI.TranslationRequest[] translationRequest =
-                new Models.AzureOpenAI.TranslationRequest[]
-                {
-                    new Models.AzureOpenAI.TranslationRequest()
+                [
+                    new()
                     {
                         OriginalText= "Hello",
                         SourceLocale="en-US",
@@ -53,7 +52,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                         SourceLocale= "es-MX",
                         DestLocale = "en-US"
                     }
-                };
+                ];
             var result = await azureOpenAIService
                 .TranslateMultipleTextsAsync(translationRequest, CancellationToken.None);
             Assert.AreEqual("Hola", result![0].TranslatedText);
