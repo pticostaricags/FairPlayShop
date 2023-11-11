@@ -40,7 +40,13 @@ namespace FairPlayShop.ServerSideServices
                     String.Join(",",
                     paginationRequest.SortingItems.Select(p => $"{p.PropertyName} {GetSortTypeString(p.SortType)}"));
             var query = fairPlayShopDatabaseContext.Store.AsNoTracking()
-                .Where(p => p.OwnerId == userId);
+                .Where(p => p.OwnerId == userId)
+                .Select(p => new StoreModel()
+                {
+                    StoreId = p.StoreId,
+                    Name = p.Name,
+                    CustomerCount = p.StoreCustomer.Count
+                });
             if (!String.IsNullOrEmpty(orderByString))
                 query = query.OrderBy(orderByString);
             result.TotalItems = await query.CountAsync(cancellationToken: cancellationToken);
@@ -48,12 +54,6 @@ namespace FairPlayShop.ServerSideServices
                 Constants.Pagination.PageSize);
             result.PageSize = Constants.Pagination.PageSize;
             result.Items = await query.Skip(paginationRequest.StartIndex).Take(Constants.Pagination.PageSize)
-                .Select(p => new StoreModel()
-                {
-                    StoreId = p.StoreId,
-                    Name = p.Name,
-                    CustomerCount = p.StoreCustomer.Count
-                })
                 .ToArrayAsync(cancellationToken: cancellationToken);
             return result;
         }
