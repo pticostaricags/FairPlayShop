@@ -7,10 +7,6 @@ using FairPlayShop.ServerSideServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Org.BouncyCastle.Pqc.Crypto.Falcon;
-using System.Globalization;
-using System.IO;
-using System.Threading;
 using Testcontainers.MsSql;
 
 namespace FairPlayShop.AutomatedTests.ServerSideServices
@@ -55,7 +51,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                 records.AsParallel().ForAll(p => p.ResourceId = 0);
                 foreach (var singleRecord in records)
                 {
-                    await fairPlayShopDatabaseContext.Resource.AddAsync(new Resource() 
+                    await fairPlayShopDatabaseContext.Resource.AddAsync(new Resource()
                     {
                         CultureId = singleRecord.CultureId,
                         Key = singleRecord.Key,

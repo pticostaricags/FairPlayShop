@@ -42,14 +42,14 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                 [
                     new()
                     {
-                        OriginalText= "Hello",
-                        SourceLocale="en-US",
-                        DestLocale="es-CR",
+                        OriginalText = "Hello",
+                        SourceLocale = "en-US",
+                        DestLocale = "es-CR",
                     },
                     new Models.AzureOpenAI.TranslationRequest()
                     {
                         OriginalText = "Perro",
-                        SourceLocale= "es-MX",
+                        SourceLocale = "es-MX",
                         DestLocale = "en-US"
                     }
                 ];

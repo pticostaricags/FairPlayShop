@@ -149,8 +149,8 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                     new()
                     {
                         ProductId = product.ProductId,
-                        Quantity=1,
-                        UnitPrice=product.SellingPrice
+                        Quantity = 1,
+                        UnitPrice = product.SellingPrice
                     }
                 ]
             };
@@ -218,8 +218,8 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                     new Models.StoreCustomerOrderDetail.CreateStoreCustomerOrderDetailModel()
                     {
                         ProductId = product.ProductId,
-                        Quantity=1,
-                        UnitPrice=product.SellingPrice
+                        Quantity = 1,
+                        UnitPrice = product.SellingPrice
                     }
                 ]
             };

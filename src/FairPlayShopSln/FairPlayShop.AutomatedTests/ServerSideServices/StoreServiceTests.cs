@@ -104,10 +104,10 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             await ctx.SaveChangesAsync();
             IStoreService storeService = await GetStoreServiceAsync();
             var result = await storeService.GetPaginatedMyStoreListAsync(
-                paginationRequest:new()
+                paginationRequest: new()
                 {
-                    SortingItems=null,
-                    StartIndex=0
+                    SortingItems = null,
+                    StartIndex = 0
                 }
                 , CancellationToken.None);
             Assert.IsNotNull(result);

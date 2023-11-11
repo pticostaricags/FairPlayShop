@@ -16,7 +16,7 @@ namespace FairPlayShop.ServerSideServices
     {
         public async Task CreateMyStoreAsync(CreateStoreModel createStoreModel, CancellationToken cancellationToken)
         {
-            logger.LogInformation($"Executing {{ {nameof( createStoreModel )} }}", createStoreModel);
+            logger.LogInformation($"Executing {{ {nameof(createStoreModel)} }}", createStoreModel);
             var userId = userProviderService.GetCurrentUserId();
             Store entity = new()
             {
@@ -36,7 +36,7 @@ namespace FairPlayShop.ServerSideServices
             using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken: cancellationToken);
             string orderByString = string.Empty;
             if (paginationRequest.SortingItems?.Length > 0)
-                orderByString = 
+                orderByString =
                     String.Join(",",
                     paginationRequest.SortingItems.Select(p => $"{p.PropertyName} {GetSortTypeString(p.SortType)}"));
             var query = fairPlayShopDatabaseContext.Store.AsNoTracking()

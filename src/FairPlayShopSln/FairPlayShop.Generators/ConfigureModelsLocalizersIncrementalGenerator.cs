@@ -14,7 +14,7 @@ namespace FairPlaySocial.Services.Generators
 #if DEBUG
 
 #pragma warning disable S125 // Sections of code should not be commented out
-                            //System.Diagnostics.Debugger.Launch();
+            //System.Diagnostics.Debugger.Launch();
 #endif
             // Do a simple filter for enums
             IncrementalValuesProvider<MethodDeclarationSyntax> classDeclarations =

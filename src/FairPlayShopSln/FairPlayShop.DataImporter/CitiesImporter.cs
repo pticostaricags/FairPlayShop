@@ -21,7 +21,10 @@ namespace FairPlayShop.DataImporter
                     {
                         using StreamReader streamReader = new(stream);
                         using CsvParser csvParser = new(streamReader, configuration:
-                            new CsvConfiguration(System.Globalization.CultureInfo.CurrentCulture));
+                            new CsvConfiguration(System.Globalization.CultureInfo.CurrentCulture)
+                            {
+                                PrepareHeaderForMatch = args => args.Header.ToLower()
+                            });
                         using CsvReader csvReader = new(csvParser);
                         await ImportDataAsync(_logger, fairPlayShopDatabaseContext, csvReader);
                     }

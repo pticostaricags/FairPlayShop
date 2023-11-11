@@ -43,9 +43,9 @@ internal static partial class Program
         builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
             .AddIdentityCookies();
 
-        var connectionString = 
+        var connectionString =
             Environment.GetEnvironmentVariable("DefaultConnection") ??
-            builder.Configuration.GetConnectionString("DefaultConnection") ?? 
+            builder.Configuration.GetConnectionString("DefaultConnection") ??
             throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(connectionString));
