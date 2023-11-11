@@ -2,6 +2,7 @@ using Azure.AI.OpenAI;
 using Blazored.Toast;
 using FairPlayShop.Client.Pages;
 using FairPlayShop.Common.CustomExceptions;
+using FairPlayShop.Common.Enums;
 using FairPlayShop.Components;
 using FairPlayShop.CustomLocalization;
 using FairPlayShop.CustomLocalization.EF;
@@ -152,5 +153,8 @@ internal static partial class Program
         var globalKeysLocalizer =
         localizerFactory.Create(typeof(GlobalKeysLocalizer)) as IStringLocalizer<GlobalKeysLocalizer>;
         GlobalKeysLocalizer.Localizer = globalKeysLocalizer;
+        var producStatusLocalizer =
+        localizerFactory.Create(typeof(ProductStatusLocalizer)) as IStringLocalizer<ProductStatusLocalizer>;
+        ProductStatusLocalizer.Localizer = producStatusLocalizer;
     }
 }

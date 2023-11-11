@@ -64,10 +64,12 @@
         <label class="form-label">@Localizer![ProductStatusTextKey]</label>
         <InputSelect class="form-select" @bind-Value="@this.CreateProductModel!.ProductStatus">
             <option value="">@Localizer![SelectProductStatusTextKey]</option>
-            @foreach (var singleProductStatus in Enum.GetValues<ProductStatus>())
-            {
-                <option value="@singleProductStatus">@singleProductStatus.ToString()</option>
-            }
+            <option value="@ProductStatus.Draft">
+                @(DisplayHelper.DisplayForEnum<ProductStatus>(p => ProductStatus.Draft))
+            </option>
+            <option value="@ProductStatus.Active">
+                @(DisplayHelper.DisplayForEnum<ProductStatus>(p => ProductStatus.Active))
+            </option>
         </InputSelect>
         <ValidationMessage For="@( () => CreateProductModel!.ProductStatus)"></ValidationMessage>
     </div>
