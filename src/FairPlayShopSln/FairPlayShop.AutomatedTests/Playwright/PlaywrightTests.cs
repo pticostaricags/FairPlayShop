@@ -122,7 +122,7 @@ namespace FairPlayShop.AutomatedTests.Playwright
         [TestMethod]
         public async Task Test_RegisterNewUserAsync()
         {
-            var url = CreateAppHost(out WebTestingHostFactory<CultureController> hostFactory);
+            using var hostFactory = CreateAppHost(out string url);
             // Open a page and run test logic.
             await GotoPageAsync(
               url,
@@ -173,7 +173,7 @@ namespace FairPlayShop.AutomatedTests.Playwright
         [TestMethod]
         public async Task Test_CreateStoreAsync()
         {
-            var url = CreateAppHost(out WebTestingHostFactory<CultureController> hostFactory);
+            using var hostFactory = CreateAppHost(out string url);
             // Open a page and run test logic.
             await GotoPageAsync(
               url,
@@ -237,7 +237,7 @@ namespace FairPlayShop.AutomatedTests.Playwright
         [TestMethod]
         public async Task Test_LoadHomeAsync()
         {
-            var url = CreateAppHost(out WebTestingHostFactory<CultureController> hostFactory);
+            using var hostFactory = CreateAppHost(out string url);
             // Open a page and run test logic.
             await GotoPageAsync(
               url,
@@ -252,16 +252,17 @@ namespace FairPlayShop.AutomatedTests.Playwright
               Browser.Chromium);
         }
 
-        private static string CreateAppHost(out WebTestingHostFactory<CultureController> hostFactory)
+        private static WebTestingHostFactory<CultureController> CreateAppHost(out string url)
         {
-            string url = "https://localhost:5000";
-            hostFactory = new WebTestingHostFactory<FairPlayShop.Controllers.CultureController>();
+            url = "https://localhost:5000";
+            var tmpUrl = url;
+            WebTestingHostFactory<CultureController> hostFactory = new();
             hostFactory
                           // Override host configuration to mock stuff if required.
                           .WithWebHostBuilder(builder =>
                           {
                               // Setup the url to use.
-                              builder.UseUrls(url);
+                              builder.UseUrls(tmpUrl);
                               // Replace or add services if needed.
                               builder.ConfigureServices(services =>
                               {
@@ -273,13 +274,13 @@ namespace FairPlayShop.AutomatedTests.Playwright
                           })
                           // Create the host using the CreateDefaultClient method.
                           .CreateDefaultClient();
-            return url;
+            return hostFactory;
         }
 
         [TestMethod]
         public async Task Test_ChangeLanguageAsync()
         {
-            var url = CreateAppHost(out WebTestingHostFactory<CultureController> hostFactory);
+            using var hostFactory = CreateAppHost(out string url);
             // Open a page and run test logic.
             await GotoPageAsync(
               url,
