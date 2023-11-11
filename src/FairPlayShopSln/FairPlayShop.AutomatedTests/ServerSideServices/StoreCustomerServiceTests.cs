@@ -29,8 +29,8 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestCleanup]
         public async Task TestCleanupAsync()
         {
-            var config = await GetFairPlayShopDatabaseContextAsync();
-            var ctx = config.dbContext;
+            var (dbContext, _) = await GetFairPlayShopDatabaseContextAsync();
+            var ctx = dbContext;
             foreach (var singleProduct in ctx.Product)
             {
                 ctx.Product.Remove(singleProduct);
@@ -81,17 +81,17 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestMethod]
         public async Task Test_CreateMyStoreCustomerAsync()
         {
-            var config = await GetFairPlayShopDatabaseContextAsync();
-            var ctx = config.dbContext;
+            var (dbContext, dbContextFactory) = await GetFairPlayShopDatabaseContextAsync();
+            var ctx = dbContext;
             var user = await CreateTestUserAsync(ctx);
             ServerSideServicesTestBase.CurrentUserId = user.Id;
-            Store store = new Store()
+            Store store = new()
             {
                 Name = $"AT Store: {nameof(Test_CreateMyStoreCustomerAsync)}",
                 OwnerId = user.Id,
             };
             await ctx.Store.AddAsync(store);
-            Country countryEntity = new Country()
+            Country countryEntity = new()
             {
                 Name = "C",
                 StateOrProvince = [
@@ -111,7 +111,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             await ctx.SaveChangesAsync();
             var city = await ctx.City.SingleAsync();
             IStoreCustomerService storeCustomerService = await GetStoreCustomerServiceAsync();
-            CreateStoreCustomerModel createStoreCustomerModel = new CreateStoreCustomerModel()
+            CreateStoreCustomerModel createStoreCustomerModel = new()
             {
                 EmailAddress = "t@t.t",
                 Name = "AT Firstname",
@@ -141,11 +141,11 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestMethod]
         public async Task Test_GetMyStoreCustomerAsync()
         {
-            var config = await GetFairPlayShopDatabaseContextAsync();
-            var ctx = config.dbContext;
+            var (dbContext, dbContextFactory) = await GetFairPlayShopDatabaseContextAsync();
+            var ctx = dbContext;
             var user = await CreateTestUserAsync(ctx);
             ServerSideServicesTestBase.CurrentUserId = user.Id;
-            Store store = new Store()
+            Store store = new()
             {
                 Name = $"AT Store: {nameof(Test_CreateMyStoreCustomerAsync)}",
                 OwnerId = user.Id,
@@ -153,7 +153,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             await ctx.Store.AddAsync(store);
             await ctx.SaveChangesAsync();
             IStoreCustomerService storeCustomerService = await GetStoreCustomerServiceAsync();
-            StoreCustomer storeCustomer = new StoreCustomer()
+            StoreCustomer storeCustomer = new()
             {
                 EmailAddress = "t@t.t",
                 Name = "AT Firstname",
@@ -172,11 +172,11 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestMethod]
         public async Task Test_GetMyStoreCustomerListAsync()
         {
-            var config = await GetFairPlayShopDatabaseContextAsync();
-            var ctx = config.dbContext;
+            var (dbContext, dbContextFactory) = await GetFairPlayShopDatabaseContextAsync();
+            var ctx = dbContext;
             var user = await CreateTestUserAsync(ctx);
             ServerSideServicesTestBase.CurrentUserId = user.Id;
-            Store store = new Store()
+            Store store = new()
             {
                 Name = $"AT Store: {nameof(Test_CreateMyStoreCustomerAsync)}",
                 OwnerId = user.Id,
@@ -184,7 +184,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             await ctx.Store.AddAsync(store);
             await ctx.SaveChangesAsync();
             IStoreCustomerService storeCustomerService = await GetStoreCustomerServiceAsync();
-            StoreCustomer storeCustomer = new StoreCustomer()
+            StoreCustomer storeCustomer = new()
             {
                 EmailAddress = "t@t.t",
                 Name = "AT Firstname",
@@ -204,11 +204,11 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestMethod]
         public async Task Test_DeleteMyStoreCustomerAsync()
         {
-            var config = await GetFairPlayShopDatabaseContextAsync();
-            var ctx = config.dbContext;
+            var (dbContext, dbContextFactory) = await GetFairPlayShopDatabaseContextAsync();
+            var ctx = dbContext;
             var user = await CreateTestUserAsync(ctx);
             ServerSideServicesTestBase.CurrentUserId = user.Id;
-            Store store = new Store()
+            Store store = new()
             {
                 Name = $"AT Store: {nameof(Test_CreateMyStoreCustomerAsync)}",
                 OwnerId = user.Id,
@@ -216,7 +216,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             await ctx.Store.AddAsync(store);
             await ctx.SaveChangesAsync();
             IStoreCustomerService storeCustomerService = await GetStoreCustomerServiceAsync();
-            StoreCustomer storeCustomer = new StoreCustomer()
+            StoreCustomer storeCustomer = new()
             {
                 EmailAddress = "t@t.t",
                 Name = "AT Firstname",

@@ -29,8 +29,8 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestCleanup]
         public async Task TestCleanupAsync()
         {
-            var config = await GetFairPlayShopDatabaseContextAsync();
-            var ctx = config.dbContext;
+            var (dbContext, _) = await GetFairPlayShopDatabaseContextAsync();
+            var ctx = dbContext;
             foreach (var singleProduct in ctx.Product)
             {
                 ctx.Product.Remove(singleProduct);
@@ -73,12 +73,12 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestMethod]
         public async Task Test_CreateMyStoreAsync()
         {
-            var config = await GetFairPlayShopDatabaseContextAsync();
-            var ctx = config.dbContext;
+            var (dbContext, _) = await GetFairPlayShopDatabaseContextAsync();
+            var ctx = dbContext;
             var user = await CreateTestUserAsync(ctx);
             ServerSideServicesTestBase.CurrentUserId = user.Id;
             IStoreService storeService = await GetStoreServiceAsync();
-            CreateStoreModel createStoreModel = new CreateStoreModel()
+            CreateStoreModel createStoreModel = new()
             {
                 Name = "Automated Test Store"
             };
@@ -91,11 +91,11 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestMethod]
         public async Task Test_GetMyStoreListAsync()
         {
-            var config = await GetFairPlayShopDatabaseContextAsync();
-            var ctx = config.dbContext;
+            var (dbContext, dbContextFactory) = await GetFairPlayShopDatabaseContextAsync();
+            var ctx = dbContext;
             var user = await CreateTestUserAsync(ctx);
             ServerSideServicesTestBase.CurrentUserId = user.Id;
-            Store store = new Store()
+            Store store = new()
             {
                 Name = $"AT Store {nameof(Test_GetMyStoreListAsync)}",
                 OwnerId = user.Id
