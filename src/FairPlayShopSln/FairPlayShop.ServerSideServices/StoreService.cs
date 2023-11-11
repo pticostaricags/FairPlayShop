@@ -1,10 +1,13 @@
 ﻿using FairPlayShop.Common;
+using FairPlayShop.Common.CustomAttributes;
+using FairPlayShop.Common.CustomExceptions;
 using FairPlayShop.DataAccess.Data;
 using FairPlayShop.DataAccess.Models;
 using FairPlayShop.Interfaces.Services;
 using FairPlayShop.Models.Pagination;
 using FairPlayShop.Models.Store;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using System.Linq.Dynamic.Core;
 
@@ -12,18 +15,26 @@ namespace FairPlayShop.ServerSideServices
 {
     public class StoreService(IUserProviderService userProviderService,
         IDbContextFactory<FairPlayShopDatabaseContext> dbContextFactory,
-        ILogger<StoreService> logger) : IStoreService
+        ILogger<StoreService> logger,
+        IStringLocalizer<StoreService> localizer) : IStoreService
     {
         public async Task CreateMyStoreAsync(CreateStoreModel createStoreModel, CancellationToken cancellationToken)
         {
             logger.LogInformation($"Executing {{ {nameof(createStoreModel)} }}", createStoreModel);
+            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken: cancellationToken);
+            if (await fairPlayShopDatabaseContext.Store.AnyAsync(p => p.Name == createStoreModel.Name))
+            {
+                string message =
+                    String.Format(
+                    localizer[StoreNameExistTextKey], createStoreModel.Name);
+                throw new RuleException(message);
+            }
             var userId = userProviderService.GetCurrentUserId();
             Store entity = new()
             {
                 Name = createStoreModel.Name,
                 OwnerId = userId,
             };
-            using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken: cancellationToken);
             await fairPlayShopDatabaseContext.Store.AddAsync(entity, cancellationToken: cancellationToken);
             await fairPlayShopDatabaseContext.SaveChangesAsync(cancellationToken: cancellationToken);
         }
@@ -62,5 +73,8 @@ namespace FairPlayShop.ServerSideServices
         {
             return sortType == SortType.Ascending ? "ASC" : "DESC";
         }
+
+        [ResourceKey(defaultValue: "There is already a store named '{0}'. Plaese use another")]
+        public const string StoreNameExistTextKey = "StoreNameExistText";
     }
 }

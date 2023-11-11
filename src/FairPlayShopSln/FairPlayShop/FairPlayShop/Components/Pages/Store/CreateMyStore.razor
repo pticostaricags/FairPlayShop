@@ -1,4 +1,5 @@
-﻿@using FairPlayShop.Common.CustomAttributes
+﻿@using Blazored.Toast.Services
+@using FairPlayShop.Common.CustomAttributes
 @using FairPlayShop.CustomLocalization
 @using FairPlayShop.Interfaces.Services
 @using FairPlayShop.Models.Store
@@ -42,14 +43,23 @@
     private IStringLocalizer<CreateMyStore>? Localizer { get; set; }
     [Inject]
     private NavigationManager? NavigationManager { get; set; }
+    [Inject]
+    private IToastService? ToastService { get; set; }
     [SupplyParameterFromForm]
     private CreateStoreModel? CreateStoreModel { get; set; } = new CreateStoreModel();
     private CancellationTokenSource CancellationTokenSource { get; set; } = new();
 
     private async Task OnValidSubmitAsync()
     {
-        await this.StoreService!.CreateMyStoreAsync(this.CreateStoreModel!, CancellationTokenSource.Token);
-        this.NavigationManager?.NavigateTo(Common.Constants.ApiRoutes.MyStoreList);
+        try
+        {
+            await this.StoreService!.CreateMyStoreAsync(this.CreateStoreModel!, CancellationTokenSource.Token);
+            this.NavigationManager?.NavigateTo(Common.Constants.ApiRoutes.MyStoreList);
+        }
+        catch (Exception ex)
+        {
+            this.ToastService!.ShowError(ex.Message);
+        }
     }
 
     [ResourceKey(defaultValue: "Create My Store")]

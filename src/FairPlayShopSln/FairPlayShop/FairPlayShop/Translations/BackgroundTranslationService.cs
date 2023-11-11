@@ -47,7 +47,10 @@ namespace FairPlayShop.Translations
 
             var serverAssembly = typeof(Program).Assembly;
             var serverTypes = serverAssembly.GetTypes();
-            List<Type> typesToCheck = [.. modelsTypes, .. serverTypes];
+
+            var serverSideServicesAssembly = typeof(ServerSideServices.CultureService).Assembly;
+            var serverSideServicesTypes = serverSideServicesAssembly.GetTypes();
+            List<Type> typesToCheck = [.. modelsTypes, .. serverTypes, .. serverSideServicesTypes];
 
             foreach (var singleTypeToCheck in typesToCheck)
             {
