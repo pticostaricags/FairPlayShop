@@ -171,6 +171,70 @@ namespace FairPlayShop.AutomatedTests.Playwright
         }
 
         [TestMethod]
+        public async Task Test_CreateStoreAsync()
+        {
+            var url = CreateAppHost(out WebTestingHostFactory<CultureController> hostFactory);
+            // Open a page and run test logic.
+            await GotoPageAsync(
+              url,
+              async (page) =>
+              {
+                  await page.GotoAsync(url);
+
+                  await page.GetByRole(AriaRole.Link, new() { Name = "Register" }).ClickAsync();
+
+                  await page.GetByPlaceholder("name@example.com").ClickAsync();
+
+                  await page.GetByPlaceholder("name@example.com").FillAsync("");
+
+                  await page.GetByPlaceholder("name@example.com").PressAsync("CapsLock");
+
+                  await page.GetByPlaceholder("name@example.com").FillAsync(TEST_USER_USERNAME);
+
+                  await page.GetByPlaceholder("name@example.com").PressAsync("Tab");
+
+                  await page.GetByLabel("Password", new() { Exact = true }).FillAsync(TEST_USER_PASSWORD);
+
+                  await page.GetByLabel("Password", new() { Exact = true }).PressAsync("Tab");
+
+                  await page.GetByLabel("Confirm Password").FillAsync(TEST_USER_PASSWORD);
+
+                  await page.GetByRole(AriaRole.Button, new() { Name = "Register" }).ClickAsync();
+
+                  await page.GetByRole(AriaRole.Link, new() { Name = "Click here to confirm your account" }).ClickAsync();
+
+                  await page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
+
+                  await page.GetByPlaceholder("name@example.com").ClickAsync();
+
+                  await page.GetByPlaceholder("name@example.com").FillAsync(TEST_USER_USERNAME);
+
+                  await page.GetByPlaceholder("name@example.com").PressAsync("Tab");
+
+                  await page.GetByPlaceholder("password").FillAsync(TEST_USER_PASSWORD);
+
+                  await page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
+
+                  await page.GetByRole(AriaRole.Link, new() { Name = "Create My Store" }).ClickAsync();
+
+                  await page.GetByRole(AriaRole.Heading, new() { Name = "Create My Store" }).ClickAsync();
+
+                  await page.GetByRole(AriaRole.Textbox).ClickAsync();
+
+                  await page.GetByRole(AriaRole.Textbox).FillAsync("Store 1");
+
+                  await page.GetByRole(AriaRole.Button, new() { Name = "Save" }).ClickAsync();
+
+                  await page.GetByRole(AriaRole.Heading, new() { Name = "My Store List" }).ClickAsync();
+
+                  await page.GetByRole(AriaRole.Cell, new() { Name = "Store 1" }).ClickAsync();
+
+              },
+              Browser.Chromium);
+
+        }
+
+        [TestMethod]
         public async Task Test_LoadHomeAsync()
         {
             var url = CreateAppHost(out WebTestingHostFactory<CultureController> hostFactory);
