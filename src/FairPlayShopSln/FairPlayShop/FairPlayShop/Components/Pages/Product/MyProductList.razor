@@ -18,18 +18,23 @@
     @Localizer![MyProductListTextKey]
 </h3>
 
-<QuickGrid ItemsProvider="@ItemsProvider" Pagination="@pagination">
-    <PropertyColumn Title="@Localizer![ProductIdTextKey]" Property="@( p => p.ProductId)" Sortable="true" IsDefaultSortColumn="true"></PropertyColumn>
-    <PropertyColumn Title="@Localizer![ProductNameTextKey]" Property="@( p => p.Name)" Sortable="true"></PropertyColumn>
-    <PropertyColumn Title="@Localizer![QuantityInStockTextKey]" Property="@( p => p.QuantityInStock)" Sortable="true"></PropertyColumn>
-    <PropertyColumn Title="@Localizer![SellingPriceTextKey]" Property="@( p => p.SellingPrice)" Format="c" Sortable="true"></PropertyColumn>
-    <PropertyColumn Title="@Localizer![AcquisitionCostTextKey]" Property="@( p => p.AcquisitionCost)" Format="c" Sortable="true"></PropertyColumn>
-    <PropertyColumn Title="@Localizer![ProfitTextKey]" Property="@( p => p.Profit)" Format="c" Sortable="true"></PropertyColumn>
-    <TemplateColumn>
-        <button class="btn btn-secondary" @onclick="@(()=>NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.CreateMyProduct}/Store/{StoreId}/Product/{context.ProductId}"))">Edit Product</button>
-    </TemplateColumn>
-</QuickGrid>
-<Paginator State="@pagination"></Paginator>
+<div class="grid-container">
+    <QuickGrid style="width:100px;" ItemsProvider="@ItemsProvider" Pagination="@pagination">
+        <TemplateColumn>
+            <a href="@($"{Common.Constants.ApiRoutes.CreateMyProduct}/Store/{StoreId}/Product/{context.ProductId}")"
+               data-toggle="tooltip" data-placement="top" title="@Localizer![EditProductTextKey]">
+                <i class="bi bi-pencil-fill"></i>
+            </a>
+        </TemplateColumn>
+        <PropertyColumn Title="@Localizer![ProductIdTextKey]" Property="@( p => p.ProductId)" Sortable="true" IsDefaultSortColumn="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![ProductNameTextKey]" Property="@( p => p.Name)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![QuantityInStockTextKey]" Property="@( p => p.QuantityInStock)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![SellingPriceTextKey]" Property="@( p => p.SellingPrice)" Format="c" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![AcquisitionCostTextKey]" Property="@( p => p.AcquisitionCost)" Format="c" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![ProfitTextKey]" Property="@( p => p.Profit)" Format="c" Sortable="true"></PropertyColumn>
+    </QuickGrid>
+    <Paginator State="@pagination"></Paginator>
+</div>
 
 @code {
     [Parameter]
@@ -78,4 +83,6 @@
     public const string AcquisitionCostTextKey = "AcquisitionCostText";
     [ResourceKey(defaultValue: "Profit")]
     public const string ProfitTextKey = "ProfitText";
+    [ResourceKey(defaultValue: "Edit Product")]
+    public const string EditProductTextKey = "EditProductText";
 }

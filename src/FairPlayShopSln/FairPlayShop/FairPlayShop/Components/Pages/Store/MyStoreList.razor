@@ -22,49 +22,51 @@
     @Localizer![MyStoreListTextKey]
 </h3>
 
-<QuickGrid ItemsProvider="@ItemsProvider" Pagination="@pagination">
-    <PropertyColumn Title="@Localizer![StoreIdTextKey]" Property="@( p=> p.StoreId)" Sortable="true"></PropertyColumn>
-    <PropertyColumn Title="@Localizer![NameTextKey]" Property="@( p=> p.Name)" Sortable="true"></PropertyColumn>
-    <PropertyColumn Title="@Localizer![CustomerCountTextKey]" Property="@( p=> p.CustomerCount)" Sortable="true"></PropertyColumn>
-    <TemplateColumn>
-        <a href="@($"{Common.Constants.ApiRoutes.CreateMyProduct}/Store/{context.StoreId}")"
-           data-toggle="tooltip" data-placement="top" title="@Localizer![AddProductsTextKey]">
-            <i class="bi bi-bag-plus-fill"></i>
-        </a>
-    </TemplateColumn>
-    <TemplateColumn>
-        <a href="@($"{Common.Constants.ApiRoutes.MyProductList}/Store/{context.StoreId}")"
-           data-toggle="tooltip" data-placement="top" title="@Localizer![ListProductsTextKey]">
-            <i class="bi bi-list-stars"></i>
-        </a>
-    </TemplateColumn>
-    <TemplateColumn>
-        <a href="@($"{Common.Constants.ApiRoutes.CreateMyStoreCustomer}/Store/{context.StoreId}")"
-           data-toggle="tooltip" data-placement="top" title="@Localizer![AddCustomerTextKey]">
-            <i class="bi bi-person-fill-add"></i>
-        </a>
-    </TemplateColumn>
-    <TemplateColumn>
-        <a href="@($"{Common.Constants.ApiRoutes.MyStoreCustomerList}/Store/{context.StoreId}")"
-           data-toggle="tooltip" data-placement="top" title="@Localizer![ListCustomersTextKey]">
-            <i class="bi bi-person-lines-fill"></i>
-        </a>
+<div class="grid-container">
+    <QuickGrid ItemsProvider="@ItemsProvider" Pagination="@pagination">
+        <PropertyColumn Title="@Localizer![StoreIdTextKey]" Property="@( p=> p.StoreId)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![NameTextKey]" Property="@( p=> p.Name)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="@Localizer![CustomerCountTextKey]" Property="@( p=> p.CustomerCount)" Sortable="true"></PropertyColumn>
+        <TemplateColumn>
+            <a href="@($"{Common.Constants.ApiRoutes.CreateMyProduct}/Store/{context.StoreId}")"
+               data-toggle="tooltip" data-placement="top" title="@Localizer![AddProductsTextKey]">
+                <i class="bi bi-bag-plus-fill"></i>
+            </a>
+        </TemplateColumn>
+        <TemplateColumn>
+            <a href="@($"{Common.Constants.ApiRoutes.MyProductList}/Store/{context.StoreId}")"
+               data-toggle="tooltip" data-placement="top" title="@Localizer![ListProductsTextKey]">
+                <i class="bi bi-list-stars"></i>
+            </a>
+        </TemplateColumn>
+        <TemplateColumn>
+            <a href="@($"{Common.Constants.ApiRoutes.CreateMyStoreCustomer}/Store/{context.StoreId}")"
+               data-toggle="tooltip" data-placement="top" title="@Localizer![AddCustomerTextKey]">
+                <i class="bi bi-person-fill-add"></i>
+            </a>
+        </TemplateColumn>
+        <TemplateColumn>
+            <a href="@($"{Common.Constants.ApiRoutes.MyStoreCustomerList}/Store/{context.StoreId}")"
+               data-toggle="tooltip" data-placement="top" title="@Localizer![ListCustomersTextKey]">
+                <i class="bi bi-person-lines-fill"></i>
+            </a>
 
-    </TemplateColumn>
-    <TemplateColumn>
-        <a href="@($"{Common.Constants.ApiRoutes.CreateStoreCustomerOrder}/Store/{context.StoreId}")"
-           data-toggle="tooltip" data-placement="top" title="@Localizer![CreateCustomerOrderTextKey]">
-            <i class="bi bi-bag-fill"></i>
-        </a>
-    </TemplateColumn>
-    <TemplateColumn>
-        <a href="@($"{Common.Constants.ApiRoutes.StoreCustomerOrderList}/Store/{context.StoreId}")"
-           data-toggle="tooltip" data-placement="top" title="@Localizer![StoreCustomerOrderListTextKey]">
-            <i class="bi bi-bag-fill"></i>
-        </a>
-    </TemplateColumn>
-</QuickGrid>
-<Paginator State="@pagination"></Paginator>
+        </TemplateColumn>
+        <TemplateColumn>
+            <a href="@($"{Common.Constants.ApiRoutes.CreateStoreCustomerOrder}/Store/{context.StoreId}")"
+               data-toggle="tooltip" data-placement="top" title="@Localizer![CreateCustomerOrderTextKey]">
+                <i class="bi bi-bag-fill"></i>
+            </a>
+        </TemplateColumn>
+        <TemplateColumn>
+            <a href="@($"{Common.Constants.ApiRoutes.StoreCustomerOrderList}/Store/{context.StoreId}")"
+               data-toggle="tooltip" data-placement="top" title="@Localizer![StoreCustomerOrderListTextKey]">
+                <i class="bi bi-bag-fill"></i>
+            </a>
+        </TemplateColumn>
+    </QuickGrid>
+    <Paginator State="@pagination"></Paginator>
+</div>
 
 @code {
     [Inject]
