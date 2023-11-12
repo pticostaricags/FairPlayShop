@@ -1,6 +1,7 @@
 ﻿@implements IAsyncDisposable
 @using FairPlayShop.Common
 @using FairPlayShop.Common.CustomAttributes
+@using FairPlayShop.CustomLocalization
 @using FairPlayShop.Interfaces.Services
 @using FairPlayShop.Models.Store
 @using Microsoft.AspNetCore.Authorization
@@ -65,7 +66,14 @@
             </a>
         </TemplateColumn>
     </QuickGrid>
-    <Paginator State="@pagination"></Paginator>
+    <Paginator State="@pagination">
+        <SummaryTemplate>
+            <p>
+                @GlobalKeysLocalizer.Localizer![GlobalKeysLocalizer.PaginatorSummaryTextKey,
+                pagination.CurrentPageIndex+1, pagination.LastPageIndex!+1, pagination.TotalItemCount!]
+            </p>
+        </SummaryTemplate>
+    </Paginator>
 </div>
 
 @code {
