@@ -59,7 +59,7 @@
                                  ValueExpression="@(()=>singleOrderLine.ProductId)"
                                  Value="@singleOrderLine.ProductId"
                                  ValueChanged="@( (long? selectedValue) => OnOrderLineProductSelectionChanged(selectedValue, singleOrderLine))">
-                        <option value="">Select a product</option>
+                        <option value="">@Localizer![SelectProductTextKey]</option>
                         @if (this.MyStoreProducts?.Length > 0)
                         {
                             @foreach (var singleStoreProduct in this.MyStoreProducts)
@@ -86,7 +86,7 @@
     <div class="mb-3">
         <label class="form-label">
             <strong>
-                @nameof(CreateStoreCustomerOrderModel.OrderSubTotal)
+                @(DisplayHelper.DisplayFor<CreateStoreCustomerOrderModel>(p=>p.OrderSubTotal))
             </strong>
         </label>
         <label class="form-label">@CreateStoreCustomerOrderModel!.OrderSubTotal</label>
@@ -94,7 +94,7 @@
     <div class="mb-3">
         <label class="form-label">
             <strong>
-                @nameof(CreateStoreCustomerOrderModel.TaxTotal)
+                @(DisplayHelper.DisplayFor<CreateStoreCustomerOrderModel>(p => p.TaxTotal))
             </strong>
         </label>
         <label class="form-label">@CreateStoreCustomerOrderModel!.TaxTotal</label>
@@ -102,13 +102,15 @@
     <div class="mb-3">
         <label class="form-label">
             <strong>
-                @nameof(CreateStoreCustomerOrderModel.OrderTotal)
+                @(DisplayHelper.DisplayFor<CreateStoreCustomerOrderModel>(p => p.OrderTotal))
             </strong>
         </label>
         <label class="form-label">@CreateStoreCustomerOrderModel!.OrderTotal</label>
     </div>
     <div class="mb-3">
-        <button class="btn btn-secondary" type="button" @onclick="OnAddOrderLineClicked">Add Order Line</button>
+        <button class="btn btn-secondary" type="button" @onclick="OnAddOrderLineClicked">
+            @Localizer![AddOrderLineTextKey]
+        </button>
     </div>
     <div class="mb-3">
         <button class="btn btn-primary">
@@ -189,4 +191,8 @@
     public const string CreateStoreCustomerOrderTextKey = "CreateStoreCustomerOrderText";
     [ResourceKey(defaultValue: "Select your customer")]
     public const string SelectCustomerTextKey = "SelectCustomerText";
+    [ResourceKey(defaultValue: "Select a product")]
+    public const string SelectProductTextKey = "SelectProductText";
+    [ResourceKey(defaultValue: "Add Order Line")]
+    public const string AddOrderLineTextKey = "AddOrderLineText";
 }
