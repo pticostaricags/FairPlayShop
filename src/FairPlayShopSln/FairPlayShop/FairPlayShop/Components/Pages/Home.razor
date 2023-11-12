@@ -1,7 +1,25 @@
 ﻿@page "/"
+@using FairPlayShop.Common.CustomAttributes
+@using Microsoft.Extensions.Localization
 
-<PageTitle>Home</PageTitle>
+<PageTitle>
+    @Localizer![HomeTextKey]
+</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>
+    @Localizer![HomeTextKey]
+</h1>
 
-Welcome to your new app.
+@Localizer[WelcomeTextKey, nameof(FairPlayShop)]
+
+
+@code
+{
+    [Inject]
+    public IStringLocalizer<Home>? Localizer { get; set; }
+
+    [ResourceKey(defaultValue: "Home")]
+    public const string HomeTextKey = "HomeText";
+    [ResourceKey(defaultValue: "Welcome to {0}: A demo project testing .NET 8")]
+    public const string WelcomeTextKey = "WelcomeText";
+}
