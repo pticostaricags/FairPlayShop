@@ -91,7 +91,7 @@ internal static partial class Program
         builder.Services.AddBlazoredToast();
         builder.Services.AddHostedService<BackgroundTranslationService>();
         builder.Services.AddHealthChecks()
-            .AddDbContextCheck<FairPlayShopDatabaseContext>();
+            .AddDbContextCheck<FairPlayShopDatabaseContext>(name: "dbHealth");
         var app = builder.Build();
         ConfigureModelsLocalizers(app.Services);
 
@@ -132,6 +132,7 @@ internal static partial class Program
         app.MapAdditionalIdentityEndpoints();
 
         app.MapHealthChecks("/appHealth");
+        app.MapHealthChecks("/dbHealth");
         app.Run();
     }
 
