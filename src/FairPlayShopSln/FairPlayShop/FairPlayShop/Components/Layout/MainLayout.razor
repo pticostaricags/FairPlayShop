@@ -1,5 +1,7 @@
 ﻿@using Blazored.Toast
 @using System.Globalization
+@using FairPlayShop.Common.CustomAttributes
+@using Microsoft.Extensions.Localization
 @inherits LayoutComponentBase
 
 <div class="page">
@@ -9,8 +11,8 @@
 
     <main>
         <div class="top-row px-4">
-            <CultureSelector @rendermode="@RenderMode.InteractiveServer" 
-            RedirectUri="@this.Nav!.Uri" />
+            <CultureSelector @rendermode="@RenderMode.InteractiveServer"
+                             RedirectUri="@this.Nav!.Uri" />
         </div>
 
         <article class="content px-4">
@@ -20,8 +22,10 @@
 </div>
 
 <div id="blazor-error-ui">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
+    @Localizer![UnhandledErrorTextKey]
+    <a href="" class="reload">
+        @Localizer![ReloadTextKey]
+    </a>
     <a class="dismiss">🗙</a>
 </div>
 <BlazoredToasts SuccessIcon="fa fa-thumbs-up"
@@ -32,4 +36,10 @@
 {
     [Inject]
     private NavigationManager? Nav { get; set; }
+    [Inject]
+    private IStringLocalizer<MainLayout>? Localizer { get; set; }
+    [ResourceKey(defaultValue: "An unhandled error has occurred.")]
+    public const string UnhandledErrorTextKey = "UnhandledErrorText";
+    [ResourceKey(defaultValue: "Reaload")]
+    public const string ReloadTextKey = "ReloadText";
 }
