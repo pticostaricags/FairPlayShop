@@ -10,6 +10,7 @@ using FairPlayShop.Data;
 using FairPlayShop.DataAccess.Data;
 using FairPlayShop.Identity;
 using FairPlayShop.Interfaces.Services;
+using FairPlayShop.Models.Product;
 using FairPlayShop.ServerSideServices;
 using FairPlayShop.Services;
 using FairPlayShop.Translations;
@@ -157,5 +158,11 @@ internal static partial class Program
         var producStatusLocalizer =
         localizerFactory.Create(typeof(ProductStatusLocalizer)) as IStringLocalizer<ProductStatusLocalizer>;
         ProductStatusLocalizer.Localizer = producStatusLocalizer;
+
+        var producModelLocalizer =
+        localizerFactory.Create(typeof(ProductModelLocalizer)) as IStringLocalizer<ProductModelLocalizer>;
+        ProductModelLocalizer.Localizer = producModelLocalizer;
+
+
     }
 }

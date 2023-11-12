@@ -1,4 +1,5 @@
 ﻿@using Blazored.Toast.Services
+@using FairPlayShop.Common.CustomAttributes
 @using FairPlayShop.Interfaces.Services
 @using FairPlayShop.Models.Product
 @using FairPlayShop.Models.Store
@@ -6,19 +7,20 @@
 @using FairPlayShop.Models.StoreCustomerOrder
 @using FairPlayShop.Models.StoreCustomerOrderDetail
 @using Microsoft.AspNetCore.Authorization
+@using Microsoft.Extensions.Localization
 @attribute [Route($"{Common.Constants.ApiRoutes.CreateStoreCustomerOrder}/Store/{{StoreId:long}}")]
 @attribute [Authorize]
 @rendermode RenderMode.InteractiveServer
-@attribute [StreamRendering(enabled:true)]
+@attribute [StreamRendering(enabled: true)]
 
 <LoadingIndicator ShowSpinners="this.IsBusy"></LoadingIndicator>
 
 <PageTitle>
-    @nameof(Common.Constants.ApiRoutes.CreateStoreCustomerOrder)
+    @Localizer![CreateStoreCustomerOrderTextKey]
 </PageTitle>
 
 <h3>
-    @nameof(Common.Constants.ApiRoutes.CreateStoreCustomerOrder)
+    @Localizer![CreateStoreCustomerOrderTextKey]
 </h3>
 
 <EditForm FormName="frmCreateStoreCustomerOrder" Model="CreateStoreCustomerOrderModel"
@@ -31,7 +33,7 @@
     {
         <div class="mb-3">
             <InputSelect class="form-select" @bind-Value="this.CreateStoreCustomerOrderModel!.StoreCustomerId">
-                <option value="">Select your customer</option>
+                <option value="">@Localizer![SelectCustomerTextKey]</option>
                 @foreach (var singleStorecustomer in this.MyStoreCustomerList)
                 {
                     <option value="@singleStorecustomer.StoreCustomerId">
@@ -44,10 +46,10 @@
     @if (this.CreateStoreCustomerOrderModel!.CreateStoreCustomerOrderDetailModel != null)
     {
         <div class="row">
-            <div class="col">Product</div>
-            <div class="col">Unit Price</div>
-            <div class="col">Quantity</div>
-            <div class="col">Line Total</div>
+            <div class="col">@(DisplayHelper.DisplayFor<ProductModel>(p => p.Name!))</div>
+            <div class="col">@(DisplayHelper.DisplayFor<CreateStoreCustomerOrderDetailModel>(p => p.UnitPrice!))</div>
+            <div class="col">@(DisplayHelper.DisplayFor<CreateStoreCustomerOrderDetailModel>(p => p.Quantity!))</div>
+            <div class="col">@(DisplayHelper.DisplayFor<CreateStoreCustomerOrderDetailModel>(p => p.LineTotal!))</div>
         </div>
         foreach (var singleOrderLine in this.CreateStoreCustomerOrderModel.CreateStoreCustomerOrderDetailModel)
         {
@@ -131,6 +133,8 @@
     private IProductService? ProductService { get; set; }
     [Inject]
     private IToastService? ToastService { get; set; }
+    [Inject]
+    private IStringLocalizer<CreateStoreCustomerOrder>? Localizer { get; set; }
     private StoreCustomerModel[]? MyStoreCustomerList;
     private ProductModel[]? MyStoreProducts { get; set; }
     private bool IsBusy { get; set; }
@@ -180,4 +184,9 @@
         }
         selectedOrderLine.ProductId = selectedProductId;
     }
+
+    [ResourceKey(defaultValue: "Create Store Customer Order")]
+    public const string CreateStoreCustomerOrderTextKey = "CreateStoreCustomerOrderText";
+    [ResourceKey(defaultValue: "Select your customer")]
+    public const string SelectCustomerTextKey = "SelectCustomerText";
 }
