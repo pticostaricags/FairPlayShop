@@ -30,7 +30,7 @@
         <ValidationSummary></ValidationSummary>
     </div>
     <div class="mb-3">
-        <h3>Customer Info</h3>
+        <h3>@Localizer![CustomerInfoTextKey]</h3>
         <label class="form-label">@Localizer![NameTextKey]</label>
         <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.Name"></InputText>
         <ValidationMessage For="@( () => CreateStoreCustomerModel.Name)"></ValidationMessage>
@@ -56,7 +56,7 @@
         <ValidationMessage For="@( () => CreateStoreCustomerModel.PhoneNumber)"></ValidationMessage>
     </div>
     <div class="mb-3">
-        <h3>Customer Address</h3>
+        <h3>@Localizer![CustomerAddressTextKey]</h3>
         <label class="form-label">@Localizer![NameTextKey]</label>
         <InputText class="form-control" @bind-Value="@CreateStoreCustomerModel!.CreateStoreCustomerAddressModel!.Name"></InputText>
         <ValidationMessage For="@( () => CreateStoreCustomerModel.CreateStoreCustomerAddressModel.Name)"></ValidationMessage>
@@ -201,7 +201,7 @@
         this.IsBusy = true;
         await this.StoreCustomerService!.CreateMyStoreCustomerAsync(this.CreateStoreCustomerModel!, CancellationTokenSource.Token);
         this.IsBusy = false;
-        this.ToastService!.ShowSuccess(message: "Your customer has been saved");
+        this.ToastService!.ShowSuccess(message: Localizer![CustomerSavedTextKey]);
         NavigationManager!.NavigateTo($"{Common.Constants.ApiRoutes.MyStoreCustomerList}/Store/{StoreId}");
     }
 
@@ -269,4 +269,10 @@
     public const string CityTextKey = "CityText";
     [ResourceKey(defaultValue: "Select a City")]
     public const string SelectCityTextKey = "SelectCityText";
+    [ResourceKey(defaultValue: "Customer Info")]
+    public const string CustomerInfoTextKey = "CustomerInfoText";
+    [ResourceKey(defaultValue: "Customer Address")]
+    public const string CustomerAddressTextKey = "CustomerAddressText";
+    [ResourceKey(defaultValue: "Your customer has been saved")]
+    public const string CustomerSavedTextKey = "CustomerSavedText";
 }
