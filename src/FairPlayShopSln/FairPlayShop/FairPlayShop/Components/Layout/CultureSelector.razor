@@ -1,6 +1,8 @@
 ﻿@implements IAsyncDisposable
 @using System.Globalization
+@using FairPlayShop.Common.CustomAttributes
 @using FairPlayShop.Interfaces.Services
+@using Microsoft.Extensions.Localization
 @inject NavigationManager Navigation
 
 <LoadingIndicator ShowSpinners="@this.IsBusy"></LoadingIndicator>
@@ -8,7 +10,7 @@
 @if (this.supportedCultures != null)
 {
     <label class="form-label">
-        Select your locale:
+        @Localizer![SelectLocaleTextKey]:
     </label>
     <select class="form-select" @bind="Culture">
         @foreach (var culture in supportedCultures)
@@ -22,9 +24,11 @@
 {
     [Parameter]
     public string? RedirectUri { get; set; }
-    private CancellationTokenSource CancellationTokenSource = new();
     [Inject]
     private ICultureService? CultureService { get; set; }
+    [Inject]
+    private IStringLocalizer<CultureSelector>? Localizer { get; set; }
+    private CancellationTokenSource CancellationTokenSource = new();
     private CultureInfo[]? supportedCultures { get; set; }
     private bool IsBusy { get; set; }
     protected override async Task OnInitializedAsync()
@@ -60,4 +64,7 @@
     {
         await this.CancellationTokenSource.CancelAsync();
     }
+
+    [ResourceKey(defaultValue: "Select your locale")]
+    public const string SelectLocaleTextKey = "SelectLocaleText";
 }
