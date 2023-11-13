@@ -1,29 +1,34 @@
-﻿using FairPlayShop.Common;
+﻿using Azure.AI.OpenAI;
+using FairPlayShop.Common;
 using FairPlayShop.Common.CustomAttributes;
 using FairPlayShop.Common.CustomExceptions;
 using FairPlayShop.DataAccess.Data;
 using FairPlayShop.DataAccess.Models;
 using FairPlayShop.Interfaces.Services;
+using FairPlayShop.Models.AzureOpenAI;
 using FairPlayShop.Models.Pagination;
 using FairPlayShop.Models.Store;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+using System.Globalization;
 using System.Linq.Dynamic.Core;
+using System.Text.Json;
 
 namespace FairPlayShop.ServerSideServices
 {
     public class StoreService(IUserProviderService userProviderService,
         IDbContextFactory<FairPlayShopDatabaseContext> dbContextFactory,
         ILogger<StoreService> logger,
-        IStringLocalizer<StoreService> localizer) : IStoreService
+        IStringLocalizer<StoreService> localizer,
+        OpenAIClient openAIClient) : IStoreService
     {
         public async Task CreateMyStoreAsync(CreateStoreModel createStoreModel, CancellationToken cancellationToken)
         {
             logger.LogInformation($"Executing {{ {nameof(createStoreModel)} }}", createStoreModel);
             using var fairPlayShopDatabaseContext = await dbContextFactory.CreateDbContextAsync(cancellationToken: cancellationToken);
             if (await fairPlayShopDatabaseContext.Store.AnyAsync(p => p.Name == createStoreModel.Name,
-                cancellationToken:cancellationToken))
+                cancellationToken: cancellationToken))
             {
                 string message =
                     String.Format(
@@ -73,6 +78,35 @@ namespace FairPlayShop.ServerSideServices
         private static string GetSortTypeString(SortType sortType)
         {
             return sortType == SortType.Ascending ? "ASC" : "DESC";
+        }
+
+        public async Task<string> GetStoreRecommendedNameAsync(string[] storeProducts, string[]? namesToExclude, CancellationToken cancellationToken)
+        {
+            string systemMessage = $"You will take the role of an expert in entrepreneurship, " +
+                $"startups, and creation of succesful businesses of all sizes. " +
+                $"Your job is to give me a list of 100 recommended names for my new store. " +
+                $"Please research the availability of these names and check if they are trademarked or being used by other businesses to avoid any legal issues. " +
+                $"The recommended names must refer to all products, not only one." +
+                $"Give me the response in HTML 5 format and in the following language locale: \"{CultureInfo.CurrentCulture.Name}\"";
+            string userMessage = $"Products in my store: {String.Join(",", storeProducts)}.";
+            if (namesToExclude?.Length > 0)
+            {
+                userMessage = $"{userMessage} \r\nNames to exclude: {String.Join(",", namesToExclude)}";
+            }
+            ChatCompletionsOptions chatCompletionsOptions = new()
+            {
+                DeploymentName = "translationschat",
+                Messages =
+                {
+                    new ChatMessage(ChatRole.System, systemMessage),
+                    new ChatMessage(ChatRole.User, userMessage)
+                }
+            };
+            var response = await openAIClient.GetChatCompletionsAsync(
+                chatCompletionsOptions, cancellationToken: cancellationToken);
+            var contentResponse =
+            response.Value.Choices[0].Message.Content;
+            return contentResponse;
         }
 
         [ResourceKey(defaultValue: "There is already a store named '{0}'. Plaese use another")]

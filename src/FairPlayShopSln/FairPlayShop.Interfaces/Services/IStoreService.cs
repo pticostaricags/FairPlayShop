@@ -7,5 +7,6 @@ namespace FairPlayShop.Interfaces.Services
     {
         Task CreateMyStoreAsync(CreateStoreModel createStoreModel, CancellationToken cancellationToken);
         Task<PaginationOfT<StoreModel>> GetPaginatedMyStoreListAsync(PaginationRequest paginationRequest, CancellationToken cancellationToken);
+        Task<string> GetStoreRecommendedNameAsync(string[] storeProducts, string[]? namesToExclude, CancellationToken cancellationToken);
     }
 }

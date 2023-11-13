@@ -72,13 +72,13 @@ internal static partial class Program
             builder.Configuration["AzureOpenAI:Endpoint"] ?? throw new ConfigurationException("Can't find config for AzureOpenAI:Endpoint");
         var key = Environment.GetEnvironmentVariable("AzureOpenAI:Key") ??
             builder.Configuration["AzureOpenAI:Key"] ?? throw new ConfigurationException("Can't find config for AzureOpenAI:Key");
-
-        builder.Services.AddTransient<IAzureOpenAIService>(sp =>
+        builder.Services.AddTransient<OpenAIClient>(sp =>
         {
             OpenAIClient openAIClient = new(endpoint: new Uri(endpoint),
                 keyCredential: new Azure.AzureKeyCredential(key));
-            return new AzureOpenAIService(openAIClient);
+            return openAIClient;
         });
+        builder.Services.AddTransient<IAzureOpenAIService, AzureOpenAIService>();
         builder.Services.AddSingleton<IEmailSender, NoOpEmailSender>();
         builder.Services.AddSingleton<IUserProviderService, UserProviderService>();
         builder.Services.AddTransient<IProductService, ProductService>();

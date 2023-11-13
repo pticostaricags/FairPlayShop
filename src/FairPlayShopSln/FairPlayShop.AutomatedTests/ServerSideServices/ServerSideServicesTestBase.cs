@@ -1,4 +1,5 @@
-﻿using CsvHelper;
+﻿using Azure.AI.OpenAI;
+using CsvHelper;
 using CsvHelper.Configuration;
 using FairPlayShop.CustomLocalization.EF;
 using FairPlayShop.DataAccess.Data;
@@ -6,6 +7,7 @@ using FairPlayShop.DataAccess.Models;
 using FairPlayShop.Interfaces.Services;
 using FairPlayShop.ServerSideServices;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
@@ -87,7 +89,15 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             loggerFactory.CreateLogger<StoreService>();
             IStringLocalizer<StoreService> localizer =
                 new EFStringLocalizer<StoreService>(dbFactory);
-            return new StoreService(userProviderService, dbFactory, logger, localizer);
+            ConfigurationBuilder configurationBuilder = new();
+            configurationBuilder.AddUserSecrets<AzureOpenAIServiceTests>();
+            var config = configurationBuilder.Build();
+            var endpoint = config["AzureOpenAI:Endpoint"] ?? throw new Exception("Can't find config for AzureOpenAI:Endpoint");
+            var key = config["AzureOpenAI:Key"] ?? throw new Exception("Can't find config for AzureOpenAI:Key");
+            OpenAIClient openAIClient = new(new Uri(endpoint),
+                new Azure.AzureKeyCredential(key));
+            return new StoreService(userProviderService, dbFactory, logger, localizer,
+                openAIClient);
         }
 
         internal static async Task<IStoreCustomerService> GetStoreCustomerServiceAsync()

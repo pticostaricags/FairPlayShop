@@ -3,11 +3,14 @@
 @using FairPlayShop.CustomLocalization
 @using FairPlayShop.Interfaces.Services
 @using FairPlayShop.Models.Store
+@using FairPlayShop.Models.StoreNameRecommendation
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.Extensions.Localization
 @attribute [Route(Common.Constants.ApiRoutes.CreateMyStore)]
 @attribute [Authorize]
 @rendermode RenderMode.InteractiveServer
+
+<LoadingIndicator ShowSpinners="this.IsBusy"></LoadingIndicator>
 
 <PageTitle>
     @Localizer![CreateMyStoreTextKey]
@@ -36,6 +39,24 @@
     </div>
 </EditForm>
 
+<EditForm FormName="frmNamesRecommendations" Model="this.StoreNameRecommendationModel" OnValidSubmit="GetRecommendedNamesAsync">
+    <div class="mb-3">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <ValidationSummary></ValidationSummary>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">@Localizer![ProductsSeparatedByCommaTextKey]</label>
+        <InputText class="form-control" @bind-Value="@StoreNameRecommendationModel!.Products"></InputText>
+    </div>
+    <div class="mb-3">
+        <button class="btn btn-secondary">@Localizer![GetRecommendedNamesTextKey]</button>
+    </div>
+</EditForm>
+@if (!String.IsNullOrWhiteSpace(this.RecommendedNames))
+{
+    <p>@((MarkupString)this.RecommendedNames)</p>
+}
+
 @code {
     [Inject]
     private IStoreService? StoreService { get; set; }
@@ -45,20 +66,50 @@
     private NavigationManager? NavigationManager { get; set; }
     [Inject]
     private IToastService? ToastService { get; set; }
-    [SupplyParameterFromForm]
+    [SupplyParameterFromForm(FormName = "frmCreateMyStore")]
     private CreateStoreModel? CreateStoreModel { get; set; } = new CreateStoreModel();
     private CancellationTokenSource CancellationTokenSource { get; set; } = new();
-
+    [SupplyParameterFromForm(FormName = "frmNamesRecommendations")]
+    public CreateStoreNameRecommendationModel? StoreNameRecommendationModel { get; set; } = new();
+    private string? RecommendedNames { get; set; }
+    private bool IsBusy { get; set; }
     private async Task OnValidSubmitAsync()
     {
         try
         {
+            this.IsBusy = true;
             await this.StoreService!.CreateMyStoreAsync(this.CreateStoreModel!, CancellationTokenSource.Token);
+            this.IsBusy = false;
             this.NavigationManager?.NavigateTo(Common.Constants.ApiRoutes.MyStoreList);
         }
         catch (Exception ex)
         {
             this.ToastService!.ShowError(ex.Message);
+        }
+        finally
+        {
+            this.IsBusy = false;
+        }
+    }
+
+    private async Task GetRecommendedNamesAsync()
+    {
+        try
+        {
+            this.IsBusy = true;
+            this.RecommendedNames = null;
+            var productsArray = this.StoreNameRecommendationModel!.Products!.Split(',');
+            this.RecommendedNames = await this.StoreService!
+            .GetStoreRecommendedNameAsync(productsArray, null,
+            this.CancellationTokenSource.Token);
+        }
+        catch (Exception ex)
+        {
+            this.ToastService!.ShowError(ex.Message);
+        }
+        finally
+        {
+            this.IsBusy = false;
         }
     }
 
@@ -66,4 +117,8 @@
     public const string CreateMyStoreTextKey = "CreateMyStoreTextKey";
     [ResourceKey(defaultValue: "Name")]
     public const string NameTextKey = "NamtText";
+    [ResourceKey(defaultValue: "Products separated by comma (,)")]
+    public const string ProductsSeparatedByCommaTextKey = "ProductsSeparatedByCommaTex";
+    [ResourceKey(defaultValue: "Get Recommended Names")]
+    public const string GetRecommendedNamesTextKey = "GetRecommendedNamesText";
 }

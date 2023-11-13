@@ -114,5 +114,15 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
             Assert.AreEqual(1, result.TotalItems);
             Assert.AreEqual(store.Name, result.Items![0].Name);
         }
+
+        [TestMethod]
+        public async Task Test_GetStoreRecommendedNameAsync()
+        {
+            IStoreService storeService = await GetStoreServiceAsync();
+            var result = await
+            storeService.GetStoreRecommendedNameAsync(storeProducts: ["LEGO"],
+                namesToExclude: null, cancellationToken:CancellationToken.None);
+            Assert.IsNotNull(result);
+        }
     }
 }
