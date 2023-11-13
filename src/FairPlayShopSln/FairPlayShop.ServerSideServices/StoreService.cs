@@ -87,7 +87,8 @@ namespace FairPlayShop.ServerSideServices
                 $"Your job is to give me a list of 100 recommended names for my new store. " +
                 $"Please research the availability of these names and check if they are trademarked or being used by other businesses to avoid any legal issues. " +
                 $"The recommended names must refer to all products, not only one." +
-                $"Give me the response in HTML 5 format and in the following language locale: \"{CultureInfo.CurrentCulture.Name}\"";
+                $"Give me the name availability and trademark information." +
+                $"Give me the response in HTML 5 table format and in the following language locale: \"{CultureInfo.CurrentCulture.Name}\"";
             string userMessage = $"Products in my store: {String.Join(",", storeProducts)}.";
             if (namesToExclude?.Length > 0)
             {

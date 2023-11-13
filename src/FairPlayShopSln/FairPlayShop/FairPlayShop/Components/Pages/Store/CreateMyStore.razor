@@ -54,6 +54,7 @@
 </EditForm>
 @if (!String.IsNullOrWhiteSpace(this.RecommendedNames))
 {
+    <p>@GlobalKeysLocalizer.ContentGeneratedByAzureOpenAIText</p>
     <p>@((MarkupString)this.RecommendedNames)</p>
 }
 
