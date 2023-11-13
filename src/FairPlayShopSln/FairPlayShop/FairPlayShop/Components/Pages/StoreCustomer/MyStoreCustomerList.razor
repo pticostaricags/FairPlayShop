@@ -20,17 +20,19 @@
 
 @if (this.MyStoreCustomers != null)
 {
-    <QuickGrid Items="this.MyStoreCustomers">
-        <PropertyColumn Title="@Localizer![StoreCustomerIdTextKey]" Property="@( p=> p.StoreCustomerId)" Sortable="true"></PropertyColumn>
-        <PropertyColumn Title="@Localizer![NameTextKey]" Property="@( p=> p.Name)" Sortable="true"></PropertyColumn>
-        <PropertyColumn Title="@Localizer![FirstSurnameTextKey]" Property="@( p=> p.FirstSurname)" Sortable="true"></PropertyColumn>
-        <PropertyColumn Title="@Localizer![SecondSurnameTextKey]" Property="@( p=> p.SecondSurname)" Sortable="true"></PropertyColumn>
-        <PropertyColumn Title="@Localizer![EmailAddressTextKey]" Property="@( p=> p.EmailAddress)" Sortable="true"></PropertyColumn>
-        <PropertyColumn Title="@Localizer![PhoneNumberTextKey]" Property="@( p=> p.PhoneNumber)" Sortable="true"></PropertyColumn>
-        <TemplateColumn>
-            <button class="btn btn-danger" type="button" @onclick="@( async () => await OnDeleteCustomerAsync(context.StoreCustomerId))">@Localizer![DeleteTextKey]</button>
-        </TemplateColumn>
-    </QuickGrid>
+    <div class="grid-container">
+        <QuickGrid Items="this.MyStoreCustomers">
+            <PropertyColumn Title="@Localizer![StoreCustomerIdTextKey]" Property="@( p=> p.StoreCustomerId)" Sortable="true"></PropertyColumn>
+            <PropertyColumn Title="@Localizer![NameTextKey]" Property="@( p=> p.Name)" Sortable="true"></PropertyColumn>
+            <PropertyColumn Title="@Localizer![FirstSurnameTextKey]" Property="@( p=> p.FirstSurname)" Sortable="true"></PropertyColumn>
+            <PropertyColumn Title="@Localizer![SecondSurnameTextKey]" Property="@( p=> p.SecondSurname)" Sortable="true"></PropertyColumn>
+            <PropertyColumn Title="@Localizer![EmailAddressTextKey]" Property="@( p=> p.EmailAddress)" Sortable="true"></PropertyColumn>
+            <PropertyColumn Title="@Localizer![PhoneNumberTextKey]" Property="@( p=> p.PhoneNumber)" Sortable="true"></PropertyColumn>
+            <TemplateColumn>
+                <button class="btn btn-danger" type="button" @onclick="@( async () => await OnDeleteCustomerAsync(context.StoreCustomerId))">@Localizer![DeleteTextKey]</button>
+            </TemplateColumn>
+        </QuickGrid>
+    </div>
 }
 
 @code {
