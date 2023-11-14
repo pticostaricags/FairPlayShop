@@ -52,6 +52,13 @@
         <button class="btn btn-secondary">@Localizer![GetRecommendedNamesTextKey]</button>
     </div>
 </EditForm>
+@if (this.GeneratedLogoUris?.Length > 0 )
+{
+    foreach (var singleUri in this.GeneratedLogoUris)
+    {
+        <img class="img-thumbnail" style="max-height:200px;" src="@singleUri.AbsoluteUri" />
+    }
+}
 @if (!String.IsNullOrWhiteSpace(this.RecommendedNames))
 {
     <p>@GlobalKeysLocalizer.ContentGeneratedByAzureOpenAIText</p>
@@ -74,6 +81,8 @@
     public CreateStoreNameRecommendationModel? StoreNameRecommendationModel { get; set; } = new();
     private string? RecommendedNames { get; set; }
     private bool IsBusy { get; set; }
+    private Uri[]? GeneratedLogoUris { get; set; }
+
     private async Task OnValidSubmitAsync()
     {
         try
@@ -99,10 +108,13 @@
         {
             this.IsBusy = true;
             this.RecommendedNames = null;
+            this.GeneratedLogoUris = null;
             var productsArray = this.StoreNameRecommendationModel!.Products!.Split(',');
             this.RecommendedNames = await this.StoreService!
             .GetStoreRecommendedNameAsync(productsArray, null,
             this.CancellationTokenSource.Token);
+            this.GeneratedLogoUris = await this.StoreService!
+            .GetRecommendedLogoAsync(productsArray, cancellationToken: this.CancellationTokenSource.Token);
         }
         catch (Exception ex)
         {

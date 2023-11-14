@@ -5,7 +5,6 @@ using FairPlayShop.Common.CustomExceptions;
 using FairPlayShop.DataAccess.Data;
 using FairPlayShop.DataAccess.Models;
 using FairPlayShop.Interfaces.Services;
-using FairPlayShop.Models.AzureOpenAI;
 using FairPlayShop.Models.Pagination;
 using FairPlayShop.Models.Store;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +12,6 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using System.Globalization;
 using System.Linq.Dynamic.Core;
-using System.Text.Json;
 
 namespace FairPlayShop.ServerSideServices
 {
@@ -108,6 +106,20 @@ namespace FairPlayShop.ServerSideServices
             var contentResponse =
             response.Value.Choices[0].Message.Content;
             return contentResponse;
+        }
+
+        public async Task<Uri[]> GetRecommendedLogoAsync(string[] storeProducts, CancellationToken cancellationToken)
+        {
+            string prompt = $"Logo for an online store selling the following products: {String.Join(",", storeProducts)}";
+
+            var response = await openAIClient!.GetImageGenerationsAsync(
+                imageGenerationOptions: new(prompt)
+                {
+                    ImageCount = 4,
+                    Size = ImageSize.Size1024x1024,
+                }, cancellationToken:cancellationToken);
+
+            return response.Value.Data.Select(p=>p.Url).ToArray();
         }
 
         [ResourceKey(defaultValue: "There is already a store named '{0}'. Plaese use another")]
