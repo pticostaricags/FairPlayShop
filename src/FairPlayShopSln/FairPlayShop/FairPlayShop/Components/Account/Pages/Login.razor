@@ -1,55 +1,69 @@
 ﻿@page "/Account/Login"
 
 @using System.ComponentModel.DataAnnotations
+@using FairPlayShop.Common.CustomAttributes
+@using FairPlayShop.Models.Account
 @using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Identity
 @using FairPlayShop.Data
+@using Microsoft.Extensions.Localization
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject ILogger<Login> Logger
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
+@inject IStringLocalizer<Login> Localizer
 
-<PageTitle>Log in</PageTitle>
+<PageTitle>@Localizer[LoginTextKey]</PageTitle>
 
-<h1>Log in</h1>
+    <h1>@Localizer[LoginTextKey]</h1>
 <div class="row">
     <div class="col-md-4">
         <section>
             <StatusMessage Message="@errorMessage" />
             <EditForm Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login">
                 <DataAnnotationsValidator />
-                <h2>Use a local account to log in.</h2>
+                <h2>@Localizer[UseLocalAccountTextKey]</h2>
                 <hr />
                 <ValidationSummary class="text-danger" role="alert" />
                 <div class="form-floating mb-3">
                     <InputText @bind-Value="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                    <label for="email" class="form-label">Email</label>
+                    <label for="email" class="form-label">
+                        @(DisplayHelper.DisplayFor<CreateAccountModel>(p => p.Email))
+                    </label>
                     <ValidationMessage For="() => Input.Email" class="text-danger" />
                 </div>
                 <div class="form-floating mb-3">
                     <InputText type="password" @bind-Value="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
-                    <label for="password" class="form-label">Password</label>
+                    <label for="password" class="form-label">
+                        @(DisplayHelper.DisplayFor<CreateAccountModel>(p => p.Password))
+                    </label>
                     <ValidationMessage For="() => Input.Password" class="text-danger" />
                 </div>
                 <div class="checkbox mb-3">
                     <label class="form-label">
                         <InputCheckbox @bind-Value="Input.RememberMe" class="darker-border-checkbox form-check-input" />
-                        Remember me
+                        @(DisplayHelper.DisplayFor<CreateAccountModel>(p => p.RememberMe))
                     </label>
                 </div>
                 <div>
-                    <button type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+                    <button type="submit" class="w-100 btn btn-lg btn-primary">
+                        @Localizer[LoginTextKey]
+                    </button>
                 </div>
                 <div>
                     <p>
-                        <a href="Account/ForgotPassword">Forgot your password?</a>
+                        <a href="Account/ForgotPassword">@Localizer[ForgotPasswordTextKey]</a>
                     </p>
                     <p>
-                        <a href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Register as a new user</a>
+                        <a href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">
+                            @Localizer[RegisterNewUserTextKey]
+                        </a>
                     </p>
                     <p>
-                        <a href="Account/ResendEmailConfirmation">Resend email confirmation</a>
+                        <a href="Account/ResendEmailConfirmation">
+                            @Localizer[ResendEmailConfirmationTextKey]
+                        </a>
                     </p>
                 </div>
             </EditForm>
@@ -57,7 +71,9 @@
     </div>
     <div class="col-md-6 col-md-offset-2">
         <section>
-            <h3>Use another service to log in.</h3>
+            <h3>
+                @Localizer[UseAnotherServiceToLogInTextKey]
+            </h3>
             <hr />
             <ExternalLoginPicker />
         </section>
@@ -71,7 +87,7 @@
     private HttpContext HttpContext { get; set; } = default!;
 
     [SupplyParameterFromForm]
-    private InputModel Input { get; set; } = new();
+    private CreateAccountModel Input { get; set; } = new();
 
     [SupplyParameterFromQuery]
     private string? ReturnUrl { get; set; }
@@ -108,21 +124,22 @@
         }
         else
         {
-            errorMessage = "Error: Invalid login attempt.";
+            errorMessage = Localizer[InvalidLoginAttemptTextKey];
         }
     }
 
-    private sealed class InputModel
-    {
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; } = "";
-
-        [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; } = "";
-
-        [Display(Name = "Remember me?")]
-        public bool RememberMe { get; set; }
-    }
+    [ResourceKey(defaultValue: "Log in")]
+    public const string LoginTextKey = "LoginText";
+    [ResourceKey(defaultValue: "Use a local account to log in.")]
+    public const string UseLocalAccountTextKey = "UseLocalAccountText";
+    [ResourceKey(defaultValue: "Forgot your password")]
+    public const string ForgotPasswordTextKey = "ForgotPasswordText";
+    [ResourceKey(defaultValue: "Register as a new user")]
+    public const string RegisterNewUserTextKey = "RegisterNewUserText";
+    [ResourceKey(defaultValue: "Resend email confirmation")]
+    public const string ResendEmailConfirmationTextKey = "ResendEmailConfirmationText";
+    [ResourceKey(defaultValue: "Use another service to log in.")]
+    public const string UseAnotherServiceToLogInTextKey = "UseAnotherServiceToLogInText";
+    [ResourceKey(defaultValue: "Error: Invalid login attempt.")]
+    public const string InvalidLoginAttemptTextKey = "InvalidLoginAttemptText";
 }
