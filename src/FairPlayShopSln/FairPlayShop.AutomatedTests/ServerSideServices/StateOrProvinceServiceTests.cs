@@ -26,7 +26,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestCleanup]
         public async Task TestCleanupAsync()
         {
-            var (dbContext, _) = await GetFairPlayShopDatabaseContextAsync();
+            var (dbContext, _, _) = await GetFairPlayShopDatabaseContextAsync();
             var ctx = dbContext;
             foreach (var singleStateOrProvince in ctx.StateOrProvince)
             {
@@ -41,7 +41,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestMethod]
         public async Task Test_GetCountryStateOrProvinceListAsync()
         {
-            var (dbContext, _) = await GetFairPlayShopDatabaseContextAsync();
+            var (dbContext, _, _) = await GetFairPlayShopDatabaseContextAsync();
             var ctx = dbContext;
             Country countryEntity = new()
             {

@@ -29,7 +29,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestCleanup]
         public async Task TestCleanupAsync()
         {
-            var (dbContext, _) = await GetFairPlayShopDatabaseContextAsync();
+            var (dbContext, _, _) = await GetFairPlayShopDatabaseContextAsync();
             var ctx = dbContext;
             foreach (var singleCustomerOrderDetail in ctx.StoreCustomerOrderDetail)
             {
@@ -97,7 +97,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestMethod]
         public async Task Test_CreateStoreCustomerOrderAsync()
         {
-            var (dbContext, _) = await GetFairPlayShopDatabaseContextAsync();
+            var (dbContext, _, _) = await GetFairPlayShopDatabaseContextAsync();
             var ctx = dbContext;
             var user = await CreateTestUserAsync(ctx);
             ServerSideServicesTestBase.CurrentUserId = user.Id;
@@ -166,7 +166,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestMethod]
         public async Task Test_GetStoreCustomerOrderListAsync()
         {
-            var (dbContext, _) = await GetFairPlayShopDatabaseContextAsync();
+            var (dbContext, _, _) = await GetFairPlayShopDatabaseContextAsync();
             var ctx = dbContext;
             var user = await CreateTestUserAsync(ctx);
             ServerSideServicesTestBase.CurrentUserId = user.Id;

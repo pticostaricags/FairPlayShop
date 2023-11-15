@@ -99,7 +99,7 @@ namespace FairPlayShop.AutomatedTests.Playwright
         [TestCleanup]
         public async Task TestCleanupAsync()
         {
-            var (dbContext, _) = await GetFairPlayShopDatabaseContextAsync();
+            var (dbContext, _, _) = await GetFairPlayShopDatabaseContextAsync();
             var ctx = dbContext;
             foreach (var singleProduct in ctx.Product)
             {

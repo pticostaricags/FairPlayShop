@@ -93,6 +93,7 @@ internal static partial class Program
         builder.Services.AddHostedService<BackgroundTranslationService>();
         builder.Services.AddHealthChecks()
             .AddDbContextCheck<FairPlayShopDatabaseContext>(name: "dbHealth");
+        builder.Services.AddMemoryCache();
         var app = builder.Build();
         ConfigureModelsLocalizers(app.Services);
 

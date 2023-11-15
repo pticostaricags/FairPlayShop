@@ -29,7 +29,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestCleanup]
         public async Task TestCleanupAsync()
         {
-            var (dbContext, _) = await GetFairPlayShopDatabaseContextAsync();
+            var (dbContext, _, _) = await GetFairPlayShopDatabaseContextAsync();
             var ctx = dbContext;
             foreach (var singleProduct in ctx.Product)
             {
@@ -81,7 +81,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestMethod]
         public async Task Test_CreateMyStoreCustomerAsync()
         {
-            var (dbContext, dbContextFactory) = await GetFairPlayShopDatabaseContextAsync();
+            var (dbContext, dbContextFactory, _) = await GetFairPlayShopDatabaseContextAsync();
             var ctx = dbContext;
             var user = await CreateTestUserAsync(ctx);
             ServerSideServicesTestBase.CurrentUserId = user.Id;
@@ -141,7 +141,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestMethod]
         public async Task Test_GetMyStoreCustomerAsync()
         {
-            var (dbContext, dbContextFactory) = await GetFairPlayShopDatabaseContextAsync();
+            var (dbContext, dbContextFactory, _) = await GetFairPlayShopDatabaseContextAsync();
             var ctx = dbContext;
             var user = await CreateTestUserAsync(ctx);
             ServerSideServicesTestBase.CurrentUserId = user.Id;
@@ -172,7 +172,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestMethod]
         public async Task Test_GetMyStoreCustomerListAsync()
         {
-            var (dbContext, dbContextFactory) = await GetFairPlayShopDatabaseContextAsync();
+            var (dbContext, dbContextFactory, _) = await GetFairPlayShopDatabaseContextAsync();
             var ctx = dbContext;
             var user = await CreateTestUserAsync(ctx);
             ServerSideServicesTestBase.CurrentUserId = user.Id;
@@ -204,7 +204,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
         [TestMethod]
         public async Task Test_DeleteMyStoreCustomerAsync()
         {
-            var (dbContext, dbContextFactory) = await GetFairPlayShopDatabaseContextAsync();
+            var (dbContext, dbContextFactory, _) = await GetFairPlayShopDatabaseContextAsync();
             var ctx = dbContext;
             var user = await CreateTestUserAsync(ctx);
             ServerSideServicesTestBase.CurrentUserId = user.Id;

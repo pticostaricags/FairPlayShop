@@ -1,5 +1,7 @@
-﻿using FairPlayShop.DataAccess.Data;
+﻿using FairPlayShop.Common;
+using FairPlayShop.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Localization;
 using System.Globalization;
 
@@ -13,7 +15,8 @@ namespace FairPlayShop.CustomLocalization.EF
     /// Initializes <see cref="EFStringLocalizer{T}"/>
     /// </remarks>
     /// <param name="dbContextFactory"></param>
-    public class EFStringLocalizer<T>(IDbContextFactory<FairPlayShopDatabaseContext> dbContextFactory) : IStringLocalizer<T>
+    public class EFStringLocalizer<T>(IDbContextFactory<FairPlayShopDatabaseContext> dbContextFactory,
+        IMemoryCache memoryCache) : IStringLocalizer<T>
     {
 
         /// <summary>
@@ -54,7 +57,7 @@ namespace FairPlayShop.CustomLocalization.EF
         public IStringLocalizer WithCulture(CultureInfo culture)
         {
             CultureInfo.DefaultThreadCurrentCulture = culture;
-            return new EFStringLocalizer(dbContextFactory);
+            return new EFStringLocalizer(dbContextFactory, memoryCache);
         }
 
         /// <summary>
@@ -66,24 +69,36 @@ namespace FairPlayShop.CustomLocalization.EF
         {
             var db = dbContextFactory.CreateDbContext();
             var typeFullName = typeof(T).FullName;
-            return db.Resource
-                .Include(r => r.Culture)
-                .Where(r => r.Culture.Name == CultureInfo.CurrentCulture.Name
-                && r.Type == typeFullName
-                )
-                .Select(r => new LocalizedString(r.Key, r.Value, true));
+            var cacheKey = $"{typeFullName}-{nameof(GetAllStrings)}-{CultureInfo.CurrentCulture.Name}";
+            var result = memoryCache.GetOrCreate<IQueryable<LocalizedString>>(
+                cacheKey, factory =>
+                {
+                    factory.SlidingExpiration = TimeSpan.FromMinutes(Constants.CacheConfiguration.LocalizationCacheDurationInMinutes);
+                    return db.Resource
+                    .Include(r => r.Culture)
+                    .Where(r => r.Culture.Name == CultureInfo.CurrentCulture.Name
+                    && r.Type == typeFullName)
+                    .Select(r => new LocalizedString(r.Key, r.Value, true));
+                });
+            return result!;
         }
 
         private string? GetString(string name)
         {
             var db = dbContextFactory.CreateDbContext();
             var typeFullName = typeof(T).FullName;
-            return db.Resource
-                .Include(r => r.Culture)
-                .Where(r => r.Culture.Name == CultureInfo.CurrentCulture.Name &&
-                r.Type == typeFullName
-                )
-                .FirstOrDefault(r => r.Key == name)?.Value;
+            var cacheKey = $"{typeFullName}-{nameof(GetString)}-{name}-{CultureInfo.CurrentCulture.Name}";
+            var result = memoryCache.GetOrCreate<string?>(cacheKey, factory =>
+            {
+                factory.SlidingExpiration = TimeSpan.FromMinutes(Constants.CacheConfiguration.LocalizationCacheDurationInMinutes);
+                return db.Resource
+                    .Include(r => r.Culture)
+                    .Where(r => r.Culture.Name == CultureInfo.CurrentCulture.Name &&
+                    r.Type == typeFullName
+                    )
+                    .FirstOrDefault(r => r.Key == name)?.Value;
+            });
+            return result;
         }
     }
 }

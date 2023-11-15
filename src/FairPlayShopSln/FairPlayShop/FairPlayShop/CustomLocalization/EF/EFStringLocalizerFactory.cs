@@ -1,5 +1,6 @@
 ﻿using FairPlayShop.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Localization;
 
 namespace FairPlayShop.CustomLocalization.EF
@@ -11,7 +12,8 @@ namespace FairPlayShop.CustomLocalization.EF
     /// Initializes <see cref="EFStringLocalizerFactory"/>
     /// </remarks>
     /// <param name="dbContextFactory"></param>
-    public class EFStringLocalizerFactory(IDbContextFactory<FairPlayShopDatabaseContext> dbContextFactory) : IStringLocalizerFactory
+    public class EFStringLocalizerFactory(IDbContextFactory<FairPlayShopDatabaseContext> dbContextFactory,
+        IMemoryCache memoryCache) : IStringLocalizerFactory
     {
 
         /// <summary>
@@ -23,7 +25,8 @@ namespace FairPlayShop.CustomLocalization.EF
         {
             var localizerType = typeof(EFStringLocalizer<>)
                 .MakeGenericType(resourceSource);
-            var instance = Activator.CreateInstance(localizerType, dbContextFactory) as IStringLocalizer;
+            var instance = Activator.CreateInstance(localizerType, dbContextFactory,
+                memoryCache) as IStringLocalizer;
             return instance!;
         }
 
@@ -35,7 +38,7 @@ namespace FairPlayShop.CustomLocalization.EF
         /// <returns></returns>
         public IStringLocalizer Create(string baseName, string location)
         {
-            return new EFStringLocalizer(dbContextFactory);
+            return new EFStringLocalizer(dbContextFactory, memoryCache);
         }
     }
 }

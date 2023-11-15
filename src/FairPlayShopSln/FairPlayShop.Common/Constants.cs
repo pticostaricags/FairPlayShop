@@ -2,6 +2,10 @@
 {
     public static class Constants
     {
+        public static class CacheConfiguration
+        {
+            public const int LocalizationCacheDurationInMinutes = 5;
+        }
         public static class ApiRoutes
         {
             public const string CreateMyProduct = $"/Product/{nameof(CreateMyProduct)}";

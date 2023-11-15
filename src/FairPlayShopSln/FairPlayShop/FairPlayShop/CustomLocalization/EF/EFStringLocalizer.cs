@@ -1,5 +1,7 @@
-﻿using FairPlayShop.DataAccess.Data;
+﻿using FairPlayShop.Common;
+using FairPlayShop.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Localization;
 using System.Globalization;
 
@@ -12,7 +14,8 @@ namespace FairPlayShop.CustomLocalization.EF
     /// Initializes <see cref="EFStringLocalizer"/>
     /// </remarks>
     /// <param name="dbContextFactory"></param>
-    public class EFStringLocalizer(IDbContextFactory<FairPlayShopDatabaseContext> dbContextFactory) : IStringLocalizer
+    public class EFStringLocalizer(IDbContextFactory<FairPlayShopDatabaseContext> dbContextFactory,
+        IMemoryCache memoryCache) : IStringLocalizer
     {
 
         /// <summary>
@@ -53,7 +56,7 @@ namespace FairPlayShop.CustomLocalization.EF
         public IStringLocalizer WithCulture(CultureInfo culture)
         {
             CultureInfo.DefaultThreadCurrentCulture = culture;
-            return new EFStringLocalizer(dbContextFactory);
+            return new EFStringLocalizer(dbContextFactory, memoryCache);
         }
 
         /// <summary>
@@ -63,20 +66,33 @@ namespace FairPlayShop.CustomLocalization.EF
         /// <returns></returns>
         public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures)
         {
+            string cacheKey = $"{nameof(GetAllStrings)} -{CultureInfo.CurrentCulture.Name}";
             var db = dbContextFactory.CreateDbContext();
-            return db.Resource
+            var result = memoryCache.GetOrCreate<IQueryable<LocalizedString>>(cacheKey,
+                factory =>
+                {
+                    factory.SlidingExpiration = TimeSpan.FromMinutes(Constants.CacheConfiguration.LocalizationCacheDurationInMinutes);
+                    return db.Resource
                 .Include(r => r.Culture)
                 .Where(r => r.Culture.Name == CultureInfo.CurrentCulture.Name)
                 .Select(r => new LocalizedString(r.Key, r.Value, true));
+                });
+            return result!;
         }
 
         private string? GetString(string name)
         {
             var db = dbContextFactory.CreateDbContext();
-            return db.Resource
+            var cacheKey = $"{name}-{CultureInfo.CurrentCulture.Name}";
+            var result = memoryCache.GetOrCreate<string?>(cacheKey, factory =>
+            {
+                factory.SlidingExpiration = TimeSpan.FromMinutes(Constants.CacheConfiguration.LocalizationCacheDurationInMinutes);
+                return db.Resource
                 .Include(r => r.Culture)
                 .Where(r => r.Culture.Name == CultureInfo.CurrentCulture.Name)
                 .FirstOrDefault(r => r.Key == name)?.Value;
+            });
+            return result;
         }
     }
 }
