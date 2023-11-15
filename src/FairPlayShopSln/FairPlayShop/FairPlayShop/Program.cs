@@ -20,6 +20,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+using System.Diagnostics;
+using System.Diagnostics.Metrics;
 using System.Reflection;
 namespace FairPlayShop;
 internal static partial class Program
@@ -27,7 +32,28 @@ internal static partial class Program
     private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+        // Custom metrics for the application
+        var greeterMeter = new Meter("OtPrGrYa.Example", "1.0.0");
 
+        // Custom ActivitySource for the application
+        var greeterActivitySource = new ActivitySource("OtPrGrJa.Example");
+        builder.Services.AddOpenTelemetry().ConfigureResource(configure =>
+        {
+            configure.AddService(serviceName: builder.Environment.ApplicationName);
+        }).WithMetrics(configure =>
+        {
+            configure.AddAspNetCoreInstrumentation().AddMeter(greeterMeter.Name)
+            .AddMeter("Microsoft.AspNetCore.Hosting")
+            .AddMeter("Microsoft.AspNetCore.Server.Kestrel")
+            .AddPrometheusExporter();
+        })
+        .WithTracing(tracing =>
+        {
+            tracing.AddAspNetCoreInstrumentation();
+            tracing.AddHttpClientInstrumentation();
+            tracing.AddSource(greeterActivitySource.Name);
+            tracing.AddConsoleExporter();
+        });
         builder.Services.AddTransient<IStringLocalizerFactory, EFStringLocalizerFactory>();
         builder.Services.AddTransient<IStringLocalizer, EFStringLocalizer>();
         builder.Services.AddLocalization();
@@ -140,6 +166,8 @@ internal static partial class Program
 
         // Add additional endpoints required by the Identity /Account Razor components.
         app.MapAdditionalIdentityEndpoints();
+        // Configure the Prometheus scraping endpoint
+        app.MapPrometheusScrapingEndpoint();
         if (app.Environment.IsDevelopment())
         {
             app.Use(async (context, next) =>
