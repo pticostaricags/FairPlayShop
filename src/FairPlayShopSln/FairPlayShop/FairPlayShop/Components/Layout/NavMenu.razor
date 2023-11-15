@@ -60,6 +60,16 @@
                 </div>
             </NotAuthorized>
         </AuthorizeView>
+        <AuthorizeView Roles="@Common.Constants.RoleNames.SystemAdmin">
+            <Authorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="/SystemAdmin/ClaimsData">
+                        <span class="bi bi-arrow-bar-left" aria-hidden="true"></span>
+                        ClaimsData
+                    </NavLink>
+                </div>
+            </Authorized>
+        </AuthorizeView>
     </nav>
 </div>
 @code{

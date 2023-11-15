@@ -2,6 +2,10 @@
 {
     public static class Constants
     {
+        public static class RoleNames
+        {
+            public const string SystemAdmin = nameof(SystemAdmin);
+        }
         public static class CacheConfiguration
         {
             public const int LocalizationCacheDurationInMinutes = 5;

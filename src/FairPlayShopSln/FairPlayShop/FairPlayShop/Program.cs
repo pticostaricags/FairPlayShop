@@ -1,6 +1,7 @@
 using Azure.AI.OpenAI;
 using Blazored.Toast;
 using FairPlayShop.Client.Pages;
+using FairPlayShop.Common;
 using FairPlayShop.Common.CustomExceptions;
 using FairPlayShop.Common.Enums;
 using FairPlayShop.Components;
@@ -54,6 +55,7 @@ internal static partial class Program
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
         builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddSignInManager()
             .AddDefaultTokenProviders();
@@ -132,7 +134,43 @@ internal static partial class Program
 
         // Add additional endpoints required by the Identity /Account Razor components.
         app.MapAdditionalIdentityEndpoints();
-
+        if (app.Environment.IsDevelopment())
+        {
+            app.Use(async (context, next) =>
+            {
+                // Do work that can write to the Response.
+                var roleManager = context.RequestServices.GetRequiredService<RoleManager<IdentityRole>>();
+                var role = await roleManager!.FindByNameAsync(Constants.RoleNames.SystemAdmin);
+                if (role is null)
+                {
+                    role = new IdentityRole()
+                    {
+                        Name = Constants.RoleNames.SystemAdmin,
+                        NormalizedName = Constants.RoleNames.SystemAdmin
+                    };
+                    await roleManager.CreateAsync(role);
+                }
+                var userManager = context.RequestServices.GetRequiredService<UserManager<ApplicationUser>>();
+                var demoAdminUsername = "demoAdmin@test.test";
+                var demoAdmin = await userManager.FindByNameAsync(demoAdminUsername);
+                if (demoAdmin is null)
+                {
+                    demoAdmin = new ApplicationUser()
+                    {
+                        Email = demoAdminUsername,
+                        EmailConfirmed = true,
+                        UserName = demoAdminUsername
+                    };
+                    var result = await userManager.CreateAsync(demoAdmin, "Test12345!");
+                    if (result.Succeeded)
+                    {
+                        await userManager.AddToRoleAsync(demoAdmin, role!.Name!);
+                    }
+                }
+                await next.Invoke();
+                // Do logging or other work that doesn't write to the Response.
+            });
+        }
         app.MapHealthChecks("/appHealth");
         app.MapHealthChecks("/dbHealth");
         app.Run();

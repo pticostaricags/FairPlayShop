@@ -1,0 +1,16 @@
+﻿@page "/SystemAdmin/ClaimsData"
+@using FairPlayShop.Common
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = Constants.RoleNames.SystemAdmin)]
+<h3>ClaimsData</h3>
+
+<AuthorizeView>
+    <Authorized>
+        @foreach (var singleClaim in context.User.Claims)
+        {
+            <div>
+                @singleClaim.ToString()
+            </div>
+        }
+    </Authorized>
+</AuthorizeView>
