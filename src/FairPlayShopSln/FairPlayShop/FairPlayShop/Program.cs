@@ -5,11 +5,11 @@ using FairPlayShop.Common;
 using FairPlayShop.Common.CustomExceptions;
 using FairPlayShop.Common.Enums;
 using FairPlayShop.Components;
+using FairPlayShop.Components.Account;
 using FairPlayShop.CustomLocalization;
 using FairPlayShop.CustomLocalization.EF;
 using FairPlayShop.Data;
 using FairPlayShop.DataAccess.Data;
-using FairPlayShop.Identity;
 using FairPlayShop.Interfaces.Services;
 using FairPlayShop.Models.Product;
 using FairPlayShop.ServerSideServices;
@@ -39,12 +39,16 @@ internal static partial class Program
             .AddInteractiveWebAssemblyComponents();
 
         builder.Services.AddCascadingAuthenticationState();
-        builder.Services.AddScoped<UserAccessor>();
+        builder.Services.AddScoped<IdentityUserAccessor>();
         builder.Services.AddScoped<IdentityRedirectManager>();
         builder.Services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();
 
-        builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
-            .AddIdentityCookies();
+        builder.Services.AddAuthentication(options =>
+        {
+            options.DefaultScheme = IdentityConstants.ApplicationScheme;
+            options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+        })
+    .AddIdentityCookies();
 
         var connectionString =
             Environment.GetEnvironmentVariable("DefaultConnection") ??
@@ -81,7 +85,7 @@ internal static partial class Program
             return openAIClient;
         });
         builder.Services.AddTransient<IAzureOpenAIService, AzureOpenAIService>();
-        builder.Services.AddSingleton<IEmailSender, NoOpEmailSender>();
+        builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
         builder.Services.AddSingleton<IUserProviderService, UserProviderService>();
         builder.Services.AddTransient<IProductService, ProductService>();
         builder.Services.AddTransient<IStoreService, StoreService>();
@@ -103,6 +107,7 @@ internal static partial class Program
         if (app.Environment.IsDevelopment())
         {
             app.UseWebAssemblyDebugging();
+            app.UseMigrationsEndPoint();
         }
         else
         {
@@ -129,6 +134,7 @@ internal static partial class Program
             .AddInteractiveServerRenderMode()
             .AddInteractiveWebAssemblyRenderMode()
             .AddAdditionalAssemblies(typeof(Counter).Assembly);
+
 
         app.MapControllers();
 

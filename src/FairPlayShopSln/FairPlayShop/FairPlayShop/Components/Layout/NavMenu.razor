@@ -1,6 +1,10 @@
 ﻿@using FairPlayShop.Common.CustomAttributes
-@using FairPlayShop.Components.Identity
 @using Microsoft.Extensions.Localization
+
+@implements IDisposable
+
+@inject NavigationManager NavigationManager
+
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
@@ -26,11 +30,13 @@
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
-                    <LogoutForm id="logout-form" />
-                    <NavLink class="nav-link" href="#" onclick="document.getElementById('logout-form').submit(); return false;">
-                        <span class="bi bi-arrow-bar-left" aria-hidden="true"></span> 
-                        @Localizer![LogoutTextKey]
-                    </NavLink>
+                    <form action="Account/Logout" method="post">
+                        <AntiforgeryToken />
+                        <input type="hidden" name="ReturnUrl" value="@currentUrl" />
+                        <button type="submit" class="nav-link">
+                            <span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> @Localizer![LogoutTextKey]
+                        </button>
+                    </form>
                 </div>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="@Common.Constants.ApiRoutes.CreateMyStore">
@@ -75,6 +81,26 @@
 @code{
     [Inject]
     private IStringLocalizer<NavMenu>? Localizer {get;set;}
+    private string? currentUrl;
+
+    protected override void OnInitialized()
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+
+
     [ResourceKey(defaultValue: "Home")]
     public const string HomeTextKey = "HomeTextKey";
     [ResourceKey(defaultValue: "Logout")]
