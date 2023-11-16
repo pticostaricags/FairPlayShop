@@ -3,7 +3,10 @@ using FairPlayShop.DataImporter;
 using Microsoft.EntityFrameworkCore;
 
 var builder = Host.CreateApplicationBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+builder.AddServiceDefaults();
+var connectionString = 
+    Environment.GetEnvironmentVariable("DefaultConnection") ??
+    builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<FairPlayShopDatabaseContext>(optionsAction =>
 {
     optionsAction.UseSqlServer(connectionString, sqlServerOptionsAction =>

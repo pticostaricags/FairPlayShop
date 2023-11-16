@@ -27,5 +27,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FairPlayShop.DataAccess\FairPlayShop.DataAccess.csproj" />
+    <ProjectReference Include="..\FairPlayShop.NetAspire\FairPlayShop.NetAspire.ServiceDefaults\FairPlayShop.NetAspire.ServiceDefaults.csproj" />
   </ItemGroup>
 </Project>

@@ -24,7 +24,7 @@
 
         public static class Pagination
         {
-            public const int PageSize = 2;
+            public const int PageSize = 10;
         }
     }
 }

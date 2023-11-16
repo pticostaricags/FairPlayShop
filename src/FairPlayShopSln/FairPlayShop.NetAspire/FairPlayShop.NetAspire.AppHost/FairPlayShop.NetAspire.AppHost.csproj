@@ -14,6 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\FairPlayShop.DataImporter\FairPlayShop.DataImporter.csproj" />
+    <ProjectReference Include="..\..\FairPlayShop.TestDataGenerator\FairPlayShop.TestDataGenerator.csproj" />
     <ProjectReference Include="..\..\FairPlayShop\FairPlayShop\FairPlayShop.csproj" />
   </ItemGroup>
 
