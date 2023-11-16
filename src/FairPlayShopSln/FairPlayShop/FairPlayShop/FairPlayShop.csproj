@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\FairPlayShop.Generators\FairPlayShop.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\..\FairPlayShop.NetAspire\FairPlayShop.NetAspire.ServiceDefaults\FairPlayShop.NetAspire.ServiceDefaults.csproj" />
     <ProjectReference Include="..\..\FairPlayShop.ServerSideServices\FairPlayShop.ServerSideServices.csproj" />
     <ProjectReference Include="..\FairPlayShop.Client\FairPlayShop.Client.csproj" />
     <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="7.0.0" />

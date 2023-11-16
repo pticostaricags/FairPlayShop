@@ -17,7 +17,6 @@ using FairPlayShop.Services;
 using FairPlayShop.Translations;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using System.Reflection;
@@ -27,7 +26,7 @@ internal static partial class Program
     private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-
+        builder.AddServiceDefaults();
         builder.Services.AddTransient<IStringLocalizerFactory, EFStringLocalizerFactory>();
         builder.Services.AddTransient<IStringLocalizer, EFStringLocalizer>();
         builder.Services.AddLocalization();
@@ -74,9 +73,12 @@ internal static partial class Program
             });
         });
 
-        var endpoint = Environment.GetEnvironmentVariable("AzureOpenAI:Endpoint") ??
+        var endpoint =
+            Environment.GetEnvironmentVariable("AzureOpenAIEndpoint") ??
+            Environment.GetEnvironmentVariable("AzureOpenAI:Endpoint") ??
             builder.Configuration["AzureOpenAI:Endpoint"] ?? throw new ConfigurationException("Can't find config for AzureOpenAI:Endpoint");
-        var key = Environment.GetEnvironmentVariable("AzureOpenAI:Key") ??
+        var key = Environment.GetEnvironmentVariable("AzureOpenAIKey") ??
+            Environment.GetEnvironmentVariable("AzureOpenAI:Key") ??
             builder.Configuration["AzureOpenAI:Key"] ?? throw new ConfigurationException("Can't find config for AzureOpenAI:Key");
         builder.Services.AddTransient<OpenAIClient>(sp =>
         {
