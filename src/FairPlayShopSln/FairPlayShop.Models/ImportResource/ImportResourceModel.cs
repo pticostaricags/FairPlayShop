@@ -2,7 +2,7 @@
 
 namespace FairPlayShop.AutomatedTests.ServerSideServices
 {
-    internal class TestResourcModel
+    public class ImportResourceModel
     {
         public int ResourceId { get; set; }
 

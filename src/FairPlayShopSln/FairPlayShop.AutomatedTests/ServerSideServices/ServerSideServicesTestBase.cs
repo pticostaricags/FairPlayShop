@@ -44,6 +44,12 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                 dbContextFactory.CreateDbContext();
             await fairPlayShopDatabaseContext.Database.EnsureCreatedAsync();
             await fairPlayShopDatabaseContext.Database.ExecuteSqlRawAsync(Properties.Resources.SeedData);
+            await ImportTranslations(fairPlayShopDatabaseContext);
+            return (fairPlayShopDatabaseContext, dbContextFactory, sp);
+        }
+
+        private static async Task ImportTranslations(FairPlayShopDatabaseContext fairPlayShopDatabaseContext)
+        {
             if (!fairPlayShopDatabaseContext.Resource.Any())
             {
                 using var reader = new StringReader(Properties.Resources.Translations);
@@ -54,7 +60,7 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                             ShouldQuote = ((ShouldQuoteArgs args) => { return false; })
                         });
                 using CsvReader csvReader = new(csvParser);
-                var records = csvReader.GetRecords<TestResourcModel>().ToArray();
+                var records = csvReader.GetRecords<ImportResourceModel>().ToArray();
                 records.AsParallel().ForAll(p => p.ResourceId = 0);
                 foreach (var singleRecord in records)
                 {
@@ -68,7 +74,6 @@ namespace FairPlayShop.AutomatedTests.ServerSideServices
                 }
                 await fairPlayShopDatabaseContext.SaveChangesAsync();
             }
-            return (fairPlayShopDatabaseContext, dbContextFactory, sp);
         }
 
         private static TestUserProviderService GetUserProviderService()

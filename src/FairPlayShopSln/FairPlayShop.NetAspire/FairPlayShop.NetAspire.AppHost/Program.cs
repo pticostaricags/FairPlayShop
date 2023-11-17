@@ -16,17 +16,23 @@ builder.AddProject<Projects.FairPlayShop>("fairplayshopweb")
         callback.EnvironmentVariables.Add("AzureOpenAIKey", key);
         callback.EnvironmentVariables.Add("AzureOpenAIEndpoint", endpoint);
     });
-builder.AddProject<Projects.FairPlayShop_DataImporter>("dataimporter")
-    .WithEnvironment(callback => 
-    {
-        callback.EnvironmentVariables.Add("DefaultConnection", connectionString);
-    });
+
+AddDataImporter(builder, connectionString);
 //AddTestDataGenerator(builder, connectionString);
 builder.Build().Run();
 
 static void AddTestDataGenerator(IDistributedApplicationBuilder builder, string connectionString)
 {
     builder.AddProject<Projects.FairPlayShop_TestDataGenerator>("testdatagenerator")
+        .WithEnvironment(callback =>
+        {
+            callback.EnvironmentVariables.Add("DefaultConnection", connectionString);
+        });
+}
+
+static void AddDataImporter(IDistributedApplicationBuilder builder, string connectionString)
+{
+    builder.AddProject<Projects.FairPlayShop_DataImporter>("dataimporter")
         .WithEnvironment(callback =>
         {
             callback.EnvironmentVariables.Add("DefaultConnection", connectionString);

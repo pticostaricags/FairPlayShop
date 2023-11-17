@@ -1,9 +1,13 @@
-﻿using FairPlayShop.Common.CustomAttributes;
+﻿using CsvHelper;
+using CsvHelper.Configuration;
+using FairPlayShop.AutomatedTests.ServerSideServices;
+using FairPlayShop.Common.CustomAttributes;
 using FairPlayShop.DataAccess.Data;
 using FairPlayShop.DataAccess.Models;
 using FairPlayShop.Interfaces.Services;
 using FairPlayShop.Models.AzureOpenAI;
 using Microsoft.EntityFrameworkCore;
+using System.Formats.Asn1;
 using System.Reflection;
 
 namespace FairPlayShop.Translations
@@ -35,6 +39,46 @@ namespace FairPlayShop.Translations
             }
         }
 
+        private static async Task ImportTranslationsAsync(FairPlayShopDatabaseContext fairPlayShopDatabaseContext)
+        {
+            using var reader = new StringReader(Properties.Resources.Translations);
+            using CsvParser csvParser = new(reader, configuration:
+                    new CsvConfiguration(System.Globalization.CultureInfo.CurrentCulture)
+                    {
+                        Delimiter = ",",
+                        ShouldQuote = ((ShouldQuoteArgs args) => { return false; })
+                    });
+            using CsvReader csvReader = new(csvParser);
+            var records = csvReader.GetRecords<ImportResourceModel>().ToArray();
+            records.AsParallel().ForAll(p => p.ResourceId = 0);
+            foreach (var singleRecord in records)
+            {
+                var resourceEntity = await fairPlayShopDatabaseContext
+                    .Resource.SingleOrDefaultAsync(p =>
+                    p.CultureId == singleRecord.CultureId &&
+                    p.Key == singleRecord.Key &&
+                    p.Type == singleRecord.Type);
+                if (resourceEntity is null)
+                {
+                    await fairPlayShopDatabaseContext.Resource.AddAsync(new Resource()
+                    {
+                        CultureId = singleRecord.CultureId,
+                        Key = singleRecord.Key,
+                        Type = singleRecord.Type,
+                        Value = singleRecord.Value
+                    });
+                }
+                else
+                {
+                    if (resourceEntity.Value !=singleRecord.Value)
+                    {
+                        resourceEntity.Value = singleRecord.Value;
+                    }
+                }
+            }
+            await fairPlayShopDatabaseContext.SaveChangesAsync();
+        }
+
         private async Task Process(CancellationToken stoppingToken)
         {
             using var scope = serviceScopeFactory.CreateScope();
@@ -42,6 +86,7 @@ namespace FairPlayShop.Translations
             var skipTranslations = Convert.ToBoolean(conf["skipTranslations"]);
             FairPlayShopDatabaseContext fairplayshopDatabaseContext =
                 scope.ServiceProvider.GetRequiredService<FairPlayShopDatabaseContext>();
+            await ImportTranslationsAsync(fairplayshopDatabaseContext);
             var modelsAssembly = typeof(Models.City.CityModel).Assembly;
             var modelsTypes = modelsAssembly.GetTypes();
 

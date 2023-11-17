@@ -8,7 +8,7 @@
         }
         public static class CacheConfiguration
         {
-            public const int LocalizationCacheDurationInMinutes = 5;
+            public static readonly TimeSpan LocalizationCacheDuration = TimeSpan.FromSeconds(5);
         }
         public static class ApiRoutes
         {

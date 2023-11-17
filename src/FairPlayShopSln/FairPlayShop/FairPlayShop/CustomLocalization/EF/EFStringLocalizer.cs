@@ -71,7 +71,7 @@ namespace FairPlayShop.CustomLocalization.EF
             var result = memoryCache.GetOrCreate<IQueryable<LocalizedString>>(cacheKey,
                 factory =>
                 {
-                    factory.SlidingExpiration = TimeSpan.FromMinutes(Constants.CacheConfiguration.LocalizationCacheDurationInMinutes);
+                    factory.SlidingExpiration = Constants.CacheConfiguration.LocalizationCacheDuration;
                     return db.Resource
                 .Include(r => r.Culture)
                 .Where(r => r.Culture.Name == CultureInfo.CurrentCulture.Name)
@@ -86,7 +86,7 @@ namespace FairPlayShop.CustomLocalization.EF
             var cacheKey = $"{name}-{CultureInfo.CurrentCulture.Name}";
             var result = memoryCache.GetOrCreate<string?>(cacheKey, factory =>
             {
-                factory.SlidingExpiration = TimeSpan.FromMinutes(Constants.CacheConfiguration.LocalizationCacheDurationInMinutes);
+                factory.SlidingExpiration = Constants.CacheConfiguration.LocalizationCacheDuration;
                 return db.Resource
                 .Include(r => r.Culture)
                 .Where(r => r.Culture.Name == CultureInfo.CurrentCulture.Name)
