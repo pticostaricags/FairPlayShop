@@ -1,0 +1,48 @@
+{
+  "resources": {
+    "fairplayshopweb": {
+      "type": "project.v0",
+      "path": "..\\..\\FairPlayShop\\FairPlayShop\\FairPlayShop.csproj",
+      "env": {
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
+        "DefaultConnection": "Data Source=(local);Initial Catalog=FairPlayShop;Integrated Security=True;Trust Server Certificate=True",
+        "AzureOpenAIKey": "1f0228cc58c04f1081c4e6ecc632a4f4",
+        "AzureOpenAIEndpoint": "https://fairplayshopopenai.openai.azure.com/"
+      },
+      "bindings": {
+        "http": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http"
+        },
+        "https": {
+          "scheme": "https",
+          "protocol": "tcp",
+          "transport": "http"
+        }
+      }
+    },
+    "dataimporter": {
+      "type": "project.v0",
+      "path": "..\\..\\FairPlayShop.DataImporter\\FairPlayShop.DataImporter.csproj",
+      "env": {
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
+        "DefaultConnection": "Data Source=(local);Initial Catalog=FairPlayShop;Integrated Security=True;Trust Server Certificate=True"
+      },
+      "bindings": {
+        "http": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http"
+        },
+        "https": {
+          "scheme": "https",
+          "protocol": "tcp",
+          "transport": "http"
+        }
+      }
+    }
+  }
+}
