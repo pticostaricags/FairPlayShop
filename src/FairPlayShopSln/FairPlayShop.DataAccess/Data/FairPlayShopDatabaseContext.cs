@@ -32,6 +32,8 @@ public partial class FairPlayShopDatabaseContext : DbContext
 
     public virtual DbSet<Culture> Culture { get; set; }
 
+    public virtual DbSet<ErrorLog> ErrorLog { get; set; }
+
     public virtual DbSet<Photo> Photo { get; set; }
 
     public virtual DbSet<Product> Product { get; set; }

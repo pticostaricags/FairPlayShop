@@ -51,7 +51,6 @@ internal static partial class Program
 
         var connectionString =
             Environment.GetEnvironmentVariable("DefaultConnection") ??
-            builder.Configuration.GetConnectionString("DefaultConnection") ??
             throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(connectionString));
@@ -75,11 +74,9 @@ internal static partial class Program
 
         var endpoint =
             Environment.GetEnvironmentVariable("AzureOpenAIEndpoint") ??
-            Environment.GetEnvironmentVariable("AzureOpenAI:Endpoint") ??
-            builder.Configuration["AzureOpenAI:Endpoint"] ?? throw new ConfigurationException("Can't find config for AzureOpenAI:Endpoint");
-        var key = Environment.GetEnvironmentVariable("AzureOpenAIKey") ??
-            Environment.GetEnvironmentVariable("AzureOpenAI:Key") ??
-            builder.Configuration["AzureOpenAI:Key"] ?? throw new ConfigurationException("Can't find config for AzureOpenAI:Key");
+            throw new ConfigurationException("Can't find config for AzureOpenAI:Endpoint");
+        var key = Environment.GetEnvironmentVariable("AzureOpenAIKey") ?? 
+            throw new ConfigurationException("Can't find config for AzureOpenAI:Key");
         builder.Services.AddTransient<OpenAIClient>(sp =>
         {
             OpenAIClient openAIClient = new(endpoint: new Uri(endpoint),

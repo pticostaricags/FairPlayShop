@@ -34,7 +34,23 @@ namespace FairPlayShop.DataImporter
                                     PrepareHeaderForMatch = args => args.Header.ToLower()
                                 });
                             using CsvReader csvReader = new(csvParser);
-                            await ImportDataAsync(_logger, csvReader);
+                            try
+                            {
+                                await ImportDataAsync(_logger, csvReader);
+                            }
+                            catch (Exception ex)
+                            {
+                                await fairPlayShopDatabaseContext.ErrorLog
+                                    .AddAsync(new ErrorLog()
+                                    {
+                                        FullException = ex.ToString(),
+                                        Message = ex.Message,
+                                        RowCreationDateTime = DateTimeOffset.UtcNow,
+                                        SourceApplication = nameof(DataImporter),
+                                        StackTrace = ex.StackTrace
+                                    }, stoppingToken);
+                                await fairPlayShopDatabaseContext.SaveChangesAsync(stoppingToken);
+                            }
                         }
                         _logger.LogInformation("Worker finished at: {time}", DateTimeOffset.Now);
                     }

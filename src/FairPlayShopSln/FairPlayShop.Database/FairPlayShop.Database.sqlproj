@@ -83,6 +83,7 @@
     <Build Include="dbo\Tables\City.sql" />
     <Build Include="dbo\Tables\StoreCustomerOrder.sql" />
     <Build Include="dbo\Tables\StoreCustomerOrderDetail.sql" />
+    <Build Include="dbo\Tables\ErrorLog.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="FairPlayShop.Database.refactorlog" />

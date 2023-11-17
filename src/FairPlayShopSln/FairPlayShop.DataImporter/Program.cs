@@ -6,7 +6,7 @@ var builder = Host.CreateApplicationBuilder(args);
 builder.AddServiceDefaults();
 var connectionString = 
     Environment.GetEnvironmentVariable("DefaultConnection") ??
-    builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+    throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<FairPlayShopDatabaseContext>(optionsAction =>
 {
     optionsAction.UseSqlServer(connectionString, sqlServerOptionsAction =>

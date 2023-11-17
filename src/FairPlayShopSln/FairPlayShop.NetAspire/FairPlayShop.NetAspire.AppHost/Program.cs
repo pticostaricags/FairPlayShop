@@ -9,13 +9,8 @@ throw new InvalidOperationException("Connection string 'DefaultConnection' not f
 var endpoint = builder.Configuration["AzureOpenAIEndpoint"] ?? throw new ConfigurationException("Can't find config for AzureOpenAI:Endpoint");
 var key =
     builder.Configuration["AzureOpenAIKey"] ?? throw new ConfigurationException("Can't find config for AzureOpenAI:Key");
-builder.AddProject<Projects.FairPlayShop>("fairplayshopweb")
-    .WithEnvironment(callback =>
-    {
-        callback.EnvironmentVariables.Add("DefaultConnection", connectionString);
-        callback.EnvironmentVariables.Add("AzureOpenAIKey", key);
-        callback.EnvironmentVariables.Add("AzureOpenAIEndpoint", endpoint);
-    });
+
+//AddMainWebApp(builder, connectionString, endpoint, key);
 
 AddDataImporter(builder, connectionString);
 //AddTestDataGenerator(builder, connectionString);
@@ -36,5 +31,16 @@ static void AddDataImporter(IDistributedApplicationBuilder builder, string conne
         .WithEnvironment(callback =>
         {
             callback.EnvironmentVariables.Add("DefaultConnection", connectionString);
+        });
+}
+
+static void AddMainWebApp(IDistributedApplicationBuilder builder, string connectionString, string endpoint, string key)
+{
+    builder.AddProject<Projects.FairPlayShop>("fairplayshopweb")
+        .WithEnvironment(callback =>
+        {
+            callback.EnvironmentVariables.Add("DefaultConnection", connectionString);
+            callback.EnvironmentVariables.Add("AzureOpenAIKey", key);
+            callback.EnvironmentVariables.Add("AzureOpenAIEndpoint", endpoint);
         });
 }
